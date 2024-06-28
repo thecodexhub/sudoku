@@ -2,32 +2,30 @@ import 'dart:async';
 import 'dart:developer';
 
 import 'package:bloc/bloc.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
+import 'package:sudoku/app_bloc_observer.dart';
 
-class AppBlocObserver extends BlocObserver {
-  const AppBlocObserver();
-
-  @override
-  void onChange(BlocBase<dynamic> bloc, Change<dynamic> change) {
-    super.onChange(bloc, change);
-    log('onChange(${bloc.runtimeType}, $change)');
-  }
-
-  @override
-  void onError(BlocBase<dynamic> bloc, Object error, StackTrace stackTrace) {
-    log('onError(${bloc.runtimeType}, $error, $stackTrace)');
-    super.onError(bloc, error, stackTrace);
-  }
-}
-
+/// Bootstrap is responsible for any common setup and calls
+/// [runApp] with the widget returned by [builder] in an error zone.
 Future<void> bootstrap(FutureOr<Widget> Function() builder) async {
+  // Log all uncaught build phase errors from the framework
   FlutterError.onError = (details) {
     log(details.exceptionAsString(), stackTrace: details.stack);
   };
 
-  Bloc.observer = const AppBlocObserver();
+  // Log all uncaught asynchronous errors that aren't handled
+  // by the Flutter framework.
+  PlatformDispatcher.instance.onError = (error, stack) {
+    log(error.toString(), stackTrace: stack);
+    return true;
+  };
 
-  // Add cross-flavor configuration here
-
-  runApp(await builder());
+  await runZonedGuarded(
+    () async {
+      Bloc.observer = const AppBlocObserver();
+      runApp(await builder());
+    },
+    (error, stackTrace) => log(error.toString(), stackTrace: stackTrace),
+  );
 }
