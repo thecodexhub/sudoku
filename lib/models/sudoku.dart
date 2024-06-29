@@ -48,10 +48,10 @@ class Sudoku extends Equatable {
   const Sudoku({required this.blocks});
 
   /// Converts raw data to a [Sudoku] model.
-  /// 
+  ///
   /// The `generated` list defines the initial state of the puzzle,
   /// and the `answer` defines the completed state.
-  /// 
+  ///
   /// Throws a [SudokuInvalidRawDataException] when validation fails
   /// on raw data. The validation checks for 3 things -
   /// - Whether the generated and asnswer have same number of items.
@@ -93,7 +93,6 @@ class Sudoku extends Equatable {
 
   /// List of [Block]s representing the current state of the [Sudoku].
   final List<Block> blocks;
-
 
   /// Gets the dimension of the [Sudoku], i.e., the number of row or column.
   ///
