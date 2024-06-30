@@ -120,6 +120,43 @@ class Sudoku extends Equatable {
     return rawData;
   }
 
+  /// Returns the list of [Block]s that belong to the same sub-grid as [block].
+  List<Block> getSubGridBlocks(Block block) {
+    final result = <Block>[];
+
+    // Find the dimension, and the length of the subgrid's column or row.
+    final dimension = getDimesion();
+    final subGridLength = sqrt(dimension).toInt();
+
+    // Relative position of the sub-grid, for example, if the Sudoku is
+    // 2 x 2 puzzle, the possible sub-grid positions will be  (0, 0), (0, 1),
+    // (1, 0), and (1, 1).
+    final subGridPositionX = block.position.x ~/ subGridLength;
+    final subGridPositionY = block.position.y ~/ subGridLength;
+
+    for (var i = 0; i < subGridLength; i++) {
+      for (var j = 0; j < subGridLength; j++) {
+        final blockPositionX = subGridPositionX * subGridLength + i;
+        final blockPositionY = subGridPositionY * subGridLength + j;
+
+        final position = Position(x: blockPositionX, y: blockPositionY);
+        result.add(blocks.firstWhere((block) => block.position == position));
+      }
+    }
+
+    return result;
+  }
+
+  /// Returns the list of [Block]s that belong to same row as [block].
+  List<Block> getRowBlocks(Block block) {
+    return blocks.where((e) => e.position.x == block.position.x).toList();
+  }
+
+  /// Returns the list of [Block]s that belong to same column as [block].
+  List<Block> getColumnBlocks(Block block) {
+    return blocks.where((e) => e.position.y == block.position.y).toList();
+  }
+
   @override
   List<Object?> get props => [blocks];
 }
