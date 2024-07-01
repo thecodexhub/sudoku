@@ -329,5 +329,34 @@ void main() {
         );
       });
     });
+
+    group('updateBlock', () {
+      test('updates the block and returns a new sudoku instance', () {
+        final newSudoku = sudoku.updateBlock(sudoku2x2Block8, 1);
+        expect(newSudoku.blocks.contains(sudoku2x2Block8), isFalse);
+
+        final indexOfBlock8 = sudoku.blocks.indexOf(sudoku2x2Block8);
+        final newBlock8 = newSudoku.blocks[indexOfBlock8];
+
+        expect(
+          newBlock8,
+          equals(sudoku2x2Block8.copyWith(currentValue: 1)),
+        );
+
+        expect(newBlock8.position, equals(sudoku2x2Block8.position));
+        expect(newBlock8.currentValue, equals(1));
+      });
+    });
+
+    group('isComplete', () {
+      test('returns false when the sudoku is not yet completed', () {
+        expect(sudoku.isComplete(), isFalse);
+      });
+
+      test('returns true if the sudoku is completed', () {
+        final solvedSudoku = Sudoku.fromRawData(answerRawData, answerRawData);
+        expect(solvedSudoku.isComplete(), isTrue);
+      });
+    });
   });
 }

@@ -157,6 +157,26 @@ class Sudoku extends Equatable {
     return blocks.where((e) => e.position.y == block.position.y).toList();
   }
 
+  /// Updates the [blockToUpdate] with the [value], and returns a new instance
+  /// of the [Sudoku].
+  Sudoku updateBlock(Block blockToUpdate, int value) {
+    final mutableBlocks = [...blocks];
+    final indexToReplace = mutableBlocks.indexWhere(
+      (block) => block.position == blockToUpdate.position,
+    );
+
+    final removedBlock = mutableBlocks.removeAt(indexToReplace);
+    final updatedBlock = removedBlock.copyWith(currentValue: value);
+
+    mutableBlocks.insert(indexToReplace, updatedBlock);
+    return Sudoku(blocks: mutableBlocks);
+  }
+
+  /// Determines if the sudoku is complete
+  bool isComplete() {
+    return blocks.every((block) => block.correctValue == block.currentValue);
+  }
+
   @override
   List<Object?> get props => [blocks];
 }
