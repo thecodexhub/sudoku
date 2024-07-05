@@ -54,16 +54,16 @@ class SudokuBoard extends StatelessWidget {
               ),
             ),
             for (var i = 0; i < boardDimension; i++)
-                Positioned(
-                  top: (i % subGridDimension) * subGridSize,
-                  left: (i ~/ subGridDimension) * subGridSize,
-                  child: IgnorePointer(
-                    child: SudokuBoardDivider(
-                      dimension: subGridSize,
-                      width: 0.8,
-                    ),
+              Positioned(
+                top: (i % subGridDimension) * subGridSize,
+                left: (i ~/ subGridDimension) * subGridSize,
+                child: IgnorePointer(
+                  child: SudokuBoardDivider(
+                    dimension: subGridSize,
+                    width: 0.8,
                   ),
                 ),
+              ),
           ],
         );
       },

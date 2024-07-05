@@ -15,8 +15,6 @@ class _MockSudokuBloc extends MockBloc<SudokuEvent, SudokuState>
 
 class _MockSudoku extends Mock implements Sudoku {}
 
-class _FakeBlock extends Fake implements Block {}
-
 void main() {
   group('SudokuPage', () {
     testWidgets('renders SudokuView', (tester) async {
