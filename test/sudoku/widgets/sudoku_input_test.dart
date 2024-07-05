@@ -1,15 +1,11 @@
 // ignore_for_file: prefer_const_constructors
 
-import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:sudoku/sudoku/sudoku.dart';
 
 import '../../helpers/helpers.dart';
-
-class _MockSudokuBloc extends MockBloc<SudokuEvent, SudokuState>
-    implements SudokuBloc {}
 
 void main() {
   group('SudokuInput', () {
@@ -20,7 +16,7 @@ void main() {
     late SudokuBloc sudokuBloc;
 
     setUp(() {
-      sudokuBloc = _MockSudokuBloc();
+      sudokuBloc = MockSudokuBloc();
     });
 
     testWidgets(

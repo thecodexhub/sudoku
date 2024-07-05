@@ -1,6 +1,5 @@
 // ignore_for_file: prefer_const_constructors
 
-import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
@@ -8,15 +7,6 @@ import 'package:sudoku/models/models.dart';
 import 'package:sudoku/sudoku/sudoku.dart';
 
 import '../../helpers/helpers.dart';
-
-class _MockSudokuBloc extends MockBloc<SudokuEvent, SudokuState>
-    implements SudokuBloc {}
-
-class _MockSudokuState extends Mock implements SudokuState {}
-
-class _MockSudoku extends Mock implements Sudoku {}
-
-class _MockBlock extends Mock implements Block {}
 
 void main() {
   group('SudokuBlock', () {
@@ -35,15 +25,15 @@ void main() {
     late SudokuState state;
 
     setUp(() {
-      sudoku = _MockSudoku();
+      sudoku = MockSudoku();
       when(() => sudoku.getDimesion()).thenReturn(3);
 
-      state = _MockSudokuState();
+      state = MockSudokuState();
       when(() => state.sudoku).thenReturn(sudoku);
       when(() => state.highlightedBlocks).thenReturn({});
       when(() => state.currentSelectedBlock).thenReturn(block);
 
-      bloc = _MockSudokuBloc();
+      bloc = MockSudokuBloc();
       when(() => bloc.state).thenReturn(state);
     });
 
@@ -98,7 +88,7 @@ void main() {
     testWidgets(
       'renders block when block is part of highlighted, but not selcted',
       (tester) async {
-        final otherBlock = _MockBlock();
+        final otherBlock = MockBlock();
         when(() => otherBlock.position).thenReturn(Position(x: 0, y: 1));
 
         when(() => state.highlightedBlocks).thenReturn({block});

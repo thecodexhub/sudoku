@@ -1,6 +1,5 @@
 // ignore_for_file: prefer_const_constructors
 
-import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
@@ -9,11 +8,6 @@ import 'package:sudoku/models/models.dart';
 import 'package:sudoku/sudoku/sudoku.dart';
 
 import '../../helpers/helpers.dart';
-
-class _MockSudokuBloc extends MockBloc<SudokuEvent, SudokuState>
-    implements SudokuBloc {}
-
-class _MockSudoku extends Mock implements Sudoku {}
 
 void main() {
   group('SudokuPage', () {
@@ -28,8 +22,8 @@ void main() {
     late Sudoku sudoku;
 
     setUp(() {
-      sudokuBloc = _MockSudokuBloc();
-      sudoku = _MockSudoku();
+      sudokuBloc = MockSudokuBloc();
+      sudoku = MockSudoku();
       when(() => sudoku.getDimesion()).thenReturn(3);
       when(() => sudoku.blocks).thenReturn([]);
       when(() => sudokuBloc.state).thenReturn(
@@ -70,8 +64,8 @@ void main() {
     late Sudoku sudoku;
 
     setUp(() {
-      sudokuBloc = _MockSudokuBloc();
-      sudoku = _MockSudoku();
+      sudokuBloc = MockSudokuBloc();
+      sudoku = MockSudoku();
       when(() => sudoku.getDimesion()).thenReturn(3);
       when(() => sudoku.blocks).thenReturn([]);
       when(() => sudokuBloc.state).thenReturn(
