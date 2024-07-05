@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:sudoku/counter/counter.dart';
 import 'package:sudoku/l10n/l10n.dart';
+import 'package:sudoku/sudoku/sudoku.dart';
 import 'package:sudoku/theme/theme.dart';
 
 class App extends StatelessWidget {
@@ -11,9 +11,10 @@ class App extends StatelessWidget {
     return MaterialApp(
       theme: SudokuTheme.light,
       darkTheme: SudokuTheme.dark,
+      themeMode: ThemeMode.light,
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
-      home: const CounterPage(),
+      home: const SudokuPage(),
     );
   }
 }
