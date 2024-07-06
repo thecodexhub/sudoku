@@ -11,3 +11,5 @@ class MockSudokuBloc extends MockBloc<SudokuEvent, SudokuState>
 class MockSudokuState extends Mock implements SudokuState {}
 
 class MockBlock extends Mock implements Block {}
+
+class MockTicker extends Mock implements Ticker {}
