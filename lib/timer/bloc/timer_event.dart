@@ -24,6 +24,10 @@ final class TimerStopped extends TimerEvent {
   const TimerStopped();
 }
 
+final class TimerResumed extends TimerEvent {
+  const TimerResumed();
+}
+
 final class TimerReset extends TimerEvent {
   const TimerReset();
 }

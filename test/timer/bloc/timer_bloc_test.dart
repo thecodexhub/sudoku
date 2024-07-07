@@ -80,6 +80,53 @@ void main() {
       });
     });
 
+    group('TimerResumed', () {
+      test('resumes the timer from where it was stopped', () async {
+        final bloc = TimerBloc(ticker: ticker)..add(TimerStarted());
+
+        expect(
+          await bloc.stream.first,
+          equals(TimerState(isRunning: true, secondsElapsed: 0)),
+        );
+
+        streamController
+          ..add(1)
+          ..add(2);
+
+        await expectLater(
+          bloc.stream,
+          emitsInOrder(<TimerState>[
+            TimerState(isRunning: true, secondsElapsed: 1),
+            TimerState(isRunning: true, secondsElapsed: 2),
+          ]),
+        );
+
+        bloc.add(TimerStopped());
+        streamController.add(3);
+
+        expect(
+          await bloc.stream.first,
+          equals(TimerState(isRunning: false, secondsElapsed: 2)),
+        );
+
+        bloc.add(TimerResumed());
+        streamController
+          ..add(3)
+          ..add(4)
+          ..add(5);
+
+        await expectLater(
+          bloc.stream,
+          emitsInOrder(<TimerState>[
+            TimerState(isRunning: true, secondsElapsed: 2),
+            TimerState(isRunning: true, secondsElapsed: 3),
+            TimerState(isRunning: true, secondsElapsed: 4),
+            TimerState(isRunning: true, secondsElapsed: 5),
+          ]),
+        );
+      });
+    });
+
     group('TimerReset', () {
       blocTest<TimerBloc, TimerState>(
         'emits new timer state',

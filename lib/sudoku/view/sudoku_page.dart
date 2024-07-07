@@ -4,9 +4,14 @@ import 'package:sudoku/l10n/l10n.dart';
 import 'package:sudoku/layout/layout.dart';
 import 'package:sudoku/models/models.dart';
 import 'package:sudoku/sudoku/sudoku.dart';
+import 'package:sudoku/timer/timer.dart';
 import 'package:sudoku/typography/typography.dart';
 
+/// {@template sudoku_page}
+/// The root page of the Sudoku UI.
+/// {@endtemplate}
 class SudokuPage extends StatelessWidget {
+  /// {@macro sudoku_page}
   const SudokuPage({super.key});
 
   static const _generated = [
@@ -35,16 +40,29 @@ class SudokuPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider<SudokuBloc>(
-      create: (context) => SudokuBloc(
-        sudoku: Sudoku.fromRawData(_generated, _answer),
-      ),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider<SudokuBloc>(
+          create: (context) => SudokuBloc(
+            sudoku: Sudoku.fromRawData(_generated, _answer),
+          ),
+        ),
+        BlocProvider<TimerBloc>(
+          create: (context) => TimerBloc(
+            ticker: const Ticker(),
+          )..add(const TimerStarted()),
+        ),
+      ],
       child: const SudokuView(),
     );
   }
 }
 
+/// {@template sudoku_view}
+/// Displays the content for the [SudokuPage].
+/// {@endtemplate}
 class SudokuView extends StatelessWidget {
+  /// {@macro sudoku_view}
   const SudokuView({super.key});
 
   @override
@@ -61,9 +79,11 @@ class SudokuView extends StatelessWidget {
         body: SingleChildScrollView(
           child: Column(
             children: [
-              const ResponsiveGap(
-                large: 246,
+              const ResponsiveGap(large: 246),
+              const Center(
+                child: SudokuTimer(),
               ),
+              const ResponsiveGap(large: 96),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -76,23 +96,17 @@ class SudokuView extends StatelessWidget {
                       ),
                     ),
                   ),
-                  const SizedBox(
-                    width: 60,
-                  ),
+                  const SizedBox(width: 60),
                   const SudokuBoardView(
                     layoutSize: ResponsiveLayoutSize.large,
                   ),
-                  const SizedBox(
-                    width: 96,
-                  ),
+                  const SizedBox(width: 96),
                   SudokuInput(
                     sudokuDimension: sudoku.getDimesion(),
                   ),
                 ],
               ),
-              const ResponsiveGap(
-                large: 246,
-              ),
+              const ResponsiveGap(large: 246),
             ],
           ),
         ),
@@ -103,25 +117,20 @@ class SudokuView extends StatelessWidget {
             title: Text(l10n.sudokuAppBarTitle),
           ),
           body: SingleChildScrollView(
-            child: Column(
-              children: [
-                const ResponsiveGap(
-                  small: 24,
-                  medium: 32,
-                ),
-                Center(
-                  child: SudokuBoardView(layoutSize: layoutSize),
-                ),
-                const ResponsiveGap(
-                  small: 32,
-                  medium: 56,
-                ),
-                Center(
-                  child: SudokuInput(
+            child: SizedBox(
+              width: double.maxFinite,
+              child: Column(
+                children: [
+                  const ResponsiveGap(small: 16, medium: 24),
+                  const SudokuTimer(),
+                  const ResponsiveGap(small: 16, medium: 24),
+                  SudokuBoardView(layoutSize: layoutSize),
+                  const ResponsiveGap(small: 32, medium: 56),
+                  SudokuInput(
                     sudokuDimension: sudoku.getDimesion(),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         );

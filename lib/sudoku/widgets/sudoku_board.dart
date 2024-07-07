@@ -1,11 +1,16 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sudoku/layout/layout.dart';
 import 'package:sudoku/sudoku/sudoku.dart';
+import 'package:sudoku/timer/timer.dart';
 
 /// {@template sudoku_board}
 /// Displays the Sudoku board in a [Stack] containing [blocks].
+///
+/// When the timer is paused, it shows a paused icon, and not
+/// the [blocks] and its values.
 /// {@endtemplate}
 class SudokuBoard extends StatelessWidget {
   /// {@macro sudoku_board}
@@ -16,6 +21,10 @@ class SudokuBoard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isTimerPaused = context.select(
+      (TimerBloc bloc) => !bloc.state.isRunning,
+    );
+
     return ResponsiveLayoutBuilder(
       small: (_, child) => SizedBox.square(
         key: const Key('sudoku_board_small'),
@@ -46,7 +55,7 @@ class SudokuBoard extends StatelessWidget {
         final subGridSize = subGridDimension * blockSize;
         return Stack(
           children: [
-            ...blocks,
+            if (!isTimerPaused) ...blocks,
             IgnorePointer(
               child: SudokuBoardDivider(
                 dimension: boardSize,
@@ -62,6 +71,16 @@ class SudokuBoard extends StatelessWidget {
                     dimension: subGridSize,
                     width: 0.8,
                   ),
+                ),
+              ),
+            if (isTimerPaused)
+              Center(
+                child: FloatingActionButton.extended(
+                  onPressed: () => context.read<TimerBloc>().add(
+                        const TimerResumed(),
+                      ),
+                  label: const Text('Resume the puzzle'),
+                  icon: const Icon(Icons.play_arrow),
                 ),
               ),
           ],

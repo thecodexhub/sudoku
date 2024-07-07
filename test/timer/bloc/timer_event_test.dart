@@ -38,6 +38,16 @@ void main() {
       });
     });
 
+    group('TimerResumed', () {
+      test('supports value equality', () {
+        expect(TimerResumed(), equals(TimerResumed()));
+      });
+
+      test('props are correct', () {
+        expect(TimerResumed().props, equals(<Object?>[]));
+      });
+    });
+
     group('TimerReset', () {
       test('supports value equality', () {
         expect(TimerReset(), equals(TimerReset()));

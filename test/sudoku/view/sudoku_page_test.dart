@@ -6,6 +6,7 @@ import 'package:mocktail/mocktail.dart';
 import 'package:sudoku/layout/responsive_layout_builder.dart';
 import 'package:sudoku/models/models.dart';
 import 'package:sudoku/sudoku/sudoku.dart';
+import 'package:sudoku/timer/timer.dart';
 
 import '../../helpers/helpers.dart';
 
@@ -19,16 +20,21 @@ void main() {
 
   group('SudokuView', () {
     late SudokuBloc sudokuBloc;
+    late TimerBloc timerBloc;
     late Sudoku sudoku;
 
     setUp(() {
       sudokuBloc = MockSudokuBloc();
+      timerBloc = MockTimerBloc();
       sudoku = MockSudoku();
+
       when(() => sudoku.getDimesion()).thenReturn(3);
       when(() => sudoku.blocks).thenReturn([]);
       when(() => sudokuBloc.state).thenReturn(
         SudokuState(sudoku: sudoku),
       );
+
+      when(() => timerBloc.state).thenReturn(TimerState());
     });
 
     testWidgets('renders appbar in small layout', (tester) async {
@@ -36,6 +42,7 @@ void main() {
       await tester.pumpApp(
         const SudokuView(),
         sudokuBloc: sudokuBloc,
+        timerBloc: timerBloc,
       );
       expect(find.byType(AppBar), findsOneWidget);
     });
@@ -45,6 +52,7 @@ void main() {
       await tester.pumpApp(
         const SudokuView(),
         sudokuBloc: sudokuBloc,
+        timerBloc: timerBloc,
       );
       expect(find.byType(AppBar), findsOneWidget);
     });
@@ -54,6 +62,7 @@ void main() {
       await tester.pumpApp(
         const SudokuView(),
         sudokuBloc: sudokuBloc,
+        timerBloc: timerBloc,
       );
       expect(find.byType(AppBar), findsNothing);
     });
@@ -61,15 +70,22 @@ void main() {
 
   group('SudokuBoardView', () {
     late SudokuBloc sudokuBloc;
+    late TimerBloc timerBloc;
     late Sudoku sudoku;
 
     setUp(() {
       sudokuBloc = MockSudokuBloc();
+      timerBloc = MockTimerBloc();
       sudoku = MockSudoku();
+
       when(() => sudoku.getDimesion()).thenReturn(3);
       when(() => sudoku.blocks).thenReturn([]);
       when(() => sudokuBloc.state).thenReturn(
         SudokuState(sudoku: sudoku),
+      );
+
+      when(() => timerBloc.state).thenReturn(
+        TimerState(secondsElapsed: 1, isRunning: true),
       );
     });
 
@@ -99,6 +115,7 @@ void main() {
             layoutSize: ResponsiveLayoutSize.large,
           ),
           sudokuBloc: sudokuBloc,
+          timerBloc: timerBloc,
         );
 
         await tester.pumpAndSettle();
