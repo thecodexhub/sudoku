@@ -3,5 +3,9 @@
   "sudokuAppBarTitle": "New Sudoku Game",
   "@sudokuAppBarTitle": {
     "description": "Text shown in the AppBar of the Sudoku Page"
+  },
+  "resumeTimerButtonText": "Resume the puzzle",
+  "@resumeTimerButtonText": {
+    "description": "Text shown in the FloatingActionButton of the Sudoku Board"
   }
 }

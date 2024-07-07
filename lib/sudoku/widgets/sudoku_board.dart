@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:sudoku/l10n/l10n.dart';
 import 'package:sudoku/layout/layout.dart';
 import 'package:sudoku/sudoku/sudoku.dart';
 import 'package:sudoku/timer/timer.dart';
@@ -21,6 +22,8 @@ class SudokuBoard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
+
     final isTimerPaused = context.select(
       (TimerBloc bloc) => !bloc.state.isRunning,
     );
@@ -79,7 +82,7 @@ class SudokuBoard extends StatelessWidget {
                   onPressed: () => context.read<TimerBloc>().add(
                         const TimerResumed(),
                       ),
-                  label: const Text('Resume the puzzle'),
+                  label: Text(l10n.resumeTimerButtonText),
                   icon: const Icon(Icons.play_arrow),
                 ),
               ),
