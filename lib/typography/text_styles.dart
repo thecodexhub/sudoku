@@ -1,5 +1,5 @@
+import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:sudoku/typography/typography.dart';
 
 /// Defines [TextStyle]s for Sudoku App UI.
@@ -48,7 +48,7 @@ class SudokuTextStyle {
   static TextStyle get headline6 {
     return _baseTextStyle.copyWith(
       fontSize: 22,
-      fontWeight: SudokuFontWeight.bold,
+      fontWeight: SudokuFontWeight.semiBold,
     );
   }
 
@@ -100,7 +100,8 @@ class SudokuTextStyle {
     );
   }
 
-  static final _baseTextStyle = GoogleFonts.inter(
+  static const _baseTextStyle = TextStyle(
+    fontFamily: 'Inter',
     fontWeight: SudokuFontWeight.regular,
   );
 }
