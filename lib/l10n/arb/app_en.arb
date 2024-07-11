@@ -1,5 +1,13 @@
 {
   "@@locale": "en",
+  "homeAppBarTitle": "Sudoku Game",
+  "@homeAppBarTitle": {
+    "description": "Text shown in the AppBar of the Home Page"
+  },
+  "sudokuGameSubtitle": "Conquer daily puzzles, continue your saved game, or start fresh on a new challenge with varying difficulty levels for all",
+  "@sudokuGameSubtitle": {
+    "description": "Text shown in Home Page for Medium and Large screen as the subtitle"
+  },
   "sudokuAppBarTitle": "New Sudoku Game",
   "@sudokuAppBarTitle": {
     "description": "Text shown in the AppBar of the Sudoku Page"
@@ -7,5 +15,61 @@
   "resumeTimerButtonText": "Resume the puzzle",
   "@resumeTimerButtonText": {
     "description": "Text shown in the FloatingActionButton of the Sudoku Board"
+  },
+  "dailyChallengeTitle": "Daily Challenge",
+  "@dailyChallengeTitle": {
+    "description": "Title shown in the Daily Challenge card of the Home Page"
+  },
+  "dailyChallengeSubtitle": "Compete and stand in podium!",
+  "@dailyChallengeSubtitle": {
+    "description": "Subtitle shown in the Daily Challenge card of the Home Page"
+  },
+  "resumeSudokuTitle": "Resume Puzzle",
+  "@resumeSudokuTitle": {
+    "description": "Title shown in the Resume Sudoku card of the Home Page"
+  },
+  "resumeSudokuSubtitle": "All clear! Start a new game.",
+  "@resumeSudokuSubtitle": {
+    "description": "Subtitle shown in the Resume Sudoku card of the Home Page"
+  },
+  "createNewGameHeader": "New Game",
+  "@createNewGameHeader": {
+    "description": "Header text shown in the Create New Game section of the Home Page"
+  },
+  "createEasyGameTitle": "Easy Mode",
+  "@createEasyGameTitle": {
+    "description": "Header text shown in the Easy Game section of the Home Page"
+  },
+  "createEasyGameCaption": "40 clues revealed, fill in the rest and sharpen your skills.",
+  "@createEasyGameCaption": {
+    "description": "Caption text shown in the Easy Game section of the Home Page"
+  },
+  "createMediumGameTitle": "Medium Mode",
+  "@createMediumGameTitle": {
+    "description": "Header text shown in the Medium Game section of the Home Page"
+  },
+  "createMediumGameCaption": "30 clues provided, test your logic with a moderate challenge.",
+  "@createMediumGameCaption": {
+    "description": "Caption text shown in the Medium Game section of the Home Page"
+  },
+  "createDifficultGameTitle": "Difficult Mode",
+  "@createDifficultGameTitle": {
+    "description": "Header text shown in the Difficult Game section of the Home Page"
+  },
+  "createDifficultGameCaption": "20 clues given, push your problem-solving abilities to the limit.",
+  "@createDifficultGameCaption": {
+    "description": "Caption text shown in the Difficult Game section of the Home Page"
+  },
+  "createExpertGameTitle": "Expert Mode",
+  "@createExpertGameTitle": {
+    "description": "Header text shown in the Expert Game section of the Home Page"
+  },
+  "createExpertGameCaption": "10 clues exposed, tackle the ultimate Sudoku challenge and master the grid.",
+  "@createExpertGameCaption": {
+    "description": "Caption text shown in the Expert Game section of the Home Page"
+  },
+  "buildSudokuBoardButtonText": "Build Sudoku Board  -->",
+  "@buildSudokuBoardButtonText": {
+    "description": "Text shown in the TextButton for New Game modes in Home Page"
   }
 }

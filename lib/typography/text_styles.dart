@@ -56,7 +56,7 @@ class SudokuTextStyle {
   static TextStyle get subtitle1 {
     return _baseTextStyle.copyWith(
       fontSize: 16,
-      fontWeight: SudokuFontWeight.bold,
+      fontWeight: SudokuFontWeight.medium,
     );
   }
 
@@ -64,7 +64,7 @@ class SudokuTextStyle {
   static TextStyle get subtitle2 {
     return _baseTextStyle.copyWith(
       fontSize: 14,
-      fontWeight: SudokuFontWeight.bold,
+      fontWeight: SudokuFontWeight.medium,
     );
   }
 
@@ -96,7 +96,7 @@ class SudokuTextStyle {
   static TextStyle get button {
     return _baseTextStyle.copyWith(
       fontSize: 16,
-      fontWeight: SudokuFontWeight.medium,
+      fontWeight: SudokuFontWeight.semiBold,
     );
   }
 
