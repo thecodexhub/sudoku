@@ -71,5 +71,30 @@
   "buildSudokuBoardButtonText": "Build Sudoku Board  -->",
   "@buildSudokuBoardButtonText": {
     "description": "Text shown in the TextButton for New Game modes in Home Page"
+  },
+  "createSudokuDialogTitle": "Built with Gemini",
+  "@createSudokuDialogTitle": {
+    "description": "Text shown in the Create Sudoku dialog in Home Page"
+  },
+  "createSudokuDialogSubtitle": "Sudoku is built with Gemini API. Please wait while we are building {difficulty, select, easy{an easy} medium{a medium} difficult{a difficult} expert{an expert} other{}} sudoku puzzle for you!",
+  "@createSudokuDialogSubtitle": {
+    "description": "Text shown as subtitle in the Create Sudoku dialog in Home Page",
+    "placeholders": {
+      "difficulty": {
+        "type": "String"
+      }
+    }
+  },
+  "errorDialogTitle": "Error!",
+  "@errorDialogTitle": {
+    "description": "Text shown in the title for the error dialog in Home Page"
+  },
+  "errorWrongDataDialogSubtitle": "Sudoku are created with the help of Gemini. Sometimes, there can be an error while generating a puzzle. We are sorry about that. Please try again!",
+  "@errorWrongDataDialogSubtitle": {
+    "description": "Text shown as subtitle in the error due to wrong data dialog in Home Page"
+  },
+  "errorClientDialogSubtitle": "There has been an error while communicating to the backend service. Please try again. If this issue persists, please try after some time.",
+  "@errorClientDialogSubtitle": {
+    "description": "Text shown as subtitle in the error due to client dialog in Home Page"
   }
 }

@@ -35,7 +35,7 @@ import 'package:equatable/equatable.dart';
 import 'package:sudoku/models/models.dart';
 
 /// Error thrown when raw data validation fails during the
-/// `generateFromList` operation.
+/// `fromRawData` operation.
 class SudokuInvalidRawDataException implements Exception {
   const SudokuInvalidRawDataException();
 }
@@ -49,39 +49,39 @@ class Sudoku extends Equatable {
 
   /// Converts raw data to a [Sudoku] model.
   ///
-  /// The `generated` list defines the initial state of the puzzle,
-  /// and the `answer` defines the completed state.
+  /// The `puzzle` list defines the initial state of the puzzle,
+  /// and the `solution` defines the completed state.
   ///
   /// Throws a [SudokuInvalidRawDataException] when validation fails
   /// on raw data. The validation checks for 3 things -
-  /// - Whether the generated and asnswer have same number of items.
-  /// - Whether each item of the generated data has same length as generated.
-  /// - Whether each item of the answer data has same length as answer.
+  /// - Whether the puzzle and asnswer have same number of items.
+  /// - Whether each item of the puzzle data has same length as puzzle.
+  /// - Whether each item of the solution data has same length as solution.
   factory Sudoku.fromRawData(
-    List<List<int>> generated,
-    List<List<int>> answer,
+    List<List<int>> puzzle,
+    List<List<int>> solution,
   ) {
-    // Validate the generated and answer list
-    final sameLength = generated.length == answer.length;
-    final sameItemLengthGenerated = generated.every(
-      (item) => item.length == generated.length,
+    // Validate the puzzle and solution list
+    final sameLength = puzzle.length == solution.length;
+    final sameItemLengthPuzzle = puzzle.every(
+      (item) => item.length == puzzle.length,
     );
-    final sameItemLengthAnswer = answer.every(
-      (item) => item.length == answer.length,
+    final sameItemLengthSolution = solution.every(
+      (item) => item.length == solution.length,
     );
-    if (!(sameLength && sameItemLengthGenerated && sameItemLengthAnswer)) {
+    if (!(sameLength && sameItemLengthPuzzle && sameItemLengthSolution)) {
       throw const SudokuInvalidRawDataException();
     }
 
     // Generate blocks from raw data
     final blocks = <Block>[];
-    for (var i = 0; i < generated.length; i++) {
-      for (var j = 0; j < generated[i].length; j++) {
-        final isEmptyBlock = generated[i][j] == -1;
+    for (var i = 0; i < puzzle.length; i++) {
+      for (var j = 0; j < puzzle[i].length; j++) {
+        final isEmptyBlock = puzzle[i][j] == -1;
         final block = Block(
           position: Position(x: i, y: j),
-          correctValue: isEmptyBlock ? answer[i][j] : generated[i][j],
-          currentValue: generated[i][j],
+          correctValue: isEmptyBlock ? solution[i][j] : puzzle[i][j],
+          currentValue: puzzle[i][j],
           isGenerated: !isEmptyBlock,
         );
         blocks.add(block);

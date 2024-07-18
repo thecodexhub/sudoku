@@ -12,8 +12,22 @@ import '../../helpers/helpers.dart';
 
 void main() {
   group('SudokuPage', () {
+    late Sudoku sudoku;
+
+    const block = Block(
+      position: Position(x: 0, y: 0),
+      correctValue: 7,
+      currentValue: -1,
+    );
+
+    setUp(() {
+      sudoku = MockSudoku();
+      when(() => sudoku.blocks).thenReturn([block]);
+      when(() => sudoku.getDimesion()).thenReturn(3);
+    });
+
     testWidgets('renders SudokuView', (tester) async {
-      await tester.pumpApp(const SudokuPage());
+      await tester.pumpApp(SudokuPage(sudoku: sudoku));
       expect(find.byType(SudokuView), findsOneWidget);
     });
   });

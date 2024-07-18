@@ -17,4 +17,7 @@ abstract class Assets {
 
   /// Expert Puzzle icon.
   static const expertPuzzleIcon = 'assets/icons/expert.png';
+
+  /// Gemini icon.
+  static const geminiIcon = 'assets/icons/gemini.png';
 }

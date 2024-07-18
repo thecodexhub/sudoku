@@ -12,31 +12,8 @@ import 'package:sudoku/typography/typography.dart';
 /// {@endtemplate}
 class SudokuPage extends StatelessWidget {
   /// {@macro sudoku_page}
-  const SudokuPage({super.key});
-
-  static const _generated = [
-    [-1, -1, -1, 8, -1, -1, -1, -1, 9],
-    [-1, 1, 9, -1, -1, 5, 8, 3, -1],
-    [-1, 4, 3, -1, 1, -1, -1, -1, 7],
-    [4, -1, -1, 1, 5, -1, -1, -1, 3],
-    [-1, -1, 2, 7, -1, 4, -1, 1, -1],
-    [-1, 8, -1, -1, 9, -1, 6, -1, -1],
-    [-1, 7, -1, -1, -1, 6, 3, -1, -1],
-    [-1, 3, -1, -1, 7, -1, -1, 8, -1],
-    [9, -1, 4, 5, -1, -1, -1, -1, 1],
-  ];
-
-  static const _answer = [
-    [2, 5, 6, 8, 3, 7, 1, 4, 9],
-    [7, 1, 9, 4, 2, 5, 8, 3, 6],
-    [8, 4, 3, 6, 1, 9, 2, 5, 7],
-    [4, 6, 7, 1, 5, 8, 9, 2, 3],
-    [3, 9, 2, 7, 6, 4, 5, 1, 8],
-    [5, 8, 1, 3, 9, 2, 6, 7, 4],
-    [1, 7, 8, 2, 4, 6, 3, 9, 5],
-    [6, 3, 5, 9, 7, 1, 4, 8, 2],
-    [9, 2, 4, 5, 8, 3, 7, 6, 1],
-  ];
+  const SudokuPage({required this.sudoku, super.key});
+  final Sudoku sudoku;
 
   @override
   Widget build(BuildContext context) {
@@ -44,7 +21,7 @@ class SudokuPage extends StatelessWidget {
       providers: [
         BlocProvider<SudokuBloc>(
           create: (context) => SudokuBloc(
-            sudoku: Sudoku.fromRawData(_generated, _answer),
+            sudoku: sudoku,
           ),
         ),
         BlocProvider<TimerBloc>(

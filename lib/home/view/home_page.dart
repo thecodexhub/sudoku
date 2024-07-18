@@ -2,9 +2,14 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:sudoku/api/api.dart';
 import 'package:sudoku/assets/assets.dart';
+import 'package:sudoku/home/home.dart';
 import 'package:sudoku/l10n/l10n.dart';
 import 'package:sudoku/layout/layout.dart';
+import 'package:sudoku/models/models.dart';
+import 'package:sudoku/sudoku/sudoku.dart';
 import 'package:sudoku/typography/typography.dart';
 import 'package:sudoku/widgets/widgets.dart';
 
@@ -17,7 +22,12 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const HomeView();
+    return BlocProvider<HomeBloc>(
+      create: (context) => HomeBloc(
+        apiClient: context.read<SudokuAPI>(),
+      ),
+      child: const HomeView(),
+    );
   }
 }
 
@@ -28,13 +38,55 @@ class HomeView extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
 
-    return Scaffold(
-      body: AnnotatedRegion<SystemUiOverlayStyle>(
-        value: theme.brightness == Brightness.light
-            ? SystemUiOverlayStyle.dark
-            : SystemUiOverlayStyle.light,
-        child: const SudokuBackground(
-          child: HomeViewLayout(),
+    return BlocListener<HomeBloc, HomeState>(
+      listenWhen: (p, c) => p.sudokuCreationStatus != c.sudokuCreationStatus,
+      listener: (context, state) {
+        if (state.sudokuCreationStatus == SudokuCreationStatus.inProgress) {
+          showDialog<void>(
+            context: context,
+            barrierDismissible: false,
+            builder: (context) {
+              return SudokuLoadingDialog(
+                key: const Key('sudoku_loading_dialog'),
+                difficulty: state.difficulty?.name ?? '',
+              );
+            },
+          );
+        }
+
+        if (state.sudoku != null &&
+            state.sudokuCreationStatus == SudokuCreationStatus.completed) {
+          Navigator.pop(context);
+          Navigator.push(
+            context,
+            MaterialPageRoute<void>(
+              builder: (context) => SudokuPage(sudoku: state.sudoku!),
+            ),
+          );
+        }
+
+        if (state.sudokuCreationError != null &&
+            state.sudokuCreationStatus == SudokuCreationStatus.failed) {
+          Navigator.pop(context);
+          showDialog<void>(
+            context: context,
+            builder: (context) {
+              return SudokuFailureDialog(
+                key: const Key('sudoku_failure_dialog'),
+                errorType: state.sudokuCreationError!,
+              );
+            },
+          );
+        }
+      },
+      child: Scaffold(
+        body: AnnotatedRegion<SystemUiOverlayStyle>(
+          value: theme.brightness == Brightness.light
+              ? SystemUiOverlayStyle.dark
+              : SystemUiOverlayStyle.light,
+          child: const SudokuBackground(
+            child: HomeViewLayout(),
+          ),
         ),
       ),
     );
@@ -476,7 +528,9 @@ class CreateGameSection extends StatelessWidget {
         iconAsset: Assets.easyPuzzleIcon,
         title: l10n.createEasyGameTitle,
         caption: l10n.createEasyGameCaption,
-        onButtonPressed: () => log('easy_mode'),
+        onButtonPressed: () => context.read<HomeBloc>().add(
+              const SudokuCreationRequested(Difficulty.easy),
+            ),
       ),
       CreateGameSectionItem(
         key: const Key('create_game_medium_mode'),
@@ -484,7 +538,9 @@ class CreateGameSection extends StatelessWidget {
         iconAsset: Assets.mediumPuzzleIcon,
         title: l10n.createMediumGameTitle,
         caption: l10n.createMediumGameCaption,
-        onButtonPressed: () => log('medium_mode'),
+        onButtonPressed: () => context.read<HomeBloc>().add(
+              const SudokuCreationRequested(Difficulty.medium),
+            ),
       ),
       CreateGameSectionItem(
         key: const Key('create_game_difficult_mode'),
@@ -492,7 +548,9 @@ class CreateGameSection extends StatelessWidget {
         iconAsset: Assets.difficultPuzzleIcon,
         title: l10n.createDifficultGameTitle,
         caption: l10n.createDifficultGameCaption,
-        onButtonPressed: () => log('difficult_mode'),
+        onButtonPressed: () => context.read<HomeBloc>().add(
+              const SudokuCreationRequested(Difficulty.difficult),
+            ),
       ),
       CreateGameSectionItem(
         key: const Key('create_game_expert_mode'),
@@ -500,7 +558,9 @@ class CreateGameSection extends StatelessWidget {
         iconAsset: Assets.expertPuzzleIcon,
         title: l10n.createExpertGameTitle,
         caption: l10n.createExpertGameCaption,
-        onButtonPressed: () => log('expert_mode'),
+        onButtonPressed: () => context.read<HomeBloc>().add(
+              const SudokuCreationRequested(Difficulty.expert),
+            ),
       ),
     ];
 

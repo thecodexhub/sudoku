@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sudoku/colors/colors.dart';
 import 'package:sudoku/typography/typography.dart';
 
 /// {@template sudoku_text_button}
@@ -22,8 +23,8 @@ class SudokuTextButton extends StatelessWidget {
   Widget build(BuildContext context) {
     const gradient = LinearGradient(
       colors: [
-        Color(0xFFC7649F),
-        Color(0xFF6C63C7),
+        SudokuColors.darkPink,
+        SudokuColors.darkPurple,
       ],
     );
 
