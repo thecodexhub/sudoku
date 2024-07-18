@@ -90,8 +90,7 @@ void main() {
         expect(
           find.byWidgetPredicate(
             (widget) =>
-                widget is Text &&
-                widget.data == l10n.errorClientDialogSubtitle,
+                widget is Text && widget.data == l10n.errorClientDialogSubtitle,
           ),
           findsOneWidget,
         );

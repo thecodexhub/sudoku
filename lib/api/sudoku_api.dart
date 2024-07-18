@@ -8,13 +8,13 @@ abstract class SudokuAPI {
   const SudokuAPI();
 
   /// Creates a [Sudoku] game depending upon the `difficulty`.
-  /// 
+  ///
   /// Sends a HTTP request to the sudoku backend, which utilises
   /// Firebase Genkit to generate a sudoku.
-  /// 
+  ///
   /// Throws [SudokuAPIClientException] when there's an error during
   /// the http operation.
-  /// 
+  ///
   /// Throws a [SudokuInvalidRawDataException] when there's an error
   /// during converting the raw data into [Sudoku] object.
   Future<Sudoku> createSudoku({required Difficulty difficulty});

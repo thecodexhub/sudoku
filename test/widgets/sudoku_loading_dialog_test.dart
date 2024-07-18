@@ -24,14 +24,14 @@ void main() {
 
     testWidgets('renders on a medium layout', (tester) async {
       tester.setMediumDisplaySize();
-      
+
       await tester.pumpApp(widget);
       expect(find.byKey(mediumLoadingKey), findsOneWidget);
     });
 
     testWidgets('renders on a small layout', (tester) async {
       tester.setSmallDisplaySize();
-      
+
       await tester.pumpApp(widget);
       expect(find.byKey(smallLoadingKey), findsOneWidget);
     });
