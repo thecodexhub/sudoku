@@ -26,8 +26,8 @@ class SudokuLoadingDialog extends StatelessWidget {
 
     const gradient = LinearGradient(
       colors: [
-        SudokuColors.darkPink,
         SudokuColors.darkPurple,
+        SudokuColors.darkPink,
       ],
     );
 

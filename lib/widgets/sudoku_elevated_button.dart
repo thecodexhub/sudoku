@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sudoku/colors/colors.dart';
 import 'package:sudoku/typography/typography.dart';
 
 /// {@template sudoku_elevated_button}
@@ -41,11 +42,9 @@ class SudokuElevatedButton extends StatelessWidget {
               decoration: const BoxDecoration(
                 gradient: LinearGradient(
                   colors: [
-                    Color(0xFFC7649F),
-                    Color(0xFF6C63C7),
+                    SudokuColors.darkPurple,
+                    SudokuColors.darkPink,
                   ],
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
                 ),
               ),
               child: child,

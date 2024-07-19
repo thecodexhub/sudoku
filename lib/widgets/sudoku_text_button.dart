@@ -23,8 +23,8 @@ class SudokuTextButton extends StatelessWidget {
   Widget build(BuildContext context) {
     const gradient = LinearGradient(
       colors: [
-        SudokuColors.darkPink,
         SudokuColors.darkPurple,
+        SudokuColors.darkPink,
       ],
     );
 

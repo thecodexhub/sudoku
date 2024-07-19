@@ -9,8 +9,8 @@ abstract class SudokuColors {
   static const lightPurple = Color(0xFF9089FC);
 
   /// Dark Pink
-  static const darkPink = Color(0xFFC7649F);
+  static const darkPink = Color(0xFFFF38B0);
 
   /// Dark Purple
-  static const darkPurple = Color(0xFF6C63C7);
+  static const darkPurple = Color(0xFF7A57FD);
 }
