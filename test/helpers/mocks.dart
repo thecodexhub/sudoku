@@ -2,8 +2,10 @@ import 'package:bloc_test/bloc_test.dart';
 import 'package:dio/dio.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:sudoku/api/api.dart';
+import 'package:sudoku/cache/cache.dart';
 import 'package:sudoku/home/home.dart';
 import 'package:sudoku/models/models.dart';
+import 'package:sudoku/puzzle/puzzle.dart';
 import 'package:sudoku/sudoku/sudoku.dart';
 import 'package:sudoku/timer/timer.dart';
 
@@ -26,3 +28,7 @@ class MockSudokuAPI extends Mock implements SudokuAPI {}
 class MockHomeBloc extends MockBloc<HomeEvent, HomeState> implements HomeBloc {}
 
 class MockDio extends Mock implements Dio {}
+
+class MockCacheClient extends Mock implements CacheClient {}
+
+class MockPuzzle extends Mock implements Puzzle {}
