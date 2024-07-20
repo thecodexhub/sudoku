@@ -177,6 +177,18 @@ class Sudoku extends Equatable {
     return blocks.every((block) => block.correctValue == block.currentValue);
   }
 
+  /// Returns the blocks to highlight when a block in the sudoku is
+  /// selected. This is a set of blocks from same row, blocks from same column,
+  /// and blocks from same sub-grid.
+  List<Block> blocksToHighlight(Block block) {
+    final highlightedBlocksSet = {
+      ...getRowBlocks(block),
+      ...getColumnBlocks(block),
+      ...getSubGridBlocks(block),
+    };
+    return highlightedBlocksSet.toList();
+  }
+
   @override
   List<Object?> get props => [blocks];
 }

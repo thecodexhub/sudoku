@@ -358,5 +358,24 @@ void main() {
         expect(solvedSudoku.isComplete(), isTrue);
       });
     });
+
+    group('blocksToHighlight', () {
+      test(
+        'returns the set of row blocks, column blocks, and sub-grid blocks',
+        () {
+          const block = sudoku2x2Block8;
+          expect(
+            sudoku.blocksToHighlight(block),
+            equals(
+              <Block>{
+                ...sudoku.getRowBlocks(block),
+                ...sudoku.getColumnBlocks(block),
+                ...sudoku.getSubGridBlocks(block),
+              }.toList(),
+            ),
+          );
+        },
+      );
+    });
   });
 }

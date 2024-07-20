@@ -18,6 +18,8 @@ class MockSudokuState extends Mock implements SudokuState {}
 
 class MockBlock extends Mock implements Block {}
 
+class MockPosition extends Mock implements Position {}
+
 class MockTicker extends Mock implements Ticker {}
 
 class MockTimerBloc extends MockBloc<TimerEvent, TimerState>
@@ -32,3 +34,5 @@ class MockDio extends Mock implements Dio {}
 class MockCacheClient extends Mock implements CacheClient {}
 
 class MockPuzzle extends Mock implements Puzzle {}
+
+class MockPuzzleRepository extends Mock implements PuzzleRepository {}
