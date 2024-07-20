@@ -8,10 +8,6 @@
   "@sudokuGameSubtitle": {
     "description": "Text shown in Home Page for Medium and Large screen as the subtitle"
   },
-  "sudokuAppBarTitle": "New Sudoku Game",
-  "@sudokuAppBarTitle": {
-    "description": "Text shown in the AppBar of the Sudoku Page"
-  },
   "resumeTimerButtonText": "Resume the puzzle",
   "@resumeTimerButtonText": {
     "description": "Text shown in the FloatingActionButton of the Sudoku Board"
@@ -96,5 +92,26 @@
   "errorClientDialogSubtitle": "There has been an error while communicating to the backend service. Please try again. If this issue persists, please try after some time.",
   "@errorClientDialogSubtitle": {
     "description": "Text shown as subtitle in the error due to client dialog in Home Page"
+  },
+  "puzzleAppBarDifficulty": "{difficulty, select, easy{Easy} medium{Medium} difficult{Difficult} expert{Expert} other{New}}",
+  "@puzzleAppBarDifficulty": {
+    "description": "Text shown in app bar of the Puzzle Page",
+    "placeholders": {
+      "difficulty": {
+        "type": "String"
+      }
+    }
+  },
+  "puzzleAppBarSudoku": "Sudoku",
+  "@puzzleAppBarSudoku": {
+    "description": "Text shown in app bar of the Puzzle Page"
+  },
+  "eraseInputButtonText": "Erase number",
+  "@eraseInputButtonText": {
+    "description": "Text shown in the input erase button in Puzzle Page"
+  },
+  "sudokuLoadingText": "Building your sudoku",
+  "@sudokuLoadingText": {
+    "description": "Text shown when sudoku is getting initialized in Puzzle Page"
   }
 }

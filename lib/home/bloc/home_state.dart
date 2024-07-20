@@ -7,33 +7,28 @@ enum SudokuCreationErrorType { unexpected, invalidRawData, apiClient }
 
 class HomeState extends Equatable {
   const HomeState({
-    this.sudoku,
     this.difficulty,
     this.sudokuCreationStatus = SudokuCreationStatus.initial,
     this.sudokuCreationError,
   });
 
-  final Sudoku? sudoku;
   final Difficulty? difficulty;
   final SudokuCreationStatus sudokuCreationStatus;
   final SudokuCreationErrorType? sudokuCreationError;
 
   @override
   List<Object?> get props => [
-        sudoku,
         difficulty,
         sudokuCreationStatus,
         sudokuCreationError,
       ];
 
   HomeState copyWith({
-    Sudoku? Function()? sudoku,
     Difficulty? Function()? difficulty,
     SudokuCreationStatus Function()? sudokuCreationStatus,
     SudokuCreationErrorType? Function()? sudokuCreationError,
   }) {
     return HomeState(
-      sudoku: sudoku != null ? sudoku() : this.sudoku,
       difficulty: difficulty != null ? difficulty() : this.difficulty,
       sudokuCreationStatus: sudokuCreationStatus != null
           ? sudokuCreationStatus()

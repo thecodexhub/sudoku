@@ -9,7 +9,7 @@ import 'package:sudoku/home/home.dart';
 import 'package:sudoku/l10n/l10n.dart';
 import 'package:sudoku/layout/layout.dart';
 import 'package:sudoku/models/models.dart';
-import 'package:sudoku/sudoku/sudoku.dart';
+import 'package:sudoku/puzzle/puzzle.dart';
 import 'package:sudoku/typography/typography.dart';
 import 'package:sudoku/widgets/widgets.dart';
 
@@ -25,6 +25,7 @@ class HomePage extends StatelessWidget {
     return BlocProvider<HomeBloc>(
       create: (context) => HomeBloc(
         apiClient: context.read<SudokuAPI>(),
+        puzzleRepository: context.read<PuzzleRepository>(),
       ),
       child: const HomeView(),
     );
@@ -54,13 +55,12 @@ class HomeView extends StatelessWidget {
           );
         }
 
-        if (state.sudoku != null &&
-            state.sudokuCreationStatus == SudokuCreationStatus.completed) {
+        if (state.sudokuCreationStatus == SudokuCreationStatus.completed) {
           Navigator.pop(context);
           Navigator.push(
             context,
             MaterialPageRoute<void>(
-              builder: (context) => SudokuPage(sudoku: state.sudoku!),
+              builder: (context) => const PuzzlePage(),
             ),
           );
         }

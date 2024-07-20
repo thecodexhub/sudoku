@@ -6,12 +6,14 @@ import 'package:mocktail/mocktail.dart';
 import 'package:sudoku/api/api.dart';
 import 'package:sudoku/home/home.dart';
 import 'package:sudoku/models/models.dart';
+import 'package:sudoku/puzzle/puzzle.dart';
 
 import '../../helpers/helpers.dart';
 
 void main() {
   group('HomeBloc', () {
     late SudokuAPI apiClient;
+    late PuzzleRepository puzzleRepository;
 
     const sudoku = Sudoku(
       blocks: [
@@ -25,6 +27,7 @@ void main() {
 
     setUp(() {
       apiClient = MockSudokuAPI();
+      puzzleRepository = MockPuzzleRepository();
       when(() => apiClient.createSudoku(difficulty: any(named: 'difficulty')))
           .thenAnswer((_) => Future.value(sudoku));
     });
@@ -34,7 +37,10 @@ void main() {
     });
 
     HomeBloc buildBloc() {
-      return HomeBloc(apiClient: apiClient);
+      return HomeBloc(
+        apiClient: apiClient,
+        puzzleRepository: puzzleRepository,
+      );
     }
 
     test('constructor works correctly', () {
@@ -43,26 +49,31 @@ void main() {
 
     blocTest<HomeBloc, HomeState>(
       'emits state with in progress and completed [SudokuCreationStatus] '
-      'along with created sudoku with defined difficulty',
+      'along with defined difficulty',
       build: buildBloc,
       act: (bloc) => bloc.add(SudokuCreationRequested(Difficulty.medium)),
       expect: () => [
         HomeState(
-          sudoku: null,
           difficulty: Difficulty.medium,
           sudokuCreationStatus: SudokuCreationStatus.inProgress,
           sudokuCreationError: null,
         ),
         HomeState(
-          sudoku: sudoku,
           difficulty: Difficulty.medium,
           sudokuCreationStatus: SudokuCreationStatus.completed,
           sudokuCreationError: null,
         ),
       ],
-      verify: (_) => verify(
-        () => apiClient.createSudoku(difficulty: Difficulty.medium),
-      ).called(1),
+      verify: (_) {
+        verify(
+          () => apiClient.createSudoku(difficulty: Difficulty.medium),
+        ).called(1);
+        verify(
+          () => puzzleRepository.storePuzzle(
+            puzzle: Puzzle(sudoku: sudoku, difficulty: Difficulty.medium),
+          ),
+        ).called(1);
+      },
     );
 
     blocTest<HomeBloc, HomeState>(
@@ -75,13 +86,11 @@ void main() {
       act: (bloc) => bloc.add(SudokuCreationRequested(Difficulty.medium)),
       expect: () => [
         HomeState(
-          sudoku: null,
           difficulty: Difficulty.medium,
           sudokuCreationStatus: SudokuCreationStatus.inProgress,
           sudokuCreationError: null,
         ),
         HomeState(
-          sudoku: null,
           difficulty: Difficulty.medium,
           sudokuCreationStatus: SudokuCreationStatus.failed,
           sudokuCreationError: SudokuCreationErrorType.apiClient,
@@ -99,13 +108,11 @@ void main() {
       act: (bloc) => bloc.add(SudokuCreationRequested(Difficulty.medium)),
       expect: () => [
         HomeState(
-          sudoku: null,
           difficulty: Difficulty.medium,
           sudokuCreationStatus: SudokuCreationStatus.inProgress,
           sudokuCreationError: null,
         ),
         HomeState(
-          sudoku: null,
           difficulty: Difficulty.medium,
           sudokuCreationStatus: SudokuCreationStatus.failed,
           sudokuCreationError: SudokuCreationErrorType.invalidRawData,
@@ -123,13 +130,11 @@ void main() {
       act: (bloc) => bloc.add(SudokuCreationRequested(Difficulty.medium)),
       expect: () => [
         HomeState(
-          sudoku: null,
           difficulty: Difficulty.medium,
           sudokuCreationStatus: SudokuCreationStatus.inProgress,
           sudokuCreationError: null,
         ),
         HomeState(
-          sudoku: null,
           difficulty: Difficulty.medium,
           sudokuCreationStatus: SudokuCreationStatus.failed,
           sudokuCreationError: SudokuCreationErrorType.unexpected,

@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:sudoku/colors/colors.dart';
 import 'package:sudoku/layout/layout.dart';
 import 'package:sudoku/models/models.dart';
+import 'package:sudoku/puzzle/puzzle.dart';
 import 'package:sudoku/sudoku/sudoku.dart';
+// import 'package:sudoku/sudoku/sudoku.dart';
 import 'package:sudoku/typography/typography.dart';
 
 /// {@template sudoku_block}
-/// Displays the Sudoku [block] based upon the current [state].
+/// Displays the Sudoku [block] based upon the current puzzle [state].
 /// {@endtemplate}
 class SudokuBlock extends StatelessWidget {
   /// {@macro sudoku_block}
@@ -20,18 +23,18 @@ class SudokuBlock extends StatelessWidget {
   final Block block;
 
   /// The state of the sudoku.
-  final SudokuState state;
+  final PuzzleState state;
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final dimension = state.sudoku.getDimesion();
+    final dimension = state.puzzle.sudoku.getDimesion();
 
     final selectedBlock = context.select(
-      (SudokuBloc bloc) => bloc.state.currentSelectedBlock,
+      (PuzzleBloc bloc) => bloc.state.selectedBlock,
     );
     final highlightedBlocks = context.select(
-      (SudokuBloc bloc) => bloc.state.highlightedBlocks,
+      (PuzzleBloc bloc) => bloc.state.highlightedBlocks,
     );
 
     // Comparing with the current block's position, otherwise
@@ -64,7 +67,7 @@ class SudokuBlock extends StatelessWidget {
       child: (_) {
         return GestureDetector(
           onTap: () {
-            context.read<SudokuBloc>().add(SudokuBlockSelected(block));
+            context.read<PuzzleBloc>().add(SudokuBlockSelected(block));
           },
           child: DecoratedBox(
             decoration: BoxDecoration(
@@ -81,7 +84,11 @@ class SudokuBlock extends StatelessWidget {
               child: Text(
                 block.currentValue != -1 ? '${block.currentValue}' : '',
                 style: SudokuTextStyle.bodyText1.copyWith(
-                  color: block.isGenerated ? null : theme.colorScheme.secondary,
+                  color: block.correctValue != block.currentValue
+                      ? theme.colorScheme.error
+                      : block.isGenerated
+                          ? null
+                          : SudokuColors.darkPurple,
                 ),
               ),
             ),

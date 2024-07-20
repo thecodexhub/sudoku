@@ -7,13 +7,11 @@ import 'package:sudoku/models/models.dart';
 void main() {
   group('HomeState', () {
     HomeState createSubject({
-      Sudoku? sudoku,
       Difficulty? difficulty,
       SudokuCreationStatus? sudokuCreationStatus,
       SudokuCreationErrorType? sudokuCreationError,
     }) {
       return HomeState(
-        sudoku: sudoku,
         difficulty: difficulty,
         sudokuCreationStatus:
             sudokuCreationStatus ?? SudokuCreationStatus.initial,
@@ -31,7 +29,6 @@ void main() {
         equals(
           <Object?>[
             null,
-            null,
             SudokuCreationStatus.initial,
             null,
           ],
@@ -47,7 +44,6 @@ void main() {
       test('returns the old value for each parameter if null is provided', () {
         expect(
           createSubject().copyWith(
-            sudoku: null,
             difficulty: null,
             sudokuCreationStatus: null,
             sudokuCreationError: null,
@@ -59,14 +55,12 @@ void main() {
       test('returns the updated copy of this for every non-null parameter', () {
         expect(
           createSubject().copyWith(
-            sudoku: () => Sudoku(blocks: const []),
             difficulty: () => Difficulty.expert,
             sudokuCreationStatus: () => SudokuCreationStatus.inProgress,
             sudokuCreationError: () => SudokuCreationErrorType.unexpected,
           ),
           equals(
             createSubject(
-              sudoku: Sudoku(blocks: const []),
               difficulty: Difficulty.expert,
               sudokuCreationStatus: SudokuCreationStatus.inProgress,
               sudokuCreationError: SudokuCreationErrorType.unexpected,
@@ -79,13 +73,11 @@ void main() {
     test('can copyWith null parameters', () {
       expect(
         createSubject().copyWith(
-          sudoku: () => null,
           difficulty: () => null,
           sudokuCreationError: () => null,
         ),
         equals(
           createSubject(
-            sudoku: null,
             difficulty: null,
             sudokuCreationError: null,
           ),

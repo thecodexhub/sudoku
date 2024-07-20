@@ -2,10 +2,12 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:sudoku/colors/colors.dart';
 import 'package:sudoku/l10n/l10n.dart';
 import 'package:sudoku/layout/layout.dart';
 import 'package:sudoku/sudoku/sudoku.dart';
 import 'package:sudoku/timer/timer.dart';
+import 'package:sudoku/typography/typography.dart';
 
 /// {@template sudoku_board}
 /// Displays the Sudoku board in a [Stack] containing [blocks].
@@ -26,6 +28,15 @@ class SudokuBoard extends StatelessWidget {
 
     final isTimerPaused = context.select(
       (TimerBloc bloc) => !bloc.state.isRunning,
+    );
+
+    const gradient = LinearGradient(
+      colors: [
+        SudokuColors.darkPurple,
+        SudokuColors.darkPink,
+      ],
+      begin: Alignment.bottomLeft,
+      end: Alignment.topRight,
     );
 
     return ResponsiveLayoutBuilder(
@@ -78,12 +89,22 @@ class SudokuBoard extends StatelessWidget {
               ),
             if (isTimerPaused)
               Center(
-                child: FloatingActionButton.extended(
-                  onPressed: () => context.read<TimerBloc>().add(
-                        const TimerResumed(),
-                      ),
-                  label: Text(l10n.resumeTimerButtonText),
-                  icon: const Icon(Icons.play_arrow),
+                child: DecoratedBox(
+                  decoration: BoxDecoration(
+                    gradient: gradient,
+                    borderRadius: BorderRadius.circular(16),
+                  ),
+                  child: FloatingActionButton.extended(
+                    backgroundColor: Colors.transparent,
+                    onPressed: () => context.read<TimerBloc>().add(
+                          const TimerResumed(),
+                        ),
+                    label: Text(
+                      l10n.resumeTimerButtonText,
+                      style: SudokuTextStyle.button,
+                    ),
+                    icon: const Icon(Icons.play_arrow),
+                  ),
                 ),
               ),
           ],

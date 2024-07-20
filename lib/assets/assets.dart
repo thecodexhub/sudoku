@@ -20,4 +20,7 @@ abstract class Assets {
 
   /// Gemini icon.
   static const geminiIcon = 'assets/icons/gemini.png';
+
+  /// Heart icon.
+  static const heartIcon = 'assets/icons/heart.png';
 }

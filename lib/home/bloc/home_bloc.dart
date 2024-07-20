@@ -4,6 +4,7 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:sudoku/api/api.dart';
 import 'package:sudoku/models/models.dart';
+import 'package:sudoku/puzzle/puzzle.dart';
 
 part 'home_event.dart';
 part 'home_state.dart';
@@ -11,12 +12,15 @@ part 'home_state.dart';
 class HomeBloc extends Bloc<HomeEvent, HomeState> {
   HomeBloc({
     required SudokuAPI apiClient,
+    required PuzzleRepository puzzleRepository,
   })  : _apiClient = apiClient,
+        _puzzleRepository = puzzleRepository,
         super(const HomeState()) {
     on<SudokuCreationRequested>(_onSudokuCreationRequested);
   }
 
   final SudokuAPI _apiClient;
+  final PuzzleRepository _puzzleRepository;
 
   FutureOr<void> _onSudokuCreationRequested(
     SudokuCreationRequested event,
@@ -24,7 +28,6 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   ) async {
     emit(
       state.copyWith(
-        sudoku: () => null,
         difficulty: () => event.difficulty,
         sudokuCreationStatus: () => SudokuCreationStatus.inProgress,
         sudokuCreationError: () => null,
@@ -35,9 +38,11 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       final sudoku = await _apiClient.createSudoku(
         difficulty: event.difficulty,
       );
+      _puzzleRepository.storePuzzle(
+        puzzle: Puzzle(sudoku: sudoku, difficulty: event.difficulty),
+      );
       emit(
         state.copyWith(
-          sudoku: () => sudoku,
           sudokuCreationStatus: () => SudokuCreationStatus.completed,
         ),
       );

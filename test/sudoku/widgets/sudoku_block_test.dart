@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:sudoku/models/models.dart';
+import 'package:sudoku/puzzle/puzzle.dart';
 import 'package:sudoku/sudoku/sudoku.dart';
 
 import '../../helpers/helpers.dart';
@@ -20,20 +21,24 @@ void main() {
     const mediumBlockKey = 'sudoku_block_medium_0_0';
     const largeBlockKey = 'sudoku_block_large_0_0';
 
+    late Puzzle puzzle;
     late Sudoku sudoku;
-    late SudokuBloc bloc;
-    late SudokuState state;
+    late PuzzleBloc bloc;
+    late PuzzleState state;
 
     setUp(() {
       sudoku = MockSudoku();
       when(() => sudoku.getDimesion()).thenReturn(3);
 
-      state = MockSudokuState();
-      when(() => state.sudoku).thenReturn(sudoku);
-      when(() => state.highlightedBlocks).thenReturn({});
-      when(() => state.currentSelectedBlock).thenReturn(block);
+      puzzle = MockPuzzle();
+      when(() => puzzle.sudoku).thenReturn(sudoku);
 
-      bloc = MockSudokuBloc();
+      state = MockPuzzleState();
+      when(() => state.puzzle).thenReturn(puzzle);
+      when(() => state.selectedBlock).thenReturn(block);
+      when(() => state.highlightedBlocks).thenReturn([]);
+
+      bloc = MockPuzzleBloc();
       when(() => bloc.state).thenReturn(state);
     });
 
@@ -42,7 +47,7 @@ void main() {
       (tester) async {
         await tester.pumpApp(
           SudokuBlock(block: block, state: state),
-          sudokuBloc: bloc,
+          puzzleBloc: bloc,
         );
 
         await tester.tap(find.byType(GestureDetector));
@@ -57,7 +62,7 @@ void main() {
 
       await tester.pumpApp(
         SudokuBlock(block: block, state: state),
-        sudokuBloc: bloc,
+        puzzleBloc: bloc,
       );
 
       expect(find.byKey(Key(largeBlockKey)), findsOneWidget);
@@ -68,7 +73,7 @@ void main() {
 
       await tester.pumpApp(
         SudokuBlock(block: block, state: state),
-        sudokuBloc: bloc,
+        puzzleBloc: bloc,
       );
 
       expect(find.byKey(Key(mediumBlockKey)), findsOneWidget);
@@ -79,7 +84,7 @@ void main() {
 
       await tester.pumpApp(
         SudokuBlock(block: block, state: state),
-        sudokuBloc: bloc,
+        puzzleBloc: bloc,
       );
 
       expect(find.byKey(Key(smallBlockKey)), findsOneWidget);
@@ -91,15 +96,15 @@ void main() {
         final otherBlock = MockBlock();
         when(() => otherBlock.position).thenReturn(Position(x: 0, y: 1));
 
-        when(() => state.highlightedBlocks).thenReturn({block});
-        when(() => state.currentSelectedBlock).thenReturn(otherBlock);
+        when(() => state.highlightedBlocks).thenReturn([block]);
+        when(() => state.selectedBlock).thenReturn(otherBlock);
 
         await tester.pumpApp(
           SudokuBlock(
             block: block,
             state: state,
           ),
-          sudokuBloc: bloc,
+          puzzleBloc: bloc,
         );
 
         expect(

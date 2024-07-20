@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:sudoku/colors/colors.dart';
 import 'package:sudoku/layout/layout.dart';
+import 'package:sudoku/puzzle/puzzle.dart';
 import 'package:sudoku/sudoku/sudoku.dart';
 import 'package:sudoku/typography/typography.dart';
 
@@ -54,6 +56,7 @@ class SudokuInput extends StatelessWidget {
           sudokuDimension: sudokuDimension,
           inputsPerRow: (sudokuDimension / 3).ceil(),
           inputSize: SudokuInputSize.large,
+          showEraserInSameLine: false,
         ),
       ),
     );
@@ -65,46 +68,71 @@ class _SudokuInputView extends StatelessWidget {
     required this.sudokuDimension,
     required this.inputsPerRow,
     required this.inputSize,
+    this.showEraserInSameLine = true,
   });
 
   final int sudokuDimension;
   final int inputsPerRow;
   final double inputSize;
+  final bool showEraserInSameLine;
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+
     final keySize = switch (inputSize) {
       SudokuInputSize.small => 'small',
       SudokuInputSize.medium => 'medium',
       SudokuInputSize.large => 'large',
       _ => 'other',
     };
+
+    final elementsCount =
+        showEraserInSameLine ? sudokuDimension + 1 : sudokuDimension;
+
     return Stack(
       children: [
-        for (var i = 0; i < sudokuDimension; i++)
+        for (var i = 0; i < elementsCount; i++)
           Positioned(
             top: (i ~/ inputsPerRow) * inputSize,
             left: (i % inputsPerRow) * inputSize,
             child: GestureDetector(
-              onTap: () => context.read<SudokuBloc>().add(
-                    SudokuInputTapped(i + 1),
-                  ),
+              onTap: () => showEraserInSameLine && i == elementsCount - 1
+                  ? context.read<PuzzleBloc>().add(const SudokuInputErased())
+                  : context.read<PuzzleBloc>().add(SudokuInputEntered(i + 1)),
               child: Container(
                 key: Key('sudoku_input_${keySize}_block_${i + 1}'),
                 alignment: Alignment.center,
-                height: inputSize,
-                width: inputSize,
+                margin: const EdgeInsets.all(8),
+                height: inputSize - 16,
+                width: inputSize - 16,
                 decoration: BoxDecoration(
                   border: Border.all(
-                    color: theme.dividerColor,
-                    width: 0.8,
+                    color: showEraserInSameLine && i == elementsCount - 1
+                        ? Colors.transparent
+                        : theme.dividerColor,
+                    width: 1.4,
                   ),
+                  gradient: showEraserInSameLine && i == elementsCount - 1
+                      ? const LinearGradient(
+                          colors: [
+                            SudokuColors.darkPurple,
+                            SudokuColors.darkPink,
+                          ],
+                          begin: Alignment.bottomLeft,
+                          end: Alignment.topRight,
+                        )
+                      : null,
+                  borderRadius: BorderRadius.circular(14),
                 ),
                 child: Text(
-                  '${i + 1}',
+                  showEraserInSameLine && i == elementsCount - 1
+                      ? 'X'
+                      : '${i + 1}',
                   style: SudokuTextStyle.headline6.copyWith(
-                    color: theme.colorScheme.secondary,
+                    color: showEraserInSameLine && i == elementsCount - 1
+                        ? Colors.white
+                        : theme.colorScheme.secondary,
                   ),
                 ),
               ),

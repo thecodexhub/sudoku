@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
+import 'package:sudoku/puzzle/puzzle.dart';
 import 'package:sudoku/sudoku/sudoku.dart';
 
 import '../../helpers/helpers.dart';
@@ -13,24 +14,39 @@ void main() {
     const mediumInputKey = 'sudoku_input_medium';
     const smallInputKey = 'sudoku_input_small';
 
-    late SudokuBloc sudokuBloc;
+    late PuzzleBloc puzzleBloc;
 
     setUp(() {
-      sudokuBloc = MockSudokuBloc();
+      puzzleBloc = MockPuzzleBloc();
     });
 
     testWidgets(
-      'adds [SudokuInputTapped] when tapped on an input block',
+      'adds [SudokuInputEntered] when tapped on an input block',
       (tester) async {
         await tester.pumpApp(
           SudokuInput(sudokuDimension: 1),
-          sudokuBloc: sudokuBloc,
+          puzzleBloc: puzzleBloc,
         );
 
-        await tester.tap(find.byType(GestureDetector));
+        await tester.tap(find.byType(GestureDetector).first);
         await tester.pumpAndSettle();
 
-        verify(() => sudokuBloc.add(SudokuInputTapped(1))).called(1);
+        verify(() => puzzleBloc.add(SudokuInputEntered(1))).called(1);
+      },
+    );
+
+    testWidgets(
+      'adds [SudokuInputErased] when tapped on the last input block',
+      (tester) async {
+        await tester.pumpApp(
+          SudokuInput(sudokuDimension: 1),
+          puzzleBloc: puzzleBloc,
+        );
+
+        await tester.tap(find.byType(GestureDetector).last);
+        await tester.pumpAndSettle();
+
+        verify(() => puzzleBloc.add(SudokuInputErased())).called(1);
       },
     );
 

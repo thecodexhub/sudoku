@@ -6,15 +6,9 @@ import 'package:sudoku/cache/cache.dart';
 import 'package:sudoku/home/home.dart';
 import 'package:sudoku/models/models.dart';
 import 'package:sudoku/puzzle/puzzle.dart';
-import 'package:sudoku/sudoku/sudoku.dart';
 import 'package:sudoku/timer/timer.dart';
 
 class MockSudoku extends Mock implements Sudoku {}
-
-class MockSudokuBloc extends MockBloc<SudokuEvent, SudokuState>
-    implements SudokuBloc {}
-
-class MockSudokuState extends Mock implements SudokuState {}
 
 class MockBlock extends Mock implements Block {}
 
@@ -36,3 +30,8 @@ class MockCacheClient extends Mock implements CacheClient {}
 class MockPuzzle extends Mock implements Puzzle {}
 
 class MockPuzzleRepository extends Mock implements PuzzleRepository {}
+
+class MockPuzzleBloc extends MockBloc<PuzzleEvent, PuzzleState>
+    implements PuzzleBloc {}
+
+class MockPuzzleState extends Mock implements PuzzleState {}

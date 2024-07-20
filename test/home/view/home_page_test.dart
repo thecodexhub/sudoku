@@ -6,10 +6,10 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:sudoku/home/home.dart';
 import 'package:sudoku/models/models.dart';
-import 'package:sudoku/sudoku/sudoku.dart';
+import 'package:sudoku/puzzle/puzzle.dart';
 import 'package:sudoku/widgets/widgets.dart';
 
-import '../helpers/helpers.dart';
+import '../../helpers/helpers.dart';
 
 void main() {
   group('HomePage', () {
@@ -120,8 +120,16 @@ void main() {
     );
 
     testWidgets(
-      'routes to [SudokuPage] when [SudokuCreationStatus] is completed',
+      'routes to [PuzzlePage] when [SudokuCreationStatus] is completed',
       (tester) async {
+        final puzzle = MockPuzzle();
+        when(() => puzzle.sudoku).thenReturn(sudoku3x3);
+        when(() => puzzle.difficulty).thenReturn(Difficulty.medium);
+        when(() => puzzle.remainingMistakes).thenReturn(3);
+
+        final puzzleRepository = MockPuzzleRepository();
+        when(puzzleRepository.getPuzzle).thenReturn(puzzle);
+
         whenListen(
           homeBloc,
           Stream.fromIterable(
@@ -131,7 +139,6 @@ void main() {
                 sudokuCreationStatus: SudokuCreationStatus.inProgress,
               ),
               HomeState(
-                sudoku: Sudoku(blocks: const []),
                 sudokuCreationStatus: SudokuCreationStatus.completed,
               ),
             ],
@@ -139,10 +146,14 @@ void main() {
           initialState: HomeState(),
         );
 
-        await tester.pumpApp(HomeView(), homeBloc: homeBloc);
+        await tester.pumpApp(
+          HomeView(),
+          homeBloc: homeBloc,
+          puzzleRepository: puzzleRepository,
+        );
         await tester.pumpAndSettle();
 
-        expect(find.byType(SudokuPage), findsOneWidget);
+        expect(find.byType(PuzzlePage), findsOneWidget);
       },
     );
 

@@ -133,3 +133,436 @@ final sudoku2x2WithOneRemaining = sudoku2x2
     .updateBlock(sudoku2x2Block12, 3)
     .updateBlock(sudoku2x2Block13, 2)
     .updateBlock(sudoku2x2Block15, 4);
+
+const sudoku3x3 = Sudoku(
+  blocks: [
+    Block(
+      position: Position(x: 0, y: 0),
+      correctValue: 4,
+      currentValue: -1,
+    ),
+    Block(
+      position: Position(x: 0, y: 1),
+      correctValue: 7,
+      currentValue: -1,
+    ),
+    Block(
+      position: Position(x: 0, y: 2),
+      correctValue: 5,
+      currentValue: 5,
+      isGenerated: true,
+    ),
+    Block(
+      position: Position(x: 0, y: 3),
+      correctValue: 3,
+      currentValue: 3,
+      isGenerated: true,
+    ),
+    Block(
+      position: Position(x: 0, y: 4),
+      correctValue: 6,
+      currentValue: -1,
+    ),
+    Block(
+      position: Position(x: 0, y: 5),
+      correctValue: 9,
+      currentValue: -1,
+    ),
+    Block(
+      position: Position(x: 0, y: 6),
+      correctValue: 2,
+      currentValue: -1,
+    ),
+    Block(
+      position: Position(x: 0, y: 7),
+      correctValue: 1,
+      currentValue: -1,
+    ),
+    Block(
+      position: Position(x: 0, y: 8),
+      correctValue: 8,
+      currentValue: -1,
+    ),
+    Block(
+      position: Position(x: 1, y: 0),
+      correctValue: 8,
+      currentValue: -1,
+    ),
+    Block(
+      position: Position(x: 1, y: 1),
+      correctValue: 2,
+      currentValue: -1,
+    ),
+    Block(
+      position: Position(x: 1, y: 2),
+      correctValue: 9,
+      currentValue: -1,
+    ),
+    Block(
+      position: Position(x: 1, y: 3),
+      correctValue: 1,
+      currentValue: -1,
+    ),
+    Block(
+      position: Position(x: 1, y: 4),
+      correctValue: 7,
+      currentValue: -1,
+    ),
+    Block(
+      position: Position(x: 1, y: 5),
+      correctValue: 5,
+      currentValue: -1,
+    ),
+    Block(
+      position: Position(x: 1, y: 6),
+      correctValue: 3,
+      currentValue: -1,
+    ),
+    Block(
+      position: Position(x: 1, y: 7),
+      correctValue: 6,
+      currentValue: -1,
+    ),
+    Block(
+      position: Position(x: 1, y: 8),
+      correctValue: 6,
+      currentValue: 6,
+      isGenerated: true,
+    ),
+    Block(
+      position: Position(x: 2, y: 0),
+      correctValue: 3,
+      currentValue: -1,
+    ),
+    Block(
+      position: Position(x: 2, y: 1),
+      correctValue: 8,
+      currentValue: 8,
+      isGenerated: true,
+    ),
+    Block(
+      position: Position(x: 2, y: 2),
+      correctValue: 6,
+      currentValue: -1,
+    ),
+    Block(
+      position: Position(x: 2, y: 3),
+      correctValue: 7,
+      currentValue: -1,
+    ),
+    Block(
+      position: Position(x: 2, y: 4),
+      correctValue: 2,
+      currentValue: -1,
+    ),
+    Block(
+      position: Position(x: 2, y: 5),
+      correctValue: 1,
+      currentValue: 1,
+      isGenerated: true,
+    ),
+    Block(
+      position: Position(x: 2, y: 6),
+      correctValue: 5,
+      currentValue: -1,
+    ),
+    Block(
+      position: Position(x: 2, y: 7),
+      correctValue: 4,
+      currentValue: 4,
+      isGenerated: true,
+    ),
+    Block(
+      position: Position(x: 2, y: 8),
+      correctValue: 9,
+      currentValue: -1,
+    ),
+    Block(
+      position: Position(x: 3, y: 0),
+      correctValue: 1,
+      currentValue: 1,
+      isGenerated: true,
+    ),
+    Block(
+      position: Position(x: 3, y: 1),
+      correctValue: 5,
+      currentValue: -1,
+    ),
+    Block(
+      position: Position(x: 3, y: 2),
+      correctValue: 7,
+      currentValue: -1,
+    ),
+    Block(
+      position: Position(x: 3, y: 3),
+      correctValue: 2,
+      currentValue: 2,
+      isGenerated: true,
+    ),
+    Block(
+      position: Position(x: 3, y: 4),
+      correctValue: 8,
+      currentValue: -1,
+    ),
+    Block(
+      position: Position(x: 3, y: 5),
+      correctValue: 3,
+      currentValue: 3,
+      isGenerated: true,
+    ),
+    Block(
+      position: Position(x: 3, y: 6),
+      correctValue: 4,
+      currentValue: -1,
+    ),
+    Block(
+      position: Position(x: 3, y: 7),
+      correctValue: 9,
+      currentValue: -1,
+    ),
+    Block(
+      position: Position(x: 3, y: 8),
+      correctValue: 6,
+      currentValue: -1,
+    ),
+    Block(
+      position: Position(x: 4, y: 0),
+      correctValue: 9,
+      currentValue: 9,
+      isGenerated: true,
+    ),
+    Block(
+      position: Position(x: 4, y: 1),
+      correctValue: 6,
+      currentValue: -1,
+    ),
+    Block(
+      position: Position(x: 4, y: 2),
+      correctValue: 2,
+      currentValue: -1,
+    ),
+    Block(
+      position: Position(x: 4, y: 3),
+      correctValue: 5,
+      currentValue: -1,
+    ),
+    Block(
+      position: Position(x: 4, y: 4),
+      correctValue: 4,
+      currentValue: -1,
+    ),
+    Block(
+      position: Position(x: 4, y: 5),
+      correctValue: 7,
+      currentValue: -1,
+    ),
+    Block(
+      position: Position(x: 4, y: 6),
+      correctValue: 1,
+      currentValue: -1,
+    ),
+    Block(
+      position: Position(x: 4, y: 7),
+      correctValue: 8,
+      currentValue: 8,
+      isGenerated: true,
+    ),
+    Block(
+      position: Position(x: 4, y: 8),
+      correctValue: 3,
+      currentValue: -1,
+    ),
+    Block(
+      position: Position(x: 5, y: 0),
+      correctValue: 3,
+      currentValue: 3,
+      isGenerated: true,
+    ),
+    Block(
+      position: Position(x: 5, y: 1),
+      correctValue: 4,
+      currentValue: -1,
+    ),
+    Block(
+      position: Position(x: 5, y: 2),
+      correctValue: 1,
+      currentValue: -1,
+    ),
+    Block(
+      position: Position(x: 5, y: 3),
+      correctValue: 8,
+      currentValue: -1,
+    ),
+    Block(
+      position: Position(x: 5, y: 4),
+      correctValue: 9,
+      currentValue: -1,
+    ),
+    Block(
+      position: Position(x: 5, y: 5),
+      correctValue: 6,
+      currentValue: -1,
+    ),
+    Block(
+      position: Position(x: 5, y: 6),
+      correctValue: 7,
+      currentValue: -1,
+    ),
+    Block(
+      position: Position(x: 5, y: 7),
+      correctValue: 2,
+      currentValue: 2,
+      isGenerated: true,
+    ),
+    Block(
+      position: Position(x: 5, y: 8),
+      correctValue: 5,
+      currentValue: 5,
+      isGenerated: true,
+    ),
+    Block(
+      position: Position(x: 6, y: 0),
+      correctValue: 7,
+      currentValue: 7,
+      isGenerated: true,
+    ),
+    Block(
+      position: Position(x: 6, y: 1),
+      correctValue: 1,
+      currentValue: -1,
+    ),
+    Block(
+      position: Position(x: 6, y: 2),
+      correctValue: 8,
+      currentValue: -1,
+    ),
+    Block(
+      position: Position(x: 6, y: 3),
+      correctValue: 4,
+      currentValue: 4,
+      isGenerated: true,
+    ),
+    Block(
+      position: Position(x: 6, y: 4),
+      correctValue: 6,
+      currentValue: -1,
+    ),
+    Block(
+      position: Position(x: 6, y: 5),
+      correctValue: 2,
+      currentValue: -1,
+    ),
+    Block(
+      position: Position(x: 6, y: 6),
+      correctValue: 5,
+      currentValue: -1,
+    ),
+    Block(
+      position: Position(x: 6, y: 7),
+      correctValue: 3,
+      currentValue: -1,
+    ),
+    Block(
+      position: Position(x: 6, y: 8),
+      correctValue: 3,
+      currentValue: 3,
+      isGenerated: true,
+    ),
+    Block(
+      position: Position(x: 7, y: 0),
+      correctValue: 2,
+      currentValue: 2,
+      isGenerated: true,
+    ),
+    Block(
+      position: Position(x: 7, y: 1),
+      correctValue: 9,
+      currentValue: -1,
+    ),
+    Block(
+      position: Position(x: 7, y: 2),
+      correctValue: 4,
+      currentValue: -1,
+    ),
+    Block(
+      position: Position(x: 7, y: 3),
+      correctValue: 6,
+      currentValue: -1,
+    ),
+    Block(
+      position: Position(x: 7, y: 4),
+      correctValue: 5,
+      currentValue: 5,
+      isGenerated: true,
+    ),
+    Block(
+      position: Position(x: 7, y: 5),
+      correctValue: 8,
+      currentValue: -1,
+    ),
+    Block(
+      position: Position(x: 7, y: 6),
+      correctValue: 3,
+      currentValue: -1,
+    ),
+    Block(
+      position: Position(x: 7, y: 7),
+      correctValue: 1,
+      currentValue: 1,
+      isGenerated: true,
+    ),
+    Block(
+      position: Position(x: 7, y: 8),
+      correctValue: 7,
+      currentValue: -1,
+    ),
+    Block(
+      position: Position(x: 8, y: 0),
+      correctValue: 6,
+      currentValue: 6,
+      isGenerated: true,
+    ),
+    Block(
+      position: Position(x: 8, y: 1),
+      correctValue: 3,
+      currentValue: -1,
+    ),
+    Block(
+      position: Position(x: 8, y: 2),
+      correctValue: 3,
+      currentValue: 3,
+      isGenerated: true,
+    ),
+    Block(
+      position: Position(x: 8, y: 3),
+      correctValue: 9,
+      currentValue: -1,
+    ),
+    Block(
+      position: Position(x: 8, y: 4),
+      correctValue: 1,
+      currentValue: -1,
+    ),
+    Block(
+      position: Position(x: 8, y: 5),
+      correctValue: 4,
+      currentValue: -1,
+    ),
+    Block(
+      position: Position(x: 8, y: 6),
+      correctValue: 9,
+      currentValue: 9,
+      isGenerated: true,
+    ),
+    Block(
+      position: Position(x: 8, y: 7),
+      correctValue: 7,
+      currentValue: -1,
+    ),
+    Block(
+      position: Position(x: 8, y: 8),
+      correctValue: 2,
+      currentValue: -1,
+    ),
+  ],
+);
