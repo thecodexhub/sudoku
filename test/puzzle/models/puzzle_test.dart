@@ -43,6 +43,38 @@ void main() {
       );
     });
 
+    group('toJson', () {
+      test('works correctly', () {
+        final puzzle = createSubject();
+        expect(
+          puzzle.toJson(),
+          equals({
+            'sudoku': puzzle.sudoku.toJson(),
+            'difficulty': 'medium',
+            'totalSecondsElapsed': 0,
+            'remainingMistakes': 2,
+            'remainingHints': 1,
+          }),
+        );
+      });
+    });
+
+    group('fromJson', () {
+      test('works correctly', () {
+        final puzzle = createSubject();
+        expect(
+          Puzzle.fromJson({
+            'sudoku': puzzle.sudoku.toJson(),
+            'difficulty': 'medium',
+            'totalSecondsElapsed': 0,
+            'remainingMistakes': 2,
+            'remainingHints': 1,
+          }),
+          equals(puzzle),
+        );
+      });
+    });
+
     group('copyWith', () {
       test('returns same object if no argument is passed', () {
         expect(createSubject().copyWith(), equals(createSubject()));

@@ -20,6 +20,29 @@ void main() {
       );
     });
 
+    group('toJson', () {
+      test('works correctly', () {
+        final position = createSubject();
+        expect(
+          position.toJson(),
+          equals({
+            'x': position.x,
+            'y': position.y,
+          }),
+        );
+      });
+    });
+
+    group('fromJson', () {
+      test('works correctly', () {
+        final json = {'x': 0, 'y': 0};
+        expect(
+          Position.fromJson(json),
+          equals(createSubject()),
+        );
+      });
+    });
+
     group('compareTo', () {
       test('returns -1 when other position y co-ordinate is greater', () {
         expect(

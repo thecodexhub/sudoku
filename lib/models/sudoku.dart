@@ -32,17 +32,24 @@
 import 'dart:math';
 
 import 'package:equatable/equatable.dart';
+import 'package:json_annotation/json_annotation.dart';
 import 'package:sudoku/models/models.dart';
 
+part 'sudoku.g.dart';
+
+/// {@template sudoku_invalid_raw_data_exception}
 /// Error thrown when raw data validation fails during the
 /// `fromRawData` operation.
+/// {@endtemplate}
 class SudokuInvalidRawDataException implements Exception {
+  /// {@macro sudoku_invalid_raw_data_exception}
   const SudokuInvalidRawDataException();
 }
 
 /// {@template sudoku}
 /// Model for a sudoku.
 /// {@endtemplate}
+@JsonSerializable(explicitToJson: true)
 class Sudoku extends Equatable {
   /// {@macro sudoku}
   const Sudoku({required this.blocks});
@@ -93,6 +100,12 @@ class Sudoku extends Equatable {
 
   /// List of [Block]s representing the current state of the [Sudoku].
   final List<Block> blocks;
+
+  /// Deserializes the given [JsonMap] into a [Sudoku].
+  static Sudoku fromJson(JsonMap json) => _$SudokuFromJson(json);
+
+  /// Converts this [Sudoku] into a [JsonMap].
+  JsonMap toJson() => _$SudokuToJson(this);
 
   /// Gets the dimension of the [Sudoku], i.e., the number of row or column.
   ///

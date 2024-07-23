@@ -1,12 +1,16 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:equatable/equatable.dart';
 import 'package:flutter/widgets.dart';
+import 'package:json_annotation/json_annotation.dart';
 import 'package:sudoku/models/models.dart';
+
+part 'puzzle.g.dart';
 
 /// {@template puzzle}
 /// Defines the model for a [Sudoku] puzzle.
 /// {@endtemplate}
 @immutable
+@JsonSerializable(explicitToJson: true)
 class Puzzle extends Equatable {
   /// {@macro puzzle}
   const Puzzle({
@@ -37,6 +41,12 @@ class Puzzle extends Equatable {
   ///
   /// Defaults to 3.
   final int remainingHints;
+
+  /// Deserializes the given [JsonMap] into a [Puzzle].
+  static Puzzle fromJson(JsonMap json) => _$PuzzleFromJson(json);
+
+  /// Converts this [Puzzle] into a [JsonMap].
+  JsonMap toJson() => _$PuzzleToJson(this);
 
   @override
   List<Object?> get props => [

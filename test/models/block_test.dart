@@ -31,6 +31,41 @@ void main() {
       );
     });
 
+    group('toJson', () {
+      test('works correctly', () {
+        final block = createSubject();
+        expect(
+          createSubject().toJson(),
+          equals({
+            'position': {
+              'x': block.position.x,
+              'y': block.position.y,
+            },
+            'correctValue': block.correctValue,
+            'currentValue': block.currentValue,
+            'isGenerated': block.isGenerated,
+          }),
+        );
+      });
+    });
+
+    group('fromJson', () {
+      test('works correctly', () {
+        expect(
+          Block.fromJson({
+            'position': {
+              'x': 2,
+              'y': 3,
+            },
+            'correctValue': 7,
+            'currentValue': -1,
+            'isGenerated': false,
+          }),
+          equals(createSubject()),
+        );
+      });
+    });
+
     group('copyWith', () {
       test('updates the current value', () {
         expect(

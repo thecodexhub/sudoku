@@ -1,9 +1,13 @@
 import 'package:equatable/equatable.dart';
+import 'package:json_annotation/json_annotation.dart';
 import 'package:sudoku/models/models.dart';
+
+part 'block.g.dart';
 
 /// {@template block}
 /// Model for a sudoku block.
 /// {@endtemplate}
+@JsonSerializable(explicitToJson: true)
 class Block extends Equatable {
   /// {@macro block}
   const Block({
@@ -27,6 +31,12 @@ class Block extends Equatable {
   /// Whether or not this block was generated with a value
   /// during initialization.
   final bool isGenerated;
+
+  /// Deserializes the given [JsonMap] into a [Block].
+  static Block fromJson(JsonMap json) => _$BlockFromJson(json);
+
+  /// Converts this [Block] into a [JsonMap].
+  JsonMap toJson() => _$BlockToJson(this);
 
   /// Create a copy of this [Block] with updated current value.
   Block copyWith({required int currentValue}) {

@@ -1,4 +1,7 @@
+import 'package:json_annotation/json_annotation.dart';
+
 /// Defines the status of the puzzle.
+@JsonEnum()
 enum PuzzleStatus {
   /// The puzzle is in progress.
   incomplete,

@@ -168,6 +168,28 @@ void main() {
       expect(sudoku.getDimesion(), equals(4));
     });
 
+    group('toJson', () {
+      test('works correctly', () {
+        expect(
+          sudoku.toJson(),
+          equals({
+            'blocks': sudoku.blocks.map((b) => b.toJson()).toList(),
+          }),
+        );
+      });
+    });
+
+    group('fromJson', () {
+      test('works correctly', () {
+        expect(
+          Sudoku.fromJson({
+            'blocks': sudoku.blocks.map((b) => b.toJson()).toList(),
+          }),
+          equals(sudoku),
+        );
+      });
+    });
+
     group('fromRawData', () {
       test('builds correct sudoku object', () {
         expect(

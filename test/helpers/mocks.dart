@@ -1,6 +1,7 @@
 import 'package:bloc_test/bloc_test.dart';
 import 'package:dio/dio.dart';
 import 'package:mocktail/mocktail.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sudoku/api/api.dart';
 import 'package:sudoku/cache/cache.dart';
 import 'package:sudoku/home/home.dart';
@@ -35,3 +36,5 @@ class MockPuzzleBloc extends MockBloc<PuzzleEvent, PuzzleState>
     implements PuzzleBloc {}
 
 class MockPuzzleState extends Mock implements PuzzleState {}
+
+class MockSharedPreferences extends Mock implements SharedPreferences {}
