@@ -6,4 +6,7 @@ part 'env.g.dart';
 abstract class Env {
   @EnviedField(varName: 'API_BASE_URL')
   static final String apiBaseUrl = _Env.apiBaseUrl;
+
+  @EnviedField(varName: 'API_KEY')
+  static final String apiKey = _Env.apiKey;
 }

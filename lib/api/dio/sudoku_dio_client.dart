@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:sudoku/api/api.dart';
 import 'package:sudoku/api/dtos/dtos.dart';
+import 'package:sudoku/env/env.dart';
 import 'package:sudoku/models/difficulty.dart';
 import 'package:sudoku/models/sudoku.dart';
 
@@ -20,6 +21,10 @@ class SudokuDioClient extends SudokuAPI {
   @visibleForTesting
   final Dio dioClient;
 
+  Map<String, String> get _headers => {
+    'x-api-key': Env.apiKey,
+  };
+
   /// HTTP request path for creating sudoku
   static const createSudokuPath = '/createSudokuFlow';
 
@@ -33,6 +38,7 @@ class SudokuDioClient extends SudokuAPI {
         ).toJson(),
         options: Options(
           contentType: Headers.jsonContentType,
+          headers: _headers,
         ),
       );
 

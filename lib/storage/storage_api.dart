@@ -13,7 +13,7 @@ abstract class StorageAPI {
   Future<void> storePuzzle({required Puzzle puzzle});
 
   /// Provides the stored puzzle.
-  /// 
+  ///
   /// Returns null, if there is no puzzle stored.
   Future<Puzzle?> getPuzzle();
 
