@@ -233,11 +233,10 @@ void main() {
     });
 
     group('toRawData', () {
-      test('converts the current sudoku into correct raw data', () {
-        expect(
-          sudoku.toRawData(),
-          equals(generatedRawData),
-        );
+      test('converts the sudoku into record of puzzle and solution', () {
+        final rawData = sudoku.toRawData();
+        expect(rawData.$1, equals(generatedRawData));
+        expect(rawData.$2, equals(answerRawData));
       });
     });
 

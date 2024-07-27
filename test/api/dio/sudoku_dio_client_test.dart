@@ -167,5 +167,105 @@ void main() {
         },
       );
     });
+
+    group('generateSudoku', () {
+      late Dio dioClient;
+
+      setUp(() {
+        dioClient = MockDio();
+        when(
+          () => dioClient.post<Map<String, dynamic>>(
+            any(),
+            data: any(named: 'data'),
+            options: any(named: 'options'),
+          ),
+        ).thenAnswer(
+          (_) async => Future.value(
+            Response(
+              requestOptions: RequestOptions(),
+              data: {
+                'result': {
+                  'cell': [0, 1],
+                  'entry': 5,
+                  'observation': 'some observation',
+                  'explanation': 'some explanation',
+                  'solution': 'some solution',
+                },
+              },
+              statusCode: 200,
+            ),
+          ),
+        );
+      });
+
+      test('request body is correct', () async {
+        final subject = createSubject(dioClient: dioClient);
+        final response = await subject.generateHint(sudoku: sudoku3x3);
+
+        expect(response, isA<Hint>());
+        verify(
+          () => dioClient.post<Map<String, dynamic>>(
+            SudokuDioClient.generateHintPath,
+            data: {
+              'data': {
+                'puzzle': sudoku3x3.toRawData().$1,
+                'solution': sudoku3x3.toRawData().$2,
+              },
+            },
+            options: any(named: 'options'),
+          ),
+        ).called(1);
+      });
+
+      test(
+        'throws a SudokuAPIClientException when response data is null',
+        () async {
+          final subject = createSubject(dioClient: dioClient);
+
+          when(
+            () => dioClient.post<Map<String, dynamic>>(
+              any(),
+              data: any(named: 'data'),
+              options: any(named: 'options'),
+            ),
+          ).thenAnswer(
+            (_) async => Future.value(
+              Response(
+                requestOptions: RequestOptions(),
+                data: null,
+                statusCode: 200,
+              ),
+            ),
+          );
+
+          expect(
+            () async => subject.generateHint(sudoku: sudoku3x3),
+            throwsA(isA<SudokuAPIClientException>()),
+          );
+        },
+      );
+
+      test(
+        'throws a SudokuAPIClientException when dio exception is thrown',
+        () async {
+          final subject = createSubject(dioClient: dioClient);
+
+          when(
+            () => dioClient.post<Map<String, dynamic>>(
+              any(),
+              data: any(named: 'data'),
+              options: any(named: 'options'),
+            ),
+          ).thenThrow(
+            DioException(requestOptions: RequestOptions()),
+          );
+
+          expect(
+            () async => subject.generateHint(sudoku: sudoku3x3),
+            throwsA(isA<SudokuAPIClientException>()),
+          );
+        },
+      );
+    });
   });
 }

@@ -18,6 +18,12 @@ abstract class SudokuAPI {
   /// Throws a [SudokuInvalidRawDataException] when there's an error
   /// during converting the raw data into [Sudoku] object.
   Future<Sudoku> createSudoku({required Difficulty difficulty});
+
+  /// Creates a [Hint] for the puzzle.
+  ///
+  /// Sends a HTTP request to the sudoku backend, which utilises
+  /// Firebase genkit to generate a hint based on current state of the puzzle.
+  Future<Hint> generateHint({required Sudoku sudoku});
 }
 
 /// {@template sudoku_api_client_exception}

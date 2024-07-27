@@ -115,10 +115,17 @@ class Sudoku extends Equatable {
   }
 
   /// Converts the specified sudoku to raw data.
-  List<List<int>> toRawData() {
+  ///
+  /// Returns a record of puzzle and solution.
+  (List<List<int>>, List<List<int>>) toRawData() {
     final dimension = getDimesion();
 
-    final rawData = List<List<int>>.generate(
+    final rawPuzzleData = List<List<int>>.generate(
+      dimension,
+      (_) => List<int>.generate(dimension, (_) => -1),
+    );
+
+    final rawSolutionData = List<List<int>>.generate(
       dimension,
       (_) => List<int>.generate(dimension, (_) => -1),
     );
@@ -127,10 +134,11 @@ class Sudoku extends Equatable {
       final positionX = block.position.x;
       final positionY = block.position.y;
 
-      rawData[positionX][positionY] = block.currentValue;
+      rawPuzzleData[positionX][positionY] = block.currentValue;
+      rawSolutionData[positionX][positionY] = block.correctValue;
     }
 
-    return rawData;
+    return (rawPuzzleData, rawSolutionData);
   }
 
   /// Returns the list of [Block]s that belong to the same sub-grid as [block].

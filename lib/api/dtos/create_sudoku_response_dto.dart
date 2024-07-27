@@ -33,6 +33,7 @@ class CreateSudokuResponseDto extends Equatable {
 @immutable
 @JsonSerializable()
 class CreateSudokuResponse extends Equatable {
+  /// {@macro create_sudoku_response}
   const CreateSudokuResponse({
     required this.puzzle,
     required this.solution,
