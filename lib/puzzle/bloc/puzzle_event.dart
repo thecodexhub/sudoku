@@ -32,3 +32,11 @@ final class SudokuInputEntered extends PuzzleEvent {
 final class SudokuInputErased extends PuzzleEvent {
   const SudokuInputErased();
 }
+
+final class SudokuHintRequested extends PuzzleEvent {
+  const SudokuHintRequested();
+}
+
+final class HintInteractioCompleted extends PuzzleEvent {
+  const HintInteractioCompleted();
+}

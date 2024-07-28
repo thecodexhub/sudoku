@@ -3,6 +3,7 @@
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
+import 'package:sudoku/api/api.dart';
 import 'package:sudoku/models/models.dart';
 import 'package:sudoku/puzzle/puzzle.dart';
 
@@ -10,17 +11,25 @@ import '../../helpers/helpers.dart';
 
 class _FakeBlock extends Fake implements Block {}
 
+class _FakeSudoku extends Fake implements Sudoku {}
+
 void main() {
   group('PuzzleBloc', () {
     late Block block;
     late Sudoku sudoku;
     late Puzzle puzzle;
+    late Hint hint;
+
+    late SudokuAPI apiClient;
     late PuzzleRepository repository;
 
     setUp(() {
       block = MockBlock();
       sudoku = MockSudoku();
       puzzle = MockPuzzle();
+      hint = MockHint();
+
+      apiClient = MockSudokuAPI();
       repository = MockPuzzleRepository();
 
       when(() => sudoku.blocksToHighlight(any())).thenReturn([block]);
@@ -30,10 +39,14 @@ void main() {
 
     setUpAll(() {
       registerFallbackValue(_FakeBlock());
+      registerFallbackValue(_FakeSudoku());
     });
 
     PuzzleBloc buildBloc() {
-      return PuzzleBloc(puzzleRepository: repository);
+      return PuzzleBloc(
+        apiClient: apiClient,
+        puzzleRepository: repository,
+      );
     }
 
     test('constructor works correctly', () {
@@ -248,6 +261,145 @@ void main() {
           PuzzleState(
             puzzle: puzzle,
             selectedBlock: block.copyWith(currentValue: 4),
+          ),
+        ],
+      );
+    });
+
+    group('SudokuHintRequested', () {
+      setUp(() {
+        when(() => hint.cell).thenReturn(Position(x: 0, y: 0));
+      });
+
+      blocTest<PuzzleBloc, PuzzleState>(
+        'does not emit state when remaining hint count is less '
+        'than or equal to 0',
+        build: buildBloc,
+        setUp: () => when(() => puzzle.remainingHints).thenReturn(0),
+        seed: () => PuzzleState(puzzle: puzzle),
+        act: (bloc) => bloc.add(SudokuHintRequested()),
+        expect: () => <PuzzleState>[],
+      );
+
+      blocTest<PuzzleBloc, PuzzleState>(
+        'decreases remaining hints count and emits a new state '
+        'when api is successful',
+        build: buildBloc,
+        setUp: () {
+          puzzle = Puzzle(sudoku: sudoku3x3, difficulty: Difficulty.medium);
+          when(() => apiClient.generateHint(sudoku: any(named: 'sudoku')))
+              .thenAnswer((_) async => hint);
+        },
+        seed: () => PuzzleState(puzzle: puzzle),
+        act: (bloc) => bloc.add(SudokuHintRequested()),
+        expect: () => [
+          PuzzleState(
+            puzzle: puzzle,
+            puzzleStatus: PuzzleStatus.incomplete,
+            hintStatus: HintStatus.fetchInProgress,
+            highlightedBlocks: const [],
+            selectedBlock: null,
+            hint: null,
+          ),
+          PuzzleState(
+            puzzle: puzzle.copyWith(remainingHints: 2),
+            puzzleStatus: PuzzleStatus.incomplete,
+            hintStatus: HintStatus.fetchSuccess,
+            highlightedBlocks: sudoku3x3.blocksToHighlight(sudoku3x3.blocks[0]),
+            selectedBlock: sudoku3x3.blocks[0],
+            hint: hint,
+          ),
+        ],
+        verify: (_) {
+          verify(() => apiClient.generateHint(sudoku: sudoku3x3)).called(1);
+        },
+      );
+
+      blocTest<PuzzleBloc, PuzzleState>(
+        'emits a new state with failed hint status when api fails',
+        build: buildBloc,
+        setUp: () {
+          puzzle = Puzzle(sudoku: sudoku3x3, difficulty: Difficulty.medium);
+          when(() => apiClient.generateHint(sudoku: any(named: 'sudoku')))
+              .thenThrow(Exception());
+        },
+        seed: () => PuzzleState(puzzle: puzzle),
+        act: (bloc) => bloc.add(SudokuHintRequested()),
+        expect: () => [
+          PuzzleState(
+            puzzle: puzzle,
+            puzzleStatus: PuzzleStatus.incomplete,
+            hintStatus: HintStatus.fetchInProgress,
+            highlightedBlocks: const [],
+            selectedBlock: null,
+            hint: null,
+          ),
+          PuzzleState(
+            puzzle: puzzle,
+            puzzleStatus: PuzzleStatus.incomplete,
+            hintStatus: HintStatus.fetchFailed,
+          ),
+        ],
+        verify: (_) {
+          verify(() => apiClient.generateHint(sudoku: sudoku3x3)).called(1);
+        },
+      );
+    });
+
+    group('HintInteractioCompleted', () {
+      blocTest<PuzzleBloc, PuzzleState>(
+        'does not emit state when selectedBlock is null',
+        build: buildBloc,
+        seed: () => PuzzleState(puzzle: puzzle, selectedBlock: null),
+        act: (bloc) => bloc.add(HintInteractioCompleted()),
+        expect: () => <PuzzleState>[],
+      );
+
+      blocTest<PuzzleBloc, PuzzleState>(
+        'does not emit state when selectedBlock is generated',
+        build: buildBloc,
+        setUp: () => when(() => block.isGenerated).thenReturn(true),
+        seed: () => PuzzleState(puzzle: puzzle, selectedBlock: block),
+        act: (bloc) => bloc.add(HintInteractioCompleted()),
+        expect: () => <PuzzleState>[],
+      );
+
+      blocTest<PuzzleBloc, PuzzleState>(
+        'does not emit state when hint is null',
+        build: buildBloc,
+        setUp: () => when(() => block.isGenerated).thenReturn(false),
+        seed: () => PuzzleState(
+          puzzle: puzzle,
+          selectedBlock: block,
+          hint: null,
+        ),
+        act: (bloc) => bloc.add(HintInteractioCompleted()),
+        expect: () => <PuzzleState>[],
+      );
+
+      blocTest<PuzzleBloc, PuzzleState>(
+        'adds hint entry to the selectedBlock when selectedBlock is valid and '
+        'hint is not-null',
+        build: buildBloc,
+        setUp: () {
+          when(() => block.isGenerated).thenReturn(false);
+          when(() => hint.entry).thenReturn(5);
+        },
+        seed: () => PuzzleState(
+          puzzle: Puzzle(sudoku: sudoku3x3, difficulty: Difficulty.easy),
+          selectedBlock: sudoku3x3.blocks[0],
+          hint: hint,
+        ),
+        act: (bloc) => bloc.add(HintInteractioCompleted()),
+        expect: () => [
+          PuzzleState(
+            puzzle: Puzzle(
+              sudoku: sudoku3x3.updateBlock(sudoku3x3.blocks[0], 5),
+              difficulty: Difficulty.easy,
+            ),
+            hintStatus: HintStatus.interactionEnded,
+            selectedBlock: sudoku3x3.blocks[0],
+            hint: hint,
           ),
         ],
       );

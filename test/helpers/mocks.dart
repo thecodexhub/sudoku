@@ -38,3 +38,5 @@ class MockPuzzleBloc extends MockBloc<PuzzleEvent, PuzzleState>
 class MockPuzzleState extends Mock implements PuzzleState {}
 
 class MockSharedPreferences extends Mock implements SharedPreferences {}
+
+class MockHint extends Mock implements Hint {}

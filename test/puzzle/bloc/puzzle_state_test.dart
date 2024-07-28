@@ -9,8 +9,10 @@ void main() {
     PuzzleState createSubject({
       Puzzle? puzzle,
       PuzzleStatus? puzzleStatus,
+      HintStatus? hintStatus,
       List<Block>? highlightedBlocks,
       Block? selectedBlock,
+      Hint? hint,
     }) {
       return PuzzleState(
         puzzle: puzzle ??
@@ -19,8 +21,10 @@ void main() {
               difficulty: Difficulty.medium,
             ),
         puzzleStatus: puzzleStatus ?? PuzzleStatus.incomplete,
+        hintStatus: hintStatus ?? HintStatus.initial,
         highlightedBlocks: highlightedBlocks ?? [],
         selectedBlock: selectedBlock,
+        hint: hint,
       );
     }
 
@@ -40,9 +44,11 @@ void main() {
             sudoku: Sudoku(blocks: const []),
             difficulty: Difficulty.medium,
           ),
-          PuzzleStatus.incomplete,
-          [],
-          null,
+          PuzzleStatus.incomplete, // puzzleStatus
+          HintStatus.initial, // hintStatus
+          [], // highlightedBlock
+          null, // selectedBlock
+          null, // hint
         ]),
       );
     });
@@ -57,8 +63,10 @@ void main() {
           createSubject().copyWith(
             puzzle: null,
             puzzleStatus: null,
+            hintStatus: null,
             highlightedBlocks: null,
             selectedBlock: null,
+            hint: null,
           ),
           equals(createSubject()),
         );
@@ -72,11 +80,19 @@ void main() {
               difficulty: Difficulty.medium,
             ),
             puzzleStatus: () => PuzzleStatus.failed,
+            hintStatus: () => HintStatus.fetchSuccess,
             highlightedBlocks: () => [],
             selectedBlock: () => Block(
               position: Position(x: 0, y: 0),
               correctValue: 4,
               currentValue: -1,
+            ),
+            hint: () => Hint(
+              cell: Position(x: 0, y: 3),
+              entry: 6,
+              observation: 'observation',
+              explanation: 'explanation',
+              solution: 'solution',
             ),
           ),
           equals(
@@ -86,11 +102,19 @@ void main() {
                 difficulty: Difficulty.medium,
               ),
               puzzleStatus: PuzzleStatus.failed,
+              hintStatus: HintStatus.fetchSuccess,
               highlightedBlocks: [],
               selectedBlock: Block(
                 position: Position(x: 0, y: 0),
                 correctValue: 4,
                 currentValue: -1,
+              ),
+              hint: Hint(
+                cell: Position(x: 0, y: 3),
+                entry: 6,
+                observation: 'observation',
+                explanation: 'explanation',
+                solution: 'solution',
               ),
             ),
           ),
@@ -109,6 +133,24 @@ void main() {
         ).copyWith(selectedBlock: () => null),
         createSubject(selectedBlock: null),
       );
+    });
+
+    group('HintStatus extension', () {
+      test('isFetchInProgress getter works correctly', () {
+        const hintStatus1 = HintStatus.fetchInProgress;
+        const hintStatus2 = HintStatus.fetchFailed;
+
+        expect(hintStatus1.isFetchInProgress, isTrue);
+        expect(hintStatus2.isFetchInProgress, isFalse);
+      });
+
+      test('isInteractionEnded getter works correctly', () {
+        const hintStatus1 = HintStatus.interactionEnded;
+        const hintStatus2 = HintStatus.fetchSuccess;
+
+        expect(hintStatus1.isInteractionEnded, isTrue);
+        expect(hintStatus2.isInteractionEnded, isFalse);
+      });
     });
   });
 }

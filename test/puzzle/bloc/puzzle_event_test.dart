@@ -67,5 +67,31 @@ void main() {
         expect(SudokuInputErased().props, equals([]));
       });
     });
+
+    group('SudokuHintRequested', () {
+      test('supports value equality', () {
+        expect(
+          SudokuHintRequested(),
+          equals(SudokuHintRequested()),
+        );
+      });
+
+      test('props are correct', () {
+        expect(SudokuHintRequested().props, equals([]));
+      });
+    });
+
+    group('HintInteractioCompleted', () {
+      test('supports value equality', () {
+        expect(
+          HintInteractioCompleted(),
+          equals(HintInteractioCompleted()),
+        );
+      });
+
+      test('props are correct', () {
+        expect(HintInteractioCompleted().props, equals([]));
+      });
+    });
   });
 }

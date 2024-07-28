@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:sudoku/api/api.dart';
 import 'package:sudoku/colors/colors.dart';
 import 'package:sudoku/l10n/l10n.dart';
 import 'package:sudoku/layout/layout.dart';
@@ -21,6 +22,7 @@ class PuzzlePage extends StatelessWidget {
         BlocProvider<PuzzleBloc>(
           create: (context) => PuzzleBloc(
             puzzleRepository: context.read<PuzzleRepository>(),
+            apiClient: context.read<SudokuAPI>(),
           )..add(const PuzzleInitialized()),
         ),
         BlocProvider<TimerBloc>(
