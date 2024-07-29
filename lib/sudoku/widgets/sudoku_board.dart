@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sudoku/colors/colors.dart';
 import 'package:sudoku/l10n/l10n.dart';
 import 'package:sudoku/layout/layout.dart';
+import 'package:sudoku/puzzle/puzzle.dart';
 import 'package:sudoku/sudoku/sudoku.dart';
 import 'package:sudoku/timer/timer.dart';
 import 'package:sudoku/typography/typography.dart';
@@ -28,6 +29,10 @@ class SudokuBoard extends StatelessWidget {
 
     final isTimerPaused = context.select(
       (TimerBloc bloc) => !bloc.state.isRunning,
+    );
+
+    final isPuzzleOngoing = context.select(
+      (PuzzleBloc bloc) => bloc.state.puzzleStatus == PuzzleStatus.incomplete,
     );
 
     const gradient = LinearGradient(
@@ -69,7 +74,7 @@ class SudokuBoard extends StatelessWidget {
         final subGridSize = subGridDimension * blockSize;
         return Stack(
           children: [
-            if (!isTimerPaused) ...blocks,
+            if (!(isTimerPaused && isPuzzleOngoing)) ...blocks,
             IgnorePointer(
               child: SudokuBoardDivider(
                 dimension: boardSize,
@@ -87,7 +92,7 @@ class SudokuBoard extends StatelessWidget {
                   ),
                 ),
               ),
-            if (isTimerPaused)
+            if (isTimerPaused && isPuzzleOngoing)
               Center(
                 child: DecoratedBox(
                   decoration: BoxDecoration(

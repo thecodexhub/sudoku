@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
+import 'package:sudoku/puzzle/puzzle.dart';
 import 'package:sudoku/sudoku/sudoku.dart';
 import 'package:sudoku/timer/timer.dart';
 
@@ -11,6 +12,8 @@ import '../../helpers/helpers.dart';
 void main() {
   group('SudokuBoard', () {
     late TimerBloc timerBloc;
+    late PuzzleBloc puzzleBloc;
+    late PuzzleState puzzleState;
 
     const largeKey = Key('sudoku_board_large');
     const mediumKey = Key('sudoku_board_medium');
@@ -18,7 +21,12 @@ void main() {
 
     setUp(() {
       timerBloc = MockTimerBloc();
+      puzzleBloc = MockPuzzleBloc();
+      puzzleState = MockPuzzleState();
+
       when(() => timerBloc.state).thenReturn(TimerState());
+      when(() => puzzleState.puzzleStatus).thenReturn(PuzzleStatus.incomplete);
+      when(() => puzzleBloc.state).thenReturn(puzzleState);
     });
 
     testWidgets('renders on a large layout', (tester) async {
@@ -26,6 +34,7 @@ void main() {
       await tester.pumpApp(
         SudokuBoard(blocks: const []),
         timerBloc: timerBloc,
+        puzzleBloc: puzzleBloc,
       );
       expect(find.byKey(largeKey), findsOneWidget);
     });
@@ -35,6 +44,7 @@ void main() {
       await tester.pumpApp(
         SudokuBoard(blocks: const []),
         timerBloc: timerBloc,
+        puzzleBloc: puzzleBloc,
       );
       expect(find.byKey(mediumKey), findsOneWidget);
     });
@@ -44,6 +54,7 @@ void main() {
       await tester.pumpApp(
         SudokuBoard(blocks: const []),
         timerBloc: timerBloc,
+        puzzleBloc: puzzleBloc,
       );
       expect(find.byKey(smallKey), findsOneWidget);
     });
@@ -57,6 +68,7 @@ void main() {
         await tester.pumpApp(
           SudokuBoard(blocks: const []),
           timerBloc: timerBloc,
+          puzzleBloc: puzzleBloc,
         );
         expect(find.byType(FloatingActionButton), findsNothing);
       },
@@ -71,6 +83,7 @@ void main() {
         await tester.pumpApp(
           SudokuBoard(blocks: const []),
           timerBloc: timerBloc,
+          puzzleBloc: puzzleBloc,
         );
         expect(find.byType(FloatingActionButton), findsOneWidget);
       },
@@ -85,6 +98,7 @@ void main() {
         await tester.pumpApp(
           SudokuBoard(blocks: const []),
           timerBloc: timerBloc,
+          puzzleBloc: puzzleBloc,
         );
         await tester.tap(find.byType(FloatingActionButton));
         verify(() => timerBloc.add(TimerResumed())).called(1);

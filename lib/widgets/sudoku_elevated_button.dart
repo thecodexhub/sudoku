@@ -45,6 +45,8 @@ class SudokuElevatedButton extends StatelessWidget {
                     SudokuColors.darkPurple,
                     SudokuColors.darkPink,
                   ],
+                  begin: Alignment.bottomLeft,
+                  end: Alignment.topRight,
                 ),
               ),
               child: child,

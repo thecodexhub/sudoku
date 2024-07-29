@@ -31,11 +31,14 @@ class SudokuLoadingDialog extends StatelessWidget {
       ],
     );
 
-    return ConstrainedBox(
-      constraints: const BoxConstraints(
-        maxWidth: 440,
+    return Dialog(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(12),
       ),
-      child: Dialog(
+      child: ConstrainedBox(
+        constraints: const BoxConstraints(
+          maxWidth: 620,
+        ),
         child: ResponsiveLayoutBuilder(
           small: (_, child) => Padding(
             key: const Key('sudoku_loading_dialog_small'),
@@ -48,16 +51,16 @@ class SudokuLoadingDialog extends StatelessWidget {
           medium: (_, child) => Padding(
             key: const Key('sudoku_loading_dialog_medium'),
             padding: const EdgeInsets.symmetric(
-              horizontal: 24,
-              vertical: 32,
+              horizontal: 20,
+              vertical: 28,
             ),
             child: child,
           ),
           large: (_, child) => Padding(
             key: const Key('sudoku_loading_dialog_large'),
             padding: const EdgeInsets.symmetric(
-              horizontal: 32,
-              vertical: 48,
+              horizontal: 24,
+              vertical: 32,
             ),
             child: child,
           ),

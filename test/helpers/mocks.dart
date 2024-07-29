@@ -40,3 +40,5 @@ class MockPuzzleState extends Mock implements PuzzleState {}
 class MockSharedPreferences extends Mock implements SharedPreferences {}
 
 class MockHint extends Mock implements Hint {}
+
+class MockTimerState extends Mock implements TimerState {}

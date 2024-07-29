@@ -44,18 +44,42 @@ class PuzzleView extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
 
-    return Scaffold(
-      extendBodyBehindAppBar: true,
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        scrolledUnderElevation: 0,
-        systemOverlayStyle: theme.brightness == Brightness.light
-            ? SystemUiOverlayStyle.dark
-            : SystemUiOverlayStyle.light,
-      ),
-      body: const SudokuBackground(
-        child: PuzzleViewLayout(),
+    return BlocListener<PuzzleBloc, PuzzleState>(
+      listenWhen: (p, c) => p.puzzleStatus != c.puzzleStatus,
+      listener: (context, state) {
+        if (state.puzzleStatus == PuzzleStatus.complete) {
+          context.read<TimerBloc>().add(const TimerStopped());
+          final timeInSeconds = context.read<TimerBloc>().state.secondsElapsed;
+          showDialog<void>(
+            context: context,
+            barrierDismissible: false,
+            builder: (context) => CongratsDialog(
+              difficulty: state.puzzle.difficulty,
+              timeInSeconds: timeInSeconds,
+            ),
+          );
+        } else if (state.puzzleStatus == PuzzleStatus.failed) {
+          context.read<TimerBloc>().add(const TimerStopped());
+          showDialog<void>(
+            context: context,
+            barrierDismissible: false,
+            builder: (context) => const GameOverDialog(),
+          );
+        }
+      },
+      child: Scaffold(
+        extendBodyBehindAppBar: true,
+        appBar: AppBar(
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          scrolledUnderElevation: 0,
+          systemOverlayStyle: theme.brightness == Brightness.light
+              ? SystemUiOverlayStyle.dark
+              : SystemUiOverlayStyle.light,
+        ),
+        body: const SudokuBackground(
+          child: PuzzleViewLayout(),
+        ),
       ),
     );
   }

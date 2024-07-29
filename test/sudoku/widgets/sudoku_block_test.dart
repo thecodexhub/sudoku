@@ -90,6 +90,18 @@ void main() {
       expect(find.byKey(Key(smallBlockKey)), findsOneWidget);
     });
 
+    testWidgets('renders correctly in dark mode', (tester) async {
+      tester.setSmallDisplaySize();
+      
+      await tester.pumpApp(
+        SudokuBlock(block: block, state: state),
+        puzzleBloc: bloc,
+        brightness: Brightness.dark,
+      );
+
+      expect(find.byKey(Key(smallBlockKey)), findsOneWidget);
+    });
+
     testWidgets(
       'renders block when block is part of highlighted, but not selcted',
       (tester) async {

@@ -72,9 +72,9 @@ class SudokuBlock extends StatelessWidget {
           child: DecoratedBox(
             decoration: BoxDecoration(
               color: isBlockSelected
-                  ? theme.primaryColorLight
+                  ? SudokuColors.lightPurple.withOpacity(0.27)
                   : isBlockHighlighted
-                      ? theme.splashColor.withOpacity(0.27)
+                      ? theme.splashColor.withOpacity(0.2)
                       : null,
               border: Border.all(
                 color: theme.highlightColor,
@@ -88,7 +88,9 @@ class SudokuBlock extends StatelessWidget {
                       ? theme.colorScheme.error
                       : block.isGenerated
                           ? null
-                          : SudokuColors.darkPurple,
+                          : theme.brightness == Brightness.light
+                              ? SudokuColors.darkPurple
+                              : SudokuColors.lightPurple.withGreen(224),
                 ),
               ),
             ),
