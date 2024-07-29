@@ -92,7 +92,7 @@ void main() {
 
     testWidgets('renders correctly in dark mode', (tester) async {
       tester.setSmallDisplaySize();
-      
+
       await tester.pumpApp(
         SudokuBlock(block: block, state: state),
         puzzleBloc: bloc,
