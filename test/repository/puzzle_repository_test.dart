@@ -2,8 +2,9 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:sudoku/cache/cache.dart';
 import 'package:sudoku/puzzle/puzzle.dart';
+import 'package:sudoku/repository/repository.dart';
 
-import '../../helpers/helpers.dart';
+import '../helpers/helpers.dart';
 
 void main() {
   group('PuzzleRepository', () {

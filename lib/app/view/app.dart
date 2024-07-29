@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sudoku/api/api.dart';
 import 'package:sudoku/home/home.dart';
 import 'package:sudoku/l10n/l10n.dart';
-import 'package:sudoku/puzzle/puzzle.dart';
+import 'package:sudoku/repository/repository.dart';
 import 'package:sudoku/theme/theme.dart';
 
 class App extends StatelessWidget {

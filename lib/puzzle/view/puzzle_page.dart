@@ -7,6 +7,7 @@ import 'package:sudoku/l10n/l10n.dart';
 import 'package:sudoku/layout/layout.dart';
 import 'package:sudoku/models/models.dart';
 import 'package:sudoku/puzzle/puzzle.dart';
+import 'package:sudoku/repository/repository.dart';
 import 'package:sudoku/sudoku/sudoku.dart';
 import 'package:sudoku/timer/timer.dart';
 import 'package:sudoku/typography/typography.dart';

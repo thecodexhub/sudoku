@@ -6,6 +6,7 @@ import 'package:sudoku/api/api.dart';
 import 'package:sudoku/home/home.dart';
 import 'package:sudoku/l10n/l10n.dart';
 import 'package:sudoku/puzzle/puzzle.dart';
+import 'package:sudoku/repository/repository.dart';
 import 'package:sudoku/timer/timer.dart';
 
 import 'helpers.dart';

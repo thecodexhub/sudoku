@@ -6,6 +6,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:sudoku/models/models.dart';
 import 'package:sudoku/puzzle/puzzle.dart';
+import 'package:sudoku/repository/repository.dart';
 import 'package:sudoku/sudoku/sudoku.dart';
 import 'package:sudoku/timer/timer.dart';
 

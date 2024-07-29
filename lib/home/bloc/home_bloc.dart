@@ -5,6 +5,7 @@ import 'package:equatable/equatable.dart';
 import 'package:sudoku/api/api.dart';
 import 'package:sudoku/models/models.dart';
 import 'package:sudoku/puzzle/puzzle.dart';
+import 'package:sudoku/repository/repository.dart';
 
 part 'home_event.dart';
 part 'home_state.dart';

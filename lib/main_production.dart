@@ -3,7 +3,7 @@ import 'package:sudoku/app/app.dart';
 import 'package:sudoku/bootstrap.dart';
 import 'package:sudoku/cache/cache.dart';
 import 'package:sudoku/env/env.dart';
-import 'package:sudoku/puzzle/puzzle.dart';
+import 'package:sudoku/repository/repository.dart';
 
 void main() {
   bootstrap(() {

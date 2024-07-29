@@ -2,7 +2,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:sudoku/api/api.dart';
 import 'package:sudoku/app/app.dart';
 import 'package:sudoku/home/home.dart';
-import 'package:sudoku/puzzle/puzzle.dart';
+import 'package:sudoku/repository/repository.dart';
 
 import '../../helpers/helpers.dart';
 

@@ -7,6 +7,7 @@ import 'package:sudoku/cache/cache.dart';
 import 'package:sudoku/home/home.dart';
 import 'package:sudoku/models/models.dart';
 import 'package:sudoku/puzzle/puzzle.dart';
+import 'package:sudoku/repository/repository.dart';
 import 'package:sudoku/timer/timer.dart';
 
 class MockSudoku extends Mock implements Sudoku {}

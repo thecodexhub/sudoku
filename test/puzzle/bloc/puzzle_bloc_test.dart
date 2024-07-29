@@ -6,6 +6,7 @@ import 'package:mocktail/mocktail.dart';
 import 'package:sudoku/api/api.dart';
 import 'package:sudoku/models/models.dart';
 import 'package:sudoku/puzzle/puzzle.dart';
+import 'package:sudoku/repository/repository.dart';
 
 import '../../helpers/helpers.dart';
 
