@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sudoku/colors/colors.dart';
+import 'package:sudoku/l10n/l10n.dart';
 import 'package:sudoku/layout/layout.dart';
 import 'package:sudoku/models/models.dart';
 import 'package:sudoku/typography/typography.dart';
@@ -18,6 +19,8 @@ class CongratsDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
+    
     const gradient = LinearGradient(
       colors: [
         SudokuColors.darkPurple,
@@ -79,7 +82,7 @@ class CongratsDialog extends StatelessWidget {
                     Rect.fromLTWH(0, 0, bounds.width, bounds.height),
                   ),
                   child: Text(
-                    'Congratulations!!!',
+                    l10n.congratsPuzzleCompletedText,
                     style: SudokuTextStyle.bodyText1.copyWith(
                       fontWeight: SudokuFontWeight.semiBold,
                       fontSize: titleFontSize,
@@ -98,8 +101,8 @@ class CongratsDialog extends StatelessWidget {
                           : Colors.white,
                     ),
                     children: [
-                      const TextSpan(
-                        text: 'You have finished ',
+                      TextSpan(
+                        text: l10n.puzzleCompletedDialogCaption1,
                       ),
                       TextSpan(
                         text: '${difficulty.article} ${difficulty.name}',
@@ -109,8 +112,8 @@ class CongratsDialog extends StatelessWidget {
                           color: difficulty.color,
                         ),
                       ),
-                      const TextSpan(
-                        text: ' level sudoku in ',
+                      TextSpan(
+                        text: l10n.puzzleCompletedDialogCaption2,
                       ),
                       TextSpan(
                         text: timeInSeconds.format,
@@ -123,7 +126,7 @@ class CongratsDialog extends StatelessWidget {
                 ),
                 SizedBox(height: gap),
                 Text(
-                  'Thank you for playing the sudoku puzzle!',
+                  l10n.thankYouForPlayingPuzzle,
                   textAlign: TextAlign.center,
                   style: SudokuTextStyle.caption.copyWith(
                     fontWeight: SudokuFontWeight.medium,
@@ -132,7 +135,7 @@ class CongratsDialog extends StatelessWidget {
                 ),
                 SizedBox(height: gap),
                 SudokuElevatedButton(
-                  buttonText: 'Return to Home Page',
+                  buttonText: l10n.returnHomeButtonText,
                   onPressed: () => Navigator.of(context).popUntil(
                     (route) => route.isFirst,
                   ),

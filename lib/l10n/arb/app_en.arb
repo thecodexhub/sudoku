@@ -113,5 +113,41 @@
   "sudokuLoadingText": "Building your sudoku",
   "@sudokuLoadingText": {
     "description": "Text shown when sudoku is getting initialized in Puzzle Page"
+  },
+  "congratsPuzzleCompletedText": "Congratulations!!!",
+  "@congratsPuzzleCompletedText": {
+    "description": "Text shown when the sudoku puzzle is completed in Puzzle Page"
+  },
+  "puzzleCompletedDialogCaption1": "You have solved ",
+  "@puzzleCompletedDialogCaption1": {
+    "description": "First part of the text shown when the puzzle is solved in Puzzle Page"
+  },
+  "puzzleCompletedDialogCaption2": " level sudoku in ",
+  "@puzzleCompletedDialogCaption2": {
+    "description": "Second part of the text shown when the puzzle is solved in Puzzle Page"
+  },
+  "thankYouForPlayingPuzzle": "Thank you for playing the sudoku puzzle!",
+  "@thankYouForPlayingPuzzle": {
+    "description": "Text shown when puzzle is solved in Puzzle page"
+  },
+  "returnHomeButtonText": "Return to Home Page",
+  "@returnHomeButtonText": {
+    "description": "Text shown in a button when puzzle is solved in Puzzle Page"
+  },
+  "gameOverText": "Game Over!!!",
+  "@gameOverText": {
+    "description": "Text shown when the puzzle is over in Puzzle Page"
+  },
+  "gameOverReason1": "You have exhausted all of the ",
+  "@gameOverReason1": {
+    "description": "First part of the game over reason for Puzzle Page"
+  },
+  "gameOverReason2": "3 allowed mistakes",
+  "@gameOverReason2": {
+    "description": "Second part of the game over reason for Puzzle Page"
+  },
+  "gameOverReason3": " in this puzzle.",
+  "@gameOverReason3": {
+    "description": "Third part of the game over reason for Puzzle Page"
   }
 }

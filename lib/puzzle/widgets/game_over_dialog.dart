@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sudoku/l10n/l10n.dart';
 import 'package:sudoku/layout/layout.dart';
 import 'package:sudoku/typography/typography.dart';
 import 'package:sudoku/widgets/widgets.dart';
@@ -9,6 +10,7 @@ class GameOverDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final l10n = context.l10n;
 
     return Dialog(
       shape: RoundedRectangleBorder(
@@ -57,7 +59,7 @@ class GameOverDialog extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               children: [
                 Text(
-                  'Game Over!!!',
+                  l10n.gameOverText,
                   style: SudokuTextStyle.bodyText1.copyWith(
                     fontWeight: SudokuFontWeight.semiBold,
                     fontSize: titleFontSize,
@@ -76,25 +78,25 @@ class GameOverDialog extends StatelessWidget {
                           : Colors.white,
                     ),
                     children: [
-                      const TextSpan(
-                        text: 'You have exhausted all of the ',
+                      TextSpan(
+                        text: l10n.gameOverReason1,
                       ),
                       TextSpan(
-                        text: '3 allowed mistakes',
+                        text: l10n.gameOverReason2,
                         style: SudokuTextStyle.caption.copyWith(
                           fontWeight: SudokuFontWeight.medium,
                           fontSize: subtitleFontSize,
                         ),
                       ),
-                      const TextSpan(
-                        text: ' in this puzzle.',
+                      TextSpan(
+                        text: l10n.gameOverReason3,
                       ),
                     ],
                   ),
                 ),
                 SizedBox(height: gap),
                 Text(
-                  'Thank you for playing the sudoku puzzle!',
+                  l10n.thankYouForPlayingPuzzle,
                   textAlign: TextAlign.center,
                   style: SudokuTextStyle.caption.copyWith(
                     fontWeight: SudokuFontWeight.medium,
@@ -103,7 +105,7 @@ class GameOverDialog extends StatelessWidget {
                 ),
                 SizedBox(height: gap),
                 SudokuElevatedButton(
-                  buttonText: 'Return to Home Page',
+                  buttonText: l10n.returnHomeButtonText,
                   onPressed: () => Navigator.popUntil(
                     context,
                     (route) => route.isFirst,
