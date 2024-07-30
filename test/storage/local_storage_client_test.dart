@@ -96,7 +96,7 @@ void main() {
     group('clearPuzzleStore', () {
       test('removes the data from the key', () {
         final client = createSubject();
-        
+
         expect(client.clearPuzzleStore(), completes);
         expect(client.getPuzzle(), emits(null));
 

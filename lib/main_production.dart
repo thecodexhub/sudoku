@@ -18,7 +18,7 @@ void main() async {
       final apiClient = SudokuDioClient(baseUrl: Env.apiBaseUrl);
       final cacheClient = CacheClient();
 
-       final storageClient = LocalStorageClient(
+      final storageClient = LocalStorageClient(
         plugin: await SharedPreferences.getInstance(),
       );
 
