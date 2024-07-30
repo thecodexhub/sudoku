@@ -12,11 +12,14 @@ abstract class StorageAPI {
   /// If a [puzzle] exists, it will be replaced.
   Future<void> storePuzzle({required Puzzle puzzle});
 
-  /// Provides the stored puzzle.
+  /// Provides a [Stream] of the stored puzzle.
   ///
-  /// Returns null, if there is no puzzle stored.
-  Future<Puzzle?> getPuzzle();
+  /// Emits null, if there is no puzzle stored.
+  Stream<Puzzle?> getPuzzle();
 
   /// Clears the stored puzzle.
   Future<void> clearPuzzleStore();
+
+  /// Closes the client and frees up any resources.
+  Future<void> close();
 }

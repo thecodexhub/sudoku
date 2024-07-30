@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/widgets.dart';
+import 'package:rxdart/rxdart.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sudoku/puzzle/models/puzzle.dart';
 import 'package:sudoku/storage/storage.dart';
@@ -10,11 +11,26 @@ import 'package:sudoku/storage/storage.dart';
 /// {@endtemplate}
 class LocalStorageClient extends StorageAPI {
   /// {@macro local_storage_client}
-  const LocalStorageClient({
+  LocalStorageClient({
     required SharedPreferences plugin,
-  }) : _plugin = plugin;
+  }) : _plugin = plugin {
+    _initializeStreamController();
+  }
 
   final SharedPreferences _plugin;
+
+  final _puzzleStreamController = BehaviorSubject<Puzzle?>.seeded(null);
+
+  void _initializeStreamController() {
+    final source = _getValue(kPuzzleStorageKey);
+    if (source != null) {
+      final jsonMap = json.decode(source) as Map<String, dynamic>;
+      final puzzle = Puzzle.fromJson(jsonMap);
+      _puzzleStreamController.add(puzzle);
+    } else {
+      _puzzleStreamController.add(null);
+    }
+  }
 
   /// The key used for storing the puzzle locally.
   ///
@@ -28,22 +44,23 @@ class LocalStorageClient extends StorageAPI {
       _plugin.setString(key, value);
 
   @override
-  Future<Puzzle?> getPuzzle() async {
-    final source = _getValue(kPuzzleStorageKey);
-    if (source == null) return null;
-
-    final jsonMap = json.decode(source) as Map<String, dynamic>;
-    return Puzzle.fromJson(jsonMap);
-  }
+  Stream<Puzzle?> getPuzzle() => _puzzleStreamController.asBroadcastStream();
 
   @override
   Future<void> storePuzzle({required Puzzle puzzle}) async {
+    _puzzleStreamController.add(puzzle);
     return _setValue(kPuzzleStorageKey, json.encode(puzzle));
   }
 
   @override
   Future<void> clearPuzzleStore() async {
+    _puzzleStreamController.add(null);
     await _plugin.remove(kPuzzleStorageKey);
     return;
+  }
+
+  @override
+  Future<void> close() {
+    return _puzzleStreamController.close();
   }
 }

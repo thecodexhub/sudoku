@@ -32,24 +32,37 @@ void main() {
       return LocalStorageClient(plugin: plugin);
     }
 
-    test('constructor works correctly', () {
-      expect(createSubject, returnsNormally);
+    group('constructor', () {
+      test('works correctly', () {
+        expect(createSubject, returnsNormally);
+      });
+
+      group('initializes the puzzle stream', () {
+        test('with existing puzzle if present', () {
+          final subject = createSubject();
+          expect(subject.getPuzzle(), emits(puzzle));
+          verify(
+            () => plugin.getString(LocalStorageClient.kPuzzleStorageKey),
+          ).called(1);
+        });
+
+        test('with null if puzzle is not present', () {
+          when(() => plugin.getString(any())).thenReturn(null);
+
+          final subject = createSubject();
+          expect(subject.getPuzzle(), emits(null));
+          verify(
+            () => plugin.getString(LocalStorageClient.kPuzzleStorageKey),
+          ).called(1);
+        });
+      });
     });
 
     group('getPuzzle', () {
-      test('returns null if there is no saved puzzle', () {
-        when(() => plugin.getString(any())).thenReturn(null);
+      test('returns stream of puzzle', () {
         final client = createSubject();
 
-        expectLater(client.getPuzzle(), completion(null));
-        verify(
-          () => plugin.getString(LocalStorageClient.kPuzzleStorageKey),
-        ).called(1);
-      });
-
-      test('returns puzzle if there is a saved puzzle', () {
-        final client = createSubject();
-        expectLater(client.getPuzzle(), completion(puzzle));
+        expect(client.getPuzzle(), emits(puzzle));
         verify(
           () => plugin.getString(LocalStorageClient.kPuzzleStorageKey),
         ).called(1);
@@ -58,12 +71,23 @@ void main() {
 
     group('storePuzzle', () {
       test('stores a puzzle in a json encoded format', () {
+        const newPuzzle = Puzzle(
+          sudoku: sudoku3x3,
+          difficulty: Difficulty.easy,
+          totalSecondsElapsed: 100,
+          remainingMistakes: 1,
+          remainingHints: 0,
+        );
+
         final client = createSubject();
-        expectLater(client.storePuzzle(puzzle: puzzle), completes);
+
+        expect(client.storePuzzle(puzzle: newPuzzle), completes);
+        expect(client.getPuzzle(), emits(newPuzzle));
+
         verify(
           () => plugin.setString(
             LocalStorageClient.kPuzzleStorageKey,
-            json.encode(puzzle),
+            json.encode(newPuzzle),
           ),
         ).called(1);
       });
@@ -72,10 +96,25 @@ void main() {
     group('clearPuzzleStore', () {
       test('removes the data from the key', () {
         final client = createSubject();
-        expectLater(client.clearPuzzleStore(), completes);
+        
+        expect(client.clearPuzzleStore(), completes);
+        expect(client.getPuzzle(), emits(null));
+
         verify(
           () => plugin.remove(LocalStorageClient.kPuzzleStorageKey),
         ).called(1);
+      });
+    });
+
+    group('close', () {
+      test('closes the instance', () async {
+        final subject = createSubject();
+        await subject.close();
+
+        expect(
+          () => subject.storePuzzle(puzzle: puzzle),
+          throwsStateError,
+        );
       });
     });
   });
