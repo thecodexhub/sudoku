@@ -7,11 +7,11 @@ void main() {
   group('TimerEvent', () {
     group('TimerStarted', () {
       test('supports value equality', () {
-        expect(TimerStarted(), equals(TimerStarted()));
+        expect(TimerStarted(12), equals(TimerStarted(12)));
       });
 
       test('props are correct', () {
-        expect(TimerStarted().props, equals(<Object?>[]));
+        expect(TimerStarted(12).props, equals(<Object?>[12]));
       });
     });
 

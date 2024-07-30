@@ -7,10 +7,12 @@ void main() {
   group('TimerState', () {
     TimerState createSubject({
       bool isRunning = true,
+      int initialValue = 0,
       int secondsElapsed = 10,
     }) {
       return TimerState(
         isRunning: isRunning,
+        initialValue: initialValue,
         secondsElapsed: secondsElapsed,
       );
     }
@@ -26,7 +28,7 @@ void main() {
     test('props are correct', () {
       expect(
         createSubject().props,
-        equals(<Object?>[true, 10]),
+        equals(<Object?>[true, 0, 10]),
       );
     });
 
@@ -42,6 +44,7 @@ void main() {
         expect(
           createSubject().copyWith(
             isRunning: null,
+            initialValue: null,
             secondsElapsed: null,
           ),
           equals(createSubject()),
@@ -52,11 +55,13 @@ void main() {
         expect(
           createSubject().copyWith(
             isRunning: false,
+            initialValue: 2,
             secondsElapsed: 5,
           ),
           equals(
             createSubject(
               isRunning: false,
+              initialValue: 2,
               secondsElapsed: 5,
             ),
           ),

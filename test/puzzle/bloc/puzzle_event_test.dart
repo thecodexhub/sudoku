@@ -93,5 +93,21 @@ void main() {
         expect(HintInteractioCompleted().props, equals([]));
       });
     });
+
+    group('UnfinishedPuzzleSaveRequested', () {
+      test('supports value equality', () {
+        expect(
+          UnfinishedPuzzleSaveRequested(12),
+          equals(UnfinishedPuzzleSaveRequested(12)),
+        );
+      });
+
+      test('props are correct', () {
+        expect(
+          UnfinishedPuzzleSaveRequested(12).props,
+          equals(<Object?>[12]),
+        );
+      });
+    });
   });
 }

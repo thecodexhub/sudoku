@@ -23,6 +23,7 @@ class PuzzleBloc extends Bloc<PuzzleEvent, PuzzleState> {
     on<SudokuInputErased>(_onSudokuInputErased);
     on<SudokuHintRequested>(_onSudokuHintRequested);
     on<HintInteractioCompleted>(_onHintInteractioCompleted);
+    on<UnfinishedPuzzleSaveRequested>(_onUnfinishedPuzzleSaveRequested);
   }
 
   final PuzzleRepository _puzzleRepository;
@@ -33,7 +34,7 @@ class PuzzleBloc extends Bloc<PuzzleEvent, PuzzleState> {
     PuzzleInitialized event,
     Emitter<PuzzleState> emit,
   ) {
-    final puzzle = _puzzleRepository.getPuzzle()!;
+    final puzzle = _puzzleRepository.fetchPuzzleFromCache()!;
     emit(state.copyWith(puzzle: () => puzzle));
   }
 
@@ -193,6 +194,19 @@ class PuzzleBloc extends Bloc<PuzzleEvent, PuzzleState> {
         ),
         hintStatus: () => HintStatus.interactionEnded,
       ),
+    );
+  }
+
+  void _onUnfinishedPuzzleSaveRequested(
+    UnfinishedPuzzleSaveRequested event,
+    Emitter<PuzzleState> emit,
+  ) {
+    final puzzle = state.puzzle.copyWith(
+      totalSecondsElapsed: event.elapsedSeconds,
+    );
+    emit(state.copyWith(puzzle: () => puzzle));
+    unawaited(
+      _puzzleRepository.storePuzzleInLocalMemory(puzzle: puzzle),
     );
   }
 }

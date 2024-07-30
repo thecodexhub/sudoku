@@ -27,7 +27,7 @@ void main() {
 
     group('TimerStarted', () {
       test('emits 3 sequential timer states', () async {
-        final bloc = TimerBloc(ticker: ticker)..add(TimerStarted());
+        final bloc = TimerBloc(ticker: ticker)..add(TimerStarted(0));
         await bloc.stream.first;
 
         streamController
@@ -57,17 +57,29 @@ void main() {
 
     group('TimerStopped', () {
       test('does not emit after timer is stopped', () async {
-        final bloc = TimerBloc(ticker: ticker)..add(TimerStarted());
+        final bloc = TimerBloc(ticker: ticker)..add(TimerStarted(0));
 
         expect(
           await bloc.stream.first,
-          equals(TimerState(isRunning: true, secondsElapsed: 0)),
+          equals(
+            TimerState(
+              isRunning: true,
+              initialValue: 0,
+              secondsElapsed: 0,
+            ),
+          ),
         );
 
         streamController.add(1);
         expect(
           await bloc.stream.first,
-          equals(TimerState(isRunning: true, secondsElapsed: 1)),
+          equals(
+            TimerState(
+              isRunning: true,
+              initialValue: 0,
+              secondsElapsed: 1,
+            ),
+          ),
         );
 
         bloc.add(TimerStopped());
@@ -75,18 +87,30 @@ void main() {
 
         expect(
           await bloc.stream.first,
-          equals(TimerState(isRunning: false, secondsElapsed: 1)),
+          equals(
+            TimerState(
+              isRunning: false,
+              initialValue: 0,
+              secondsElapsed: 1,
+            ),
+          ),
         );
       });
     });
 
     group('TimerResumed', () {
       test('resumes the timer from where it was stopped', () async {
-        final bloc = TimerBloc(ticker: ticker)..add(TimerStarted());
+        final bloc = TimerBloc(ticker: ticker)..add(TimerStarted(0));
 
         expect(
           await bloc.stream.first,
-          equals(TimerState(isRunning: true, secondsElapsed: 0)),
+          equals(
+            TimerState(
+              isRunning: true,
+              initialValue: 0,
+              secondsElapsed: 0,
+            ),
+          ),
         );
 
         streamController
@@ -96,8 +120,16 @@ void main() {
         await expectLater(
           bloc.stream,
           emitsInOrder(<TimerState>[
-            TimerState(isRunning: true, secondsElapsed: 1),
-            TimerState(isRunning: true, secondsElapsed: 2),
+            TimerState(
+              isRunning: true,
+              initialValue: 0,
+              secondsElapsed: 1,
+            ),
+            TimerState(
+              isRunning: true,
+              initialValue: 0,
+              secondsElapsed: 2,
+            ),
           ]),
         );
 
@@ -106,7 +138,13 @@ void main() {
 
         expect(
           await bloc.stream.first,
-          equals(TimerState(isRunning: false, secondsElapsed: 2)),
+          equals(
+            TimerState(
+              isRunning: false,
+              initialValue: 0,
+              secondsElapsed: 2,
+            ),
+          ),
         );
 
         bloc.add(TimerResumed());
@@ -118,10 +156,26 @@ void main() {
         await expectLater(
           bloc.stream,
           emitsInOrder(<TimerState>[
-            TimerState(isRunning: true, secondsElapsed: 2),
-            TimerState(isRunning: true, secondsElapsed: 3),
-            TimerState(isRunning: true, secondsElapsed: 4),
-            TimerState(isRunning: true, secondsElapsed: 5),
+            TimerState(
+              isRunning: true,
+              initialValue: 0,
+              secondsElapsed: 2,
+            ),
+            TimerState(
+              isRunning: true,
+              initialValue: 0,
+              secondsElapsed: 3,
+            ),
+            TimerState(
+              isRunning: true,
+              initialValue: 0,
+              secondsElapsed: 4,
+            ),
+            TimerState(
+              isRunning: true,
+              initialValue: 0,
+              secondsElapsed: 5,
+            ),
           ]),
         );
       });

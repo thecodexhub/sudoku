@@ -8,7 +8,12 @@ sealed class TimerEvent extends Equatable {
 }
 
 final class TimerStarted extends TimerEvent {
-  const TimerStarted();
+  const TimerStarted(this.initialValue);
+
+  final int initialValue;
+
+  @override
+  List<Object> get props => [initialValue];
 }
 
 final class TimerTicked extends TimerEvent {

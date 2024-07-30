@@ -7,6 +7,7 @@ import 'package:mocktail/mocktail.dart';
 import 'package:sudoku/home/home.dart';
 import 'package:sudoku/models/models.dart';
 import 'package:sudoku/puzzle/puzzle.dart';
+import 'package:sudoku/repository/repository.dart';
 import 'package:sudoku/widgets/widgets.dart';
 
 import '../../helpers/helpers.dart';
@@ -27,29 +28,49 @@ void main() {
     const failureDialogKey = Key('sudoku_failure_dialog');
 
     late HomeBloc homeBloc;
+    late HomeState homeState;
+    late PuzzleBloc puzzleBloc;
+    late PuzzleState puzzleState;
+    late Puzzle puzzle;
+    late PuzzleRepository puzzleRepository;
 
     setUp(() {
       homeBloc = MockHomeBloc();
-      when(() => homeBloc.state).thenReturn(HomeState());
+      puzzleRepository = MockPuzzleRepository();
+      puzzle = MockPuzzle();
+      homeState = MockHomeState();
+
+      when(() => homeBloc.state).thenReturn(homeState);
+      when(puzzleRepository.fetchPuzzleFromCache).thenReturn(puzzle);
+      when(() => puzzleRepository.getPuzzleFromLocalMemory()).thenAnswer(
+        (_) => Stream.value(puzzle),
+      );
+
+      puzzleBloc = MockPuzzleBloc();
+      puzzleState = MockPuzzleState();
+
+      when(() => puzzle.totalSecondsElapsed).thenReturn(12);
+      when(() => puzzleState.puzzle).thenReturn(puzzle);
+      when(() => puzzleBloc.state).thenReturn(puzzleState);
     });
 
     testWidgets('renders on a large layout', (tester) async {
       tester.setLargeDisplaySize();
-      await tester.pumpApp(HomePage());
+      await tester.pumpApp(HomePage(), puzzleRepository: puzzleRepository);
 
       expect(find.byType(HomeView), findsOneWidget);
     });
 
     testWidgets('renders on a medium layout', (tester) async {
       tester.setMediumDisplaySize();
-      await tester.pumpApp(HomePage());
+      await tester.pumpApp(HomePage(), puzzleRepository: puzzleRepository);
 
       expect(find.byType(HomeView), findsOneWidget);
     });
 
     testWidgets('renders on a small layout', (tester) async {
       tester.setSmallDisplaySize();
-      await tester.pumpApp(HomePage());
+      await tester.pumpApp(HomePage(), puzzleRepository: puzzleRepository);
 
       expect(find.byType(HomeView), findsOneWidget);
     });
@@ -122,13 +143,9 @@ void main() {
     testWidgets(
       'routes to [PuzzlePage] when [SudokuCreationStatus] is completed',
       (tester) async {
-        final puzzle = MockPuzzle();
         when(() => puzzle.sudoku).thenReturn(sudoku3x3);
         when(() => puzzle.difficulty).thenReturn(Difficulty.medium);
         when(() => puzzle.remainingMistakes).thenReturn(3);
-
-        final puzzleRepository = MockPuzzleRepository();
-        when(puzzleRepository.getPuzzle).thenReturn(puzzle);
 
         whenListen(
           homeBloc,
@@ -149,6 +166,7 @@ void main() {
         await tester.pumpApp(
           HomeView(),
           homeBloc: homeBloc,
+          puzzleBloc: puzzleBloc,
           puzzleRepository: puzzleRepository,
         );
         await tester.pumpAndSettle();
@@ -213,6 +231,23 @@ void main() {
           findsOneWidget,
         );
       });
+
+      testWidgets(
+        'adds [UnfinishedPuzzleResumed] when unfinishedPuzzle is not null',
+        (tester) async {
+          when(() => homeState.unfinishedPuzzle).thenReturn(puzzle);
+          when(() => homeBloc.state).thenReturn(homeState);
+
+          await tester.pumpApp(HomeView(), homeBloc: homeBloc);
+          final finder = find.byKey(resumePuzzleElevatedButtonKey);
+
+          await tester.tap(finder);
+          await tester.pumpAndSettle();
+
+          expect(finder, findsOneWidget);
+          verify(() => homeBloc.add(UnfinishedPuzzleResumed())).called(1);
+        },
+      );
     });
 
     group('Create Game', () {

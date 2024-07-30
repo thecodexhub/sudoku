@@ -24,9 +24,13 @@
   "@resumeSudokuTitle": {
     "description": "Title shown in the Resume Sudoku card of the Home Page"
   },
-  "resumeSudokuSubtitle": "All clear! Start a new game.",
+  "resumeSudokuSubtitle": "Complete your last unsolved puzzle.",
   "@resumeSudokuSubtitle": {
     "description": "Subtitle shown in the Resume Sudoku card of the Home Page"
+  },
+  "resumeSudokuNoPuzzleSubtitle": "All clear! Start a new game.",
+  "@resumeSudokuNoPuzzleSubtitle": {
+    "description": "Subtitle shown when no unfinished puzzle in the Resume Sudoku card of the Home Page"
   },
   "createNewGameHeader": "New Game",
   "@createNewGameHeader": {

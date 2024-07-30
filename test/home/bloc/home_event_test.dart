@@ -21,5 +21,37 @@ void main() {
         );
       });
     });
+
+    group('UnfinishedPuzzleSubscriptionRequested', () {
+      test('supports value equality', () {
+        expect(
+          UnfinishedPuzzleSubscriptionRequested(),
+          equals(UnfinishedPuzzleSubscriptionRequested()),
+        );
+      });
+
+      test('props are correct', () {
+        expect(
+          UnfinishedPuzzleSubscriptionRequested().props,
+          equals(<Object?>[]),
+        );
+      });
+    });
+
+    group('UnfinishedPuzzleResumed', () {
+      test('supports value equality', () {
+        expect(
+          UnfinishedPuzzleResumed(),
+          equals(UnfinishedPuzzleResumed()),
+        );
+      });
+
+      test('props are correct', () {
+        expect(
+          UnfinishedPuzzleResumed().props,
+          equals(<Object?>[]),
+        );
+      });
+    });
   });
 }

@@ -3,6 +3,9 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:sudoku/home/home.dart';
 import 'package:sudoku/models/models.dart';
+import 'package:sudoku/puzzle/puzzle.dart';
+
+import '../../helpers/helpers.dart';
 
 void main() {
   group('HomeState', () {
@@ -10,12 +13,14 @@ void main() {
       Difficulty? difficulty,
       SudokuCreationStatus? sudokuCreationStatus,
       SudokuCreationErrorType? sudokuCreationError,
+      Puzzle? unfinishedPuzzle,
     }) {
       return HomeState(
         difficulty: difficulty,
         sudokuCreationStatus:
             sudokuCreationStatus ?? SudokuCreationStatus.initial,
         sudokuCreationError: sudokuCreationError,
+        unfinishedPuzzle: unfinishedPuzzle,
       );
     }
 
@@ -30,6 +35,7 @@ void main() {
           <Object?>[
             null,
             SudokuCreationStatus.initial,
+            null,
             null,
           ],
         ),
@@ -47,23 +53,27 @@ void main() {
             difficulty: null,
             sudokuCreationStatus: null,
             sudokuCreationError: null,
+            unfinishedPuzzle: null,
           ),
           equals(createSubject()),
         );
       });
 
       test('returns the updated copy of this for every non-null parameter', () {
+        final puzzle = MockPuzzle();
         expect(
           createSubject().copyWith(
             difficulty: () => Difficulty.expert,
             sudokuCreationStatus: () => SudokuCreationStatus.inProgress,
             sudokuCreationError: () => SudokuCreationErrorType.unexpected,
+            unfinishedPuzzle: () => puzzle,
           ),
           equals(
             createSubject(
               difficulty: Difficulty.expert,
               sudokuCreationStatus: SudokuCreationStatus.inProgress,
               sudokuCreationError: SudokuCreationErrorType.unexpected,
+              unfinishedPuzzle: puzzle,
             ),
           ),
         );
@@ -75,11 +85,13 @@ void main() {
         createSubject().copyWith(
           difficulty: () => null,
           sudokuCreationError: () => null,
+          unfinishedPuzzle: () => null,
         ),
         equals(
           createSubject(
             difficulty: null,
             sudokuCreationError: null,
+            unfinishedPuzzle: null,
           ),
         ),
       );

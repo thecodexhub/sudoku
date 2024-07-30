@@ -27,9 +27,12 @@ class PuzzlePage extends StatelessWidget {
           )..add(const PuzzleInitialized()),
         ),
         BlocProvider<TimerBloc>(
-          create: (context) => TimerBloc(
-            ticker: const Ticker(),
-          )..add(const TimerStarted()),
+          create: (context) {
+            final puzzle = context.read<PuzzleBloc>().state.puzzle;
+            return TimerBloc(
+              ticker: const Ticker(),
+            )..add(TimerStarted(puzzle.totalSecondsElapsed));
+          },
         ),
       ],
       child: const PuzzleView(),
@@ -68,18 +71,30 @@ class PuzzleView extends StatelessWidget {
           );
         }
       },
-      child: Scaffold(
-        extendBodyBehindAppBar: true,
-        appBar: AppBar(
-          backgroundColor: Colors.transparent,
-          elevation: 0,
-          scrolledUnderElevation: 0,
-          systemOverlayStyle: theme.brightness == Brightness.light
-              ? SystemUiOverlayStyle.dark
-              : SystemUiOverlayStyle.light,
-        ),
-        body: const SudokuBackground(
-          child: PuzzleViewLayout(),
+      child: PopScope(
+        onPopInvoked: (_) {
+          final puzzleStatus = context.read<PuzzleBloc>().state.puzzleStatus;
+          if (puzzleStatus == PuzzleStatus.incomplete) {
+            context.read<PuzzleBloc>().add(
+                  UnfinishedPuzzleSaveRequested(
+                    context.read<TimerBloc>().state.secondsElapsed,
+                  ),
+                );
+          }
+        },
+        child: Scaffold(
+          extendBodyBehindAppBar: true,
+          appBar: AppBar(
+            backgroundColor: Colors.transparent,
+            elevation: 0,
+            scrolledUnderElevation: 0,
+            systemOverlayStyle: theme.brightness == Brightness.light
+                ? SystemUiOverlayStyle.dark
+                : SystemUiOverlayStyle.light,
+          ),
+          body: const SudokuBackground(
+            child: PuzzleViewLayout(),
+          ),
         ),
       ),
     );

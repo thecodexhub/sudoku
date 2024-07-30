@@ -14,6 +14,8 @@ class _FakeBlock extends Fake implements Block {}
 
 class _FakeSudoku extends Fake implements Sudoku {}
 
+class _FakePuzzle extends Fake implements Puzzle {}
+
 void main() {
   group('PuzzleBloc', () {
     late Block block;
@@ -35,12 +37,16 @@ void main() {
 
       when(() => sudoku.blocksToHighlight(any())).thenReturn([block]);
       when(() => puzzle.sudoku).thenReturn(sudoku);
-      when(() => repository.getPuzzle()).thenReturn(puzzle);
+      when(() => repository.fetchPuzzleFromCache()).thenReturn(puzzle);
+      when(
+        () => repository.storePuzzleInLocalMemory(puzzle: any(named: 'puzzle')),
+      ).thenAnswer((_) async {});
     });
 
     setUpAll(() {
       registerFallbackValue(_FakeBlock());
       registerFallbackValue(_FakeSudoku());
+      registerFallbackValue(_FakePuzzle());
     });
 
     PuzzleBloc buildBloc() {
@@ -67,7 +73,7 @@ void main() {
           PuzzleState(puzzle: puzzle),
         ],
         verify: (_) {
-          verify(() => repository.getPuzzle()).called(1);
+          verify(() => repository.fetchPuzzleFromCache()).called(1);
         },
       );
     });
@@ -401,6 +407,46 @@ void main() {
             hintStatus: HintStatus.interactionEnded,
             selectedBlock: sudoku3x3.blocks[0],
             hint: hint,
+          ),
+        ],
+      );
+    });
+
+    group('UnfinishedPuzzleSaveRequested', () {
+      blocTest<PuzzleBloc, PuzzleState>(
+        'calls the storePuzzleInLocalMemory method from PuzzleRepository',
+        build: buildBloc,
+        act: (bloc) => bloc.add(UnfinishedPuzzleSaveRequested(12)),
+        seed: () => PuzzleState(
+          puzzle: Puzzle(sudoku: sudoku3x3, difficulty: Difficulty.easy),
+        ),
+        verify: (_) {
+          verify(
+            () => repository.storePuzzleInLocalMemory(
+              puzzle: Puzzle(
+                sudoku: sudoku3x3,
+                difficulty: Difficulty.easy,
+                totalSecondsElapsed: 12,
+              ),
+            ),
+          ).called(1);
+        },
+      );
+
+      blocTest<PuzzleBloc, PuzzleState>(
+        'emits new state with updated totalSecondsElapsed',
+        build: buildBloc,
+        act: (bloc) => bloc.add(UnfinishedPuzzleSaveRequested(12)),
+        seed: () => PuzzleState(
+          puzzle: Puzzle(sudoku: sudoku3x3, difficulty: Difficulty.easy),
+        ),
+        expect: () => [
+          PuzzleState(
+            puzzle: Puzzle(
+              sudoku: sudoku3x3,
+              difficulty: Difficulty.easy,
+              totalSecondsElapsed: 12,
+            ),
           ),
         ],
       );

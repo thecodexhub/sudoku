@@ -8,6 +8,7 @@ import 'package:sudoku/home/home.dart';
 import 'package:sudoku/models/models.dart';
 import 'package:sudoku/puzzle/puzzle.dart';
 import 'package:sudoku/repository/repository.dart';
+import 'package:sudoku/storage/storage.dart';
 import 'package:sudoku/timer/timer.dart';
 
 class MockSudoku extends Mock implements Sudoku {}
@@ -24,6 +25,8 @@ class MockTimerBloc extends MockBloc<TimerEvent, TimerState>
 class MockSudokuAPI extends Mock implements SudokuAPI {}
 
 class MockHomeBloc extends MockBloc<HomeEvent, HomeState> implements HomeBloc {}
+
+class MockHomeState extends Mock implements HomeState {}
 
 class MockDio extends Mock implements Dio {}
 
@@ -43,3 +46,5 @@ class MockSharedPreferences extends Mock implements SharedPreferences {}
 class MockHint extends Mock implements Hint {}
 
 class MockTimerState extends Mock implements TimerState {}
+
+class MockStorageAPI extends Mock implements StorageAPI {}

@@ -10,23 +10,27 @@ class HomeState extends Equatable {
     this.difficulty,
     this.sudokuCreationStatus = SudokuCreationStatus.initial,
     this.sudokuCreationError,
+    this.unfinishedPuzzle,
   });
 
   final Difficulty? difficulty;
   final SudokuCreationStatus sudokuCreationStatus;
   final SudokuCreationErrorType? sudokuCreationError;
+  final Puzzle? unfinishedPuzzle;
 
   @override
   List<Object?> get props => [
         difficulty,
         sudokuCreationStatus,
         sudokuCreationError,
+        unfinishedPuzzle,
       ];
 
   HomeState copyWith({
     Difficulty? Function()? difficulty,
     SudokuCreationStatus Function()? sudokuCreationStatus,
     SudokuCreationErrorType? Function()? sudokuCreationError,
+    Puzzle? Function()? unfinishedPuzzle,
   }) {
     return HomeState(
       difficulty: difficulty != null ? difficulty() : this.difficulty,
@@ -36,6 +40,8 @@ class HomeState extends Equatable {
       sudokuCreationError: sudokuCreationError != null
           ? sudokuCreationError()
           : this.sudokuCreationError,
+      unfinishedPuzzle:
+          unfinishedPuzzle != null ? unfinishedPuzzle() : this.unfinishedPuzzle,
     );
   }
 }

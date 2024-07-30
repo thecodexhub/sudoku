@@ -18,6 +18,8 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         _puzzleRepository = puzzleRepository,
         super(const HomeState()) {
     on<SudokuCreationRequested>(_onSudokuCreationRequested);
+    on<UnfinishedPuzzleSubscriptionRequested>(_onSubscriptionRequested);
+    on<UnfinishedPuzzleResumed>(_onUnfinishedPuzzleResumed);
   }
 
   final SudokuAPI _apiClient;
@@ -39,7 +41,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       final sudoku = await _apiClient.createSudoku(
         difficulty: event.difficulty,
       );
-      _puzzleRepository.storePuzzle(
+      _puzzleRepository.savePuzzleToCache(
         puzzle: Puzzle(sudoku: sudoku, difficulty: event.difficulty),
       );
       emit(
@@ -69,5 +71,47 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         ),
       );
     }
+  }
+
+  FutureOr<void> _onSubscriptionRequested(
+    UnfinishedPuzzleSubscriptionRequested event,
+    Emitter<HomeState> emit,
+  ) async {
+    await emit.forEach(
+      _puzzleRepository.getPuzzleFromLocalMemory(),
+      onData: (puzzle) {
+        return state.copyWith(
+          unfinishedPuzzle: () => puzzle,
+        );
+      },
+      onError: (_, __) => state.copyWith(
+        unfinishedPuzzle: () => null,
+      ),
+    );
+  }
+
+  void _onUnfinishedPuzzleResumed(
+    UnfinishedPuzzleResumed event,
+    Emitter<HomeState> emit,
+  ) {
+    final unfinishedPuzzle = state.unfinishedPuzzle;
+    if (unfinishedPuzzle == null) return;
+
+    emit(
+      state.copyWith(
+        sudokuCreationStatus: () => SudokuCreationStatus.inProgress,
+      ),
+    );
+    // Save the unfinished puzzle to the local cache, to be picked up by
+    // PuzzleBloc, and at the same time, remove the unfinished saved puzzle
+    // from local storage.
+    _puzzleRepository
+      ..savePuzzleToCache(puzzle: unfinishedPuzzle)
+      ..clearPuzzleInLocalMemory();
+    emit(
+      state.copyWith(
+        sudokuCreationStatus: () => SudokuCreationStatus.completed,
+      ),
+    );
   }
 }

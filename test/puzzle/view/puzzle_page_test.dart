@@ -3,6 +3,7 @@
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mockingjay/mockingjay.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:sudoku/models/models.dart';
 import 'package:sudoku/puzzle/puzzle.dart';
@@ -31,7 +32,7 @@ void main() {
       when(() => puzzle.difficulty).thenReturn(Difficulty.medium);
       when(() => puzzle.remainingMistakes).thenReturn(3);
 
-      when(() => puzzleRepository.getPuzzle()).thenReturn(puzzle);
+      when(() => puzzleRepository.fetchPuzzleFromCache()).thenReturn(puzzle);
 
       when(() => timerState.secondsElapsed).thenReturn(167);
       when(() => timerState.isRunning).thenReturn(true);
@@ -128,6 +129,90 @@ void main() {
 
         expect(find.byType(GameOverDialog), findsOneWidget);
         verify(() => timerBloc.add(TimerStopped())).called(1);
+      },
+    );
+  });
+
+  group('PuzzleView', () {
+    late Sudoku sudoku;
+    late Puzzle puzzle;
+    late PuzzleState puzzleState;
+    late PuzzleBloc puzzleBloc;
+
+    late TimerBloc timerBloc;
+    late TimerState timerState;
+
+    setUp(() {
+      sudoku = MockSudoku();
+      puzzle = MockPuzzle();
+      puzzleState = MockPuzzleState();
+      puzzleBloc = MockPuzzleBloc();
+
+      timerState = MockTimerState();
+      timerBloc = MockTimerBloc();
+
+      when(() => sudoku.getDimesion()).thenReturn(3);
+      when(() => sudoku.blocks).thenReturn([]);
+
+      when(() => puzzle.sudoku).thenReturn(sudoku);
+      when(() => puzzle.difficulty).thenReturn(Difficulty.medium);
+      when(() => puzzle.remainingMistakes).thenReturn(2);
+
+      when(() => puzzleState.puzzle).thenReturn(puzzle);
+      when(() => puzzleState.puzzleStatus).thenReturn(PuzzleStatus.failed);
+      when(() => puzzleBloc.state).thenReturn(puzzleState);
+
+      when(() => timerState.secondsElapsed).thenReturn(167);
+      when(() => timerState.isRunning).thenReturn(true);
+      when(() => timerBloc.state).thenReturn(timerState);
+    });
+
+    testWidgets('renders with a [PopScope] widget', (tester) async {
+      await tester.pumpApp(
+        PuzzleView(),
+        puzzleBloc: puzzleBloc,
+        timerBloc: timerBloc,
+      );
+      final finder = find.byType(PopScope);
+      expect(finder, findsOneWidget);
+    });
+
+    testWidgets(
+      'does not add [UnfinishedPuzzleSaveRequested] when puzzle '
+      'status is not incomplete',
+      (tester) async {
+        await tester.pumpApp(
+          PuzzleView(),
+          puzzleBloc: puzzleBloc,
+          timerBloc: timerBloc,
+        );
+
+        final finder = find.byType(PopScope);
+        Navigator.pop(tester.element(finder));
+
+        verifyNever(() => puzzleBloc.add(UnfinishedPuzzleSaveRequested(167)));
+      },
+    );
+
+    testWidgets(
+      'adds [UnfinishedPuzzleSaveRequested] when puzzle status is incomplete',
+      (tester) async {
+        when(() => puzzleState.puzzleStatus).thenReturn(
+          PuzzleStatus.incomplete,
+        );
+
+        await tester.pumpApp(
+          PuzzleView(),
+          puzzleBloc: puzzleBloc,
+          timerBloc: timerBloc,
+        );
+
+        final finder = find.byType(PopScope);
+        Navigator.pop(tester.element(finder));
+
+        verify(
+          () => puzzleBloc.add(UnfinishedPuzzleSaveRequested(167)),
+        ).called(1);
       },
     );
   });

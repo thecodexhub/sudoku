@@ -27,7 +27,7 @@ class HomePage extends StatelessWidget {
       create: (context) => HomeBloc(
         apiClient: context.read<SudokuAPI>(),
         puzzleRepository: context.read<PuzzleRepository>(),
-      ),
+      )..add(const UnfinishedPuzzleSubscriptionRequested()),
       child: const HomeView(),
     );
   }
@@ -278,6 +278,10 @@ class HighlightedSection extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = context.l10n;
 
+    final unfinishedPuzzle = context.select(
+      (HomeBloc bloc) => bloc.state.unfinishedPuzzle,
+    );
+
     final dailyChallengeWidget = HighlightedSectionItem(
       key: const Key('daily_challenge_widget'),
       elevatedButtonkey: const Key('daily_challenge_widget_elevated_button'),
@@ -293,9 +297,13 @@ class HighlightedSection extends StatelessWidget {
       elevatedButtonkey: const Key('resume_puzzle_widget_elevated_button'),
       iconAsset: Assets.unfinishedPuzzleIcon,
       title: l10n.resumeSudokuTitle,
-      subtitle: l10n.resumeSudokuSubtitle,
+      subtitle: unfinishedPuzzle != null
+          ? l10n.resumeSudokuSubtitle
+          : l10n.resumeSudokuNoPuzzleSubtitle,
       buttonText: 'Resume',
-      onButtonPressed: null,
+      onButtonPressed: unfinishedPuzzle != null
+          ? () => context.read<HomeBloc>().add(const UnfinishedPuzzleResumed())
+          : null,
     );
 
     return ResponsiveLayoutBuilder(

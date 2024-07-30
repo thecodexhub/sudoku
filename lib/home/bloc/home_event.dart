@@ -2,6 +2,9 @@ part of 'home_bloc.dart';
 
 sealed class HomeEvent extends Equatable {
   const HomeEvent();
+
+  @override
+  List<Object?> get props => [];
 }
 
 final class SudokuCreationRequested extends HomeEvent {
@@ -11,4 +14,12 @@ final class SudokuCreationRequested extends HomeEvent {
 
   @override
   List<Object?> get props => [difficulty];
+}
+
+final class UnfinishedPuzzleSubscriptionRequested extends HomeEvent {
+  const UnfinishedPuzzleSubscriptionRequested();
+}
+
+final class UnfinishedPuzzleResumed extends HomeEvent {
+  const UnfinishedPuzzleResumed();
 }

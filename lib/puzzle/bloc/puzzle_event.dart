@@ -40,3 +40,12 @@ final class SudokuHintRequested extends PuzzleEvent {
 final class HintInteractioCompleted extends PuzzleEvent {
   const HintInteractioCompleted();
 }
+
+final class UnfinishedPuzzleSaveRequested extends PuzzleEvent {
+  const UnfinishedPuzzleSaveRequested(this.elapsedSeconds);
+
+  final int elapsedSeconds;
+
+  @override
+  List<Object> get props => [elapsedSeconds];
+}
