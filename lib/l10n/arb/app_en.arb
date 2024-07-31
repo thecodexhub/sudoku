@@ -110,7 +110,7 @@
   "@puzzleAppBarSudoku": {
     "description": "Text shown in app bar of the Puzzle Page"
   },
-  "eraseInputButtonText": "Erase number",
+  "eraseInputButtonText": "X",
   "@eraseInputButtonText": {
     "description": "Text shown in the input erase button in Puzzle Page"
   },

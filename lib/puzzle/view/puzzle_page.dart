@@ -155,7 +155,7 @@ class PuzzleViewLayout extends StatelessWidget {
                           ),
                           ResponsiveGap(large: 32),
                           SudokuInputView(),
-                          SizedBox(height: 32),
+                          SizedBox(height: 8),
                           InputEraseViewForLargeLayout(),
                         ],
                       ),
@@ -227,30 +227,44 @@ class InputEraseViewForLargeLayout extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
+    final theme = Theme.of(context);
+
+    const gradient = LinearGradient(
+      colors: [
+        SudokuColors.darkPurple,
+        SudokuColors.darkPink,
+      ],
+      begin: Alignment.bottomLeft,
+      end: Alignment.topRight,
+    );
 
     return GestureDetector(
       onTap: () => context.read<PuzzleBloc>().add(const SudokuInputErased()),
       child: SizedBox(
-        width: SudokuInputSize.large * 3,
-        height: 56,
+        width: SudokuInputSize.large - 16,
+        height: SudokuInputSize.large - 16,
+        // height: 56,
         child: DecoratedBox(
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(14),
-            gradient: const LinearGradient(
-              colors: [
-                SudokuColors.darkPurple,
-                SudokuColors.darkPink,
-              ],
-              begin: Alignment.bottomLeft,
-              end: Alignment.topRight,
+            borderRadius: BorderRadius.circular(12),
+            border: Border.all(
+              color: theme.dividerColor,
+              width: 1.4,
             ),
           ),
           child: Center(
-            child: Text(
-              l10n.eraseInputButtonText,
-              textAlign: TextAlign.center,
-              style: SudokuTextStyle.button.copyWith(
-                color: Colors.white,
+            child: ShaderMask(
+              blendMode: BlendMode.srcIn,
+              shaderCallback: (bounds) => gradient.createShader(
+                Rect.fromLTWH(0, 0, bounds.width, bounds.height),
+              ),
+              child: Text(
+                l10n.eraseInputButtonText,
+                textAlign: TextAlign.center,
+                style: SudokuTextStyle.button.copyWith(
+                  fontWeight: SudokuFontWeight.semiBold,
+                  fontSize: 26,
+                ),
               ),
             ),
           ),
