@@ -69,4 +69,8 @@ extension HintStatusExtension on HintStatus {
   bool get isInteractionEnded {
     return this == HintStatus.interactionEnded;
   }
+
+  bool get successOrFailed {
+    return this == HintStatus.fetchSuccess || this == HintStatus.fetchFailed;
+  }
 }

@@ -10,8 +10,12 @@ class SudokuElevatedButton extends StatelessWidget {
   const SudokuElevatedButton({
     required this.buttonText,
     required this.onPressed,
+    this.height = 36,
     super.key,
   });
+
+  /// The height of the elevated button. Defaults to 36.
+  final double height;
 
   /// Text to be shown in the button.
   final String buttonText;
@@ -24,7 +28,7 @@ class SudokuElevatedButton extends StatelessWidget {
     final theme = Theme.of(context);
 
     return SizedBox(
-      height: 36,
+      height: height,
       width: double.infinity,
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(

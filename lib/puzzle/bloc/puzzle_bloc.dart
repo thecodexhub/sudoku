@@ -148,11 +148,25 @@ class PuzzleBloc extends Bloc<PuzzleEvent, PuzzleState> {
 
     try {
       final hint = await _apiClient.generateHint(sudoku: state.puzzle.sudoku);
+
       final selectedBlock = state.puzzle.sudoku.blocks.firstWhere(
         (block) => block.position == hint.cell,
       );
-      final highlightedBlocks =
-          state.puzzle.sudoku.blocksToHighlight(selectedBlock);
+
+      // If the hint was generated for a pre-filled block.
+      if (selectedBlock.isGenerated) {
+        emit(
+          state.copyWith(
+            hintStatus: () => HintStatus.fetchFailed,
+          ),
+        );
+        return;
+      }
+
+      final highlightedBlocks = state.puzzle.sudoku.blocksToHighlight(
+        selectedBlock,
+      );
+
       emit(
         state.copyWith(
           puzzle: () => state.puzzle.copyWith(

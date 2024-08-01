@@ -323,6 +323,39 @@ void main() {
       );
 
       blocTest<PuzzleBloc, PuzzleState>(
+        'emits a new state with failed status when api was succesful but '
+        'hint was generated for a block that is [isGenerated]',
+        build: buildBloc,
+        setUp: () {
+          puzzle = Puzzle(sudoku: sudoku3x3, difficulty: Difficulty.medium);
+          // This is a generated block.
+          when(() => hint.cell).thenReturn(Position(x: 0, y: 2));
+          when(() => apiClient.generateHint(sudoku: any(named: 'sudoku')))
+              .thenAnswer((_) async => hint);
+        },
+        seed: () => PuzzleState(puzzle: puzzle),
+        act: (bloc) => bloc.add(SudokuHintRequested()),
+        expect: () => [
+          PuzzleState(
+            puzzle: puzzle,
+            puzzleStatus: PuzzleStatus.incomplete,
+            hintStatus: HintStatus.fetchInProgress,
+            highlightedBlocks: const [],
+            selectedBlock: null,
+            hint: null,
+          ),
+          PuzzleState(
+            puzzle: puzzle,
+            puzzleStatus: PuzzleStatus.incomplete,
+            hintStatus: HintStatus.fetchFailed,
+          ),
+        ],
+        verify: (_) {
+          verify(() => apiClient.generateHint(sudoku: sudoku3x3)).called(1);
+        },
+      );
+
+      blocTest<PuzzleBloc, PuzzleState>(
         'emits a new state with failed hint status when api fails',
         build: buildBloc,
         setUp: () {

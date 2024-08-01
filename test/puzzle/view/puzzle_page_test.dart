@@ -31,6 +31,7 @@ void main() {
       when(() => puzzle.sudoku).thenReturn(sudoku3x3);
       when(() => puzzle.difficulty).thenReturn(Difficulty.medium);
       when(() => puzzle.remainingMistakes).thenReturn(3);
+      when(() => puzzle.remainingHints).thenReturn(3);
 
       when(() => puzzleRepository.fetchPuzzleFromCache()).thenReturn(puzzle);
 
@@ -157,9 +158,11 @@ void main() {
       when(() => puzzle.sudoku).thenReturn(sudoku);
       when(() => puzzle.difficulty).thenReturn(Difficulty.medium);
       when(() => puzzle.remainingMistakes).thenReturn(2);
+      when(() => puzzle.remainingHints).thenReturn(2);
 
       when(() => puzzleState.puzzle).thenReturn(puzzle);
       when(() => puzzleState.puzzleStatus).thenReturn(PuzzleStatus.failed);
+      when(() => puzzleState.hintStatus).thenReturn(HintStatus.initial);
       when(() => puzzleBloc.state).thenReturn(puzzleState);
 
       when(() => timerState.secondsElapsed).thenReturn(167);
@@ -272,11 +275,11 @@ void main() {
       when(() => puzzle.sudoku).thenReturn(sudoku);
       when(() => puzzle.difficulty).thenReturn(Difficulty.medium);
       when(() => puzzle.remainingMistakes).thenReturn(3);
+      when(() => puzzle.remainingHints).thenReturn(3);
 
       when(() => puzzleState.puzzle).thenReturn(puzzle);
-      when(() => puzzleState.puzzleStatus).thenReturn(
-        PuzzleStatus.incomplete,
-      );
+      when(() => puzzleState.puzzleStatus).thenReturn(PuzzleStatus.incomplete);
+      when(() => puzzleState.hintStatus).thenReturn(HintStatus.initial);
       when(() => puzzleBloc.state).thenReturn(puzzleState);
 
       when(() => timerBloc.state).thenReturn(

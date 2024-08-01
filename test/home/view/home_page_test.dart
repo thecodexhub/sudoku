@@ -146,6 +146,7 @@ void main() {
         when(() => puzzle.sudoku).thenReturn(sudoku3x3);
         when(() => puzzle.difficulty).thenReturn(Difficulty.medium);
         when(() => puzzle.remainingMistakes).thenReturn(3);
+        when(() => puzzle.remainingHints).thenReturn(3);
 
         whenListen(
           homeBloc,

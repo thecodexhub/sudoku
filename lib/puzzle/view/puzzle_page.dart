@@ -135,7 +135,9 @@ class PuzzleViewLayout extends StatelessWidget {
               child: Column(
                 children: [
                   PageHeader(),
-                  ResponsiveGap(large: 96),
+                  ResponsiveGap(large: 48),
+                  HintPanel(),
+                  ResponsiveGap(large: 48),
                   Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
@@ -157,6 +159,8 @@ class PuzzleViewLayout extends StatelessWidget {
                           SudokuInputView(),
                           SizedBox(height: 8),
                           InputEraseViewForLargeLayout(),
+                          SizedBox(height: 32),
+                          AskHintButton(),
                         ],
                       ),
                     ],
@@ -212,6 +216,18 @@ class PuzzleViewLayout extends StatelessWidget {
                   large: 32,
                 ),
                 const SudokuInputView(),
+                const ResponsiveGap(
+                  small: 16,
+                  medium: 24,
+                  large: 32,
+                ),
+                const AskHintButton(),
+                const ResponsiveGap(
+                  small: 16,
+                  medium: 24,
+                  large: 32,
+                ),
+                const HintPanel(),
               ],
             ),
           ),
