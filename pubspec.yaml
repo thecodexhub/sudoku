@@ -34,7 +34,7 @@ dev_dependencies:
   json_serializable: ^6.8.0
   mockingjay: ^0.5.0
   mocktail: ^1.0.3
-  very_good_analysis: ^5.1.0
+  very_good_analysis: ^6.0.0
 
 flutter:
   uses-material-design: true
