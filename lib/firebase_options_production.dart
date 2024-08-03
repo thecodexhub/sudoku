@@ -72,5 +72,4 @@ class DefaultFirebaseOptions {
     storageBucket: 'sudoku-gemini.appspot.com',
     iosBundleId: 'dev.thecodexhub.sudoku',
   );
-
 }

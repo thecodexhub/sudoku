@@ -64,7 +64,7 @@ For more details on how to add strings, supported locales, and translations into
 ## Important Links 🔗
 
 - Flutter Flavors Setup with multiple Firebase Environments using FlutterFire - [Article from Andrea Bizzotto][flavours_flutterfire]
-- Gradle Error:Execution failed for task ':app:processDebugGoogleServices' - [Stackoverflow Answer][gradle_error_google_services]
+- Gradle Error:Execution failed for task ':app:processDebugGoogleServices' - [Stack Overflow Answer][gradle_error_google_services]
 - Execution failed for task ':app:checkDebugDuplicateClasses' - [Flutter GiHub Issue][debug_duplicate_classes]
 
 [coverage_badge]: coverage_badge.svg
