@@ -114,3 +114,7 @@ app.*.map.json
 # Environment variables
 .env
 env.g.dart
+
+# GoogleService-Info.plist and google-services.json
+ios/Runner/GoogleService-Info.plist
+android/app/google-services.json
