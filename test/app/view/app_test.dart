@@ -13,11 +13,14 @@ void main() {
     late Puzzle puzzle;
     late SudokuAPI apiClient;
     late PuzzleRepository puzzleRepository;
+    late AuthenticationRepository authenticationRepository;
 
     setUp(() {
       puzzle = MockPuzzle();
       apiClient = MockSudokuAPI();
+
       puzzleRepository = MockPuzzleRepository();
+      authenticationRepository = MockAuthenticationRepository();
 
       when(() => puzzleRepository.getPuzzleFromLocalMemory()).thenAnswer(
         (_) => Stream.value(puzzle),
@@ -29,6 +32,7 @@ void main() {
         App(
           apiClient: apiClient,
           puzzleRepository: puzzleRepository,
+          authenticationRepository: authenticationRepository,
         ),
       );
       expect(find.byType(HomePage), findsOneWidget);

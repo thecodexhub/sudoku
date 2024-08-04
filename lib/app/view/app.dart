@@ -11,12 +11,15 @@ class App extends StatelessWidget {
   const App({
     required SudokuAPI apiClient,
     required PuzzleRepository puzzleRepository,
+    required AuthenticationRepository authenticationRepository,
     super.key,
   })  : _apiClient = apiClient,
-        _puzzleRepository = puzzleRepository;
+        _puzzleRepository = puzzleRepository,
+        _authenticationRepository = authenticationRepository;
 
   final SudokuAPI _apiClient;
   final PuzzleRepository _puzzleRepository;
+  final AuthenticationRepository _authenticationRepository;
 
   @override
   Widget build(BuildContext context) {
@@ -27,6 +30,9 @@ class App extends StatelessWidget {
         ),
         RepositoryProvider<PuzzleRepository>.value(
           value: _puzzleRepository,
+        ),
+        RepositoryProvider<AuthenticationRepository>.value(
+          value: _authenticationRepository,
         ),
       ],
       child: const AppView(),

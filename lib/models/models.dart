@@ -5,3 +5,4 @@ export 'json_map.dart';
 export 'position.dart';
 export 'sudoku.dart';
 export 'ticker.dart';
+export 'user.dart';

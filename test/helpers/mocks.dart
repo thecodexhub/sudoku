@@ -1,6 +1,9 @@
 import 'package:bloc_test/bloc_test.dart';
 import 'package:dio/dio.dart';
+import 'package:firebase_auth/firebase_auth.dart' as firebase_auth;
+import 'package:firebase_core_platform_interface/firebase_core_platform_interface.dart';
 import 'package:mocktail/mocktail.dart';
+import 'package:plugin_platform_interface/plugin_platform_interface.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sudoku/api/api.dart';
 import 'package:sudoku/cache/cache.dart';
@@ -48,3 +51,16 @@ class MockHint extends Mock implements Hint {}
 class MockTimerState extends Mock implements TimerState {}
 
 class MockStorageAPI extends Mock implements StorageAPI {}
+
+class MockAuthenticationRepository extends Mock
+    implements AuthenticationRepository {}
+
+class MockFirebaseAuth extends Mock implements firebase_auth.FirebaseAuth {}
+
+class MockFirebaseUser extends Mock implements firebase_auth.User {}
+
+class MockUserCredential extends Mock implements firebase_auth.UserCredential {}
+
+class MockFirebaseCore extends Mock
+    with MockPlatformInterfaceMixin
+    implements FirebasePlatform {}

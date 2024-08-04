@@ -16,6 +16,7 @@ extension PumpApp on WidgetTester {
     Widget widget, {
     SudokuAPI? apiClient,
     PuzzleRepository? puzzleRepository,
+    AuthenticationRepository? authenticationRepository,
     HomeBloc? homeBloc,
     TimerBloc? timerBloc,
     PuzzleBloc? puzzleBloc,
@@ -30,6 +31,9 @@ extension PumpApp on WidgetTester {
           ),
           RepositoryProvider<PuzzleRepository>.value(
             value: puzzleRepository ?? MockPuzzleRepository(),
+          ),
+          RepositoryProvider<AuthenticationRepository>.value(
+            value: authenticationRepository ?? MockAuthenticationRepository(),
           ),
         ],
         child: MultiBlocProvider(

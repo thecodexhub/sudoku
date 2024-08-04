@@ -2,14 +2,20 @@ import 'dart:async';
 import 'dart:developer';
 
 import 'package:bloc/bloc.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:sudoku/app_bloc_observer.dart';
 
+/// The type definition for the builder widget.
+typedef BootstrapBuilder = FutureOr<Widget> Function(
+  FirebaseAuth firebaseAuth,
+);
+
 /// Bootstrap is responsible for any common setup and calls
 /// [runApp] with the widget returned by [builder] in an error zone.
-Future<void> bootstrap(FutureOr<Widget> Function() builder) async {
+Future<void> bootstrap(BootstrapBuilder builder) async {
   // Add Open Font License (OFL) for Inter google font
   LicenseRegistry.addLicense(() async* {
     final license = await rootBundle.loadString('licenses/OFL.txt');
@@ -31,7 +37,7 @@ Future<void> bootstrap(FutureOr<Widget> Function() builder) async {
   await runZonedGuarded(
     () async {
       Bloc.observer = const AppBlocObserver();
-      runApp(await builder());
+      runApp(await builder(FirebaseAuth.instance));
     },
     (error, stackTrace) => log(error.toString(), stackTrace: stackTrace),
   );

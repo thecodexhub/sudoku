@@ -16,18 +16,31 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   await Firebase.initializeApp(
-    name: 'sudoku-gemini',
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
   unawaited(
-    bootstrap(() async {
+    bootstrap((firebaseAuth) async {
       final apiClient = SudokuDioClient(baseUrl: Env.apiBaseUrl);
       final cacheClient = CacheClient();
 
       final storageClient = LocalStorageClient(
         plugin: await SharedPreferences.getInstance(),
       );
+
+      final authenticationRepository = AuthenticationRepository(
+        cache: cacheClient,
+        firebaseAuth: firebaseAuth,
+      );
+
+      // Check if the user is already authenticated.
+      var user = await authenticationRepository.user.first;
+
+      // If the user is not already authenticated, authenticate anonymously.
+      if (user.isUnauthenticated) {
+        await authenticationRepository.signInAnonymously();
+        user = await authenticationRepository.user.first;
+      }
 
       final puzzleRepository = PuzzleRepository(
         cacheClient: cacheClient,
@@ -37,6 +50,7 @@ void main() async {
       return App(
         apiClient: apiClient,
         puzzleRepository: puzzleRepository,
+        authenticationRepository: authenticationRepository,
       );
     }),
   );

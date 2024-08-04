@@ -35,6 +35,25 @@ _\*Sudoku works on iOS, Android, and Web._
 
 ---
 
+## Setup 🧩
+
+The project is designed to be integrated with 3 different Firebase projects (dependeing upon flavor).
+
+> The default app instance can be initialized here simply by passing no "name" as an argument in both Dart & manual initialization flows. If you have a google-services.json file in your android project or a GoogleService-Info.plist file in your iOS+ project, it will automatically create a default (named "[DEFAULT]") app instance on the native platform. However, you will still need to call this method before using any FlutterFire plugins.
+
+Hence, every time you try to run the app in android or ios, you have to configure the `google-services.json` and/or `GoogleService-Info.plist`. To do that, choose the correct firebase project while running the below command(s):
+
+```sh
+# Development flavor
+flutterfire config --out=lib/firebase_options_development.dart --ios-bundle-id=dev.thecodexhub.sudoku.dev --android-app-id=dev.thecodexhub.sudoku.dev
+
+# Staging flavor
+flutterfire config --out=lib/firebase_options_staging.dart --ios-bundle-id=dev.thecodexhub.sudoku.stg --android-app-id=dev.thecodexhub.sudoku.stg
+
+# Production flavor
+flutterfire config --out=lib/firebase_options_production.dart --ios-bundle-id=dev.thecodexhub.sudoku --android-app-id=dev.thecodexhub.sudoku
+```
+
 ## Running Tests 🧪
 
 To run all unit and widget tests use the following command:
