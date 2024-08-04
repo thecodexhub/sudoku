@@ -37,7 +37,7 @@ _\*Sudoku works on iOS, Android, and Web._
 
 ## Setup 🧩
 
-The project is designed to be integrated with 3 different Firebase projects (dependeing upon flavor).
+The project is designed to be integrated with 3 different Firebase projects (depending upon flavor).
 
 > The default app instance can be initialized here simply by passing no "name" as an argument in both Dart & manual initialization flows. If you have a google-services.json file in your android project or a GoogleService-Info.plist file in your iOS+ project, it will automatically create a default (named "[DEFAULT]") app instance on the native platform. However, you will still need to call this method before using any FlutterFire plugins.
 

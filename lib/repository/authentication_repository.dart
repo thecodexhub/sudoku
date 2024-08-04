@@ -70,7 +70,7 @@ class AuthenticationRepository {
     }
   }
 
-  /// Signs out the current user which will emit 
+  /// Signs out the current user which will emit
   /// [User.unauthenticated] from the [user] stream.
   Future<void> signOut() async {
     await _firebaseAuth.signOut();
