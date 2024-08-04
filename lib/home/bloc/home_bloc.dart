@@ -14,16 +14,24 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   HomeBloc({
     required SudokuAPI apiClient,
     required PuzzleRepository puzzleRepository,
+    required AuthenticationRepository authenticationRepository,
+    required PlayerRepository playerRepository,
   })  : _apiClient = apiClient,
         _puzzleRepository = puzzleRepository,
+        _authenticationRepository = authenticationRepository,
+        _playerRepository = playerRepository,
         super(const HomeState()) {
     on<SudokuCreationRequested>(_onSudokuCreationRequested);
-    on<UnfinishedPuzzleSubscriptionRequested>(_onSubscriptionRequested);
+    on<UnfinishedPuzzleSubscriptionRequested>(_onPuzzleSubscriptionRequested);
     on<UnfinishedPuzzleResumed>(_onUnfinishedPuzzleResumed);
+    on<PlayerSubscriptionRequested>(_onPlayerSubscriptionRequested);
+    on<NewPuzzleAttempted>(_onNewPuzzleAttempted);
   }
 
   final SudokuAPI _apiClient;
   final PuzzleRepository _puzzleRepository;
+  final AuthenticationRepository _authenticationRepository;
+  final PlayerRepository _playerRepository;
 
   FutureOr<void> _onSudokuCreationRequested(
     SudokuCreationRequested event,
@@ -73,7 +81,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     }
   }
 
-  FutureOr<void> _onSubscriptionRequested(
+  FutureOr<void> _onPuzzleSubscriptionRequested(
     UnfinishedPuzzleSubscriptionRequested event,
     Emitter<HomeState> emit,
   ) async {
@@ -113,5 +121,32 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         sudokuCreationStatus: () => SudokuCreationStatus.completed,
       ),
     );
+  }
+
+  FutureOr<void> _onPlayerSubscriptionRequested(
+    PlayerSubscriptionRequested event,
+    Emitter<HomeState> emit,
+  ) async {
+    final userId = _authenticationRepository.currentUser.id;
+    await emit.forEach(
+      _playerRepository.getPlayer(userId),
+      onData: (player) => state.copyWith(
+        player: () => player,
+      ),
+      onError: (_, __) => state.copyWith(
+        player: () => Player.empty,
+      ),
+    );
+  }
+
+  FutureOr<void> _onNewPuzzleAttempted(
+    NewPuzzleAttempted event,
+    Emitter<HomeState> emit,
+  ) async {
+    final userId = _authenticationRepository.currentUser.id;
+    final updatedPlayer = state.player.updateAttemptCount(event.difficulty);
+    try {
+      await _playerRepository.updatePlayer(userId, updatedPlayer);
+    } catch (_) {}
   }
 }

@@ -53,5 +53,37 @@ void main() {
         );
       });
     });
+
+    group('PlayerSubscriptionRequested', () {
+      test('supports value equality', () {
+        expect(
+          PlayerSubscriptionRequested(),
+          equals(PlayerSubscriptionRequested()),
+        );
+      });
+
+      test('props are correct', () {
+        expect(
+          PlayerSubscriptionRequested().props,
+          equals(<Object?>[]),
+        );
+      });
+    });
+
+    group('NewPuzzleAttempted', () {
+      test('supports value equality', () {
+        expect(
+          NewPuzzleAttempted(Difficulty.easy),
+          equals(NewPuzzleAttempted(Difficulty.easy)),
+        );
+      });
+
+      test('props are correct', () {
+        expect(
+          NewPuzzleAttempted(Difficulty.easy).props,
+          equals(<Object?>[Difficulty.easy]),
+        );
+      });
+    });
   });
 }

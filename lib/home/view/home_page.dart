@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -26,8 +24,12 @@ class HomePage extends StatelessWidget {
     return BlocProvider<HomeBloc>(
       create: (context) => HomeBloc(
         apiClient: context.read<SudokuAPI>(),
+        authenticationRepository: context.read<AuthenticationRepository>(),
         puzzleRepository: context.read<PuzzleRepository>(),
-      )..add(const UnfinishedPuzzleSubscriptionRequested()),
+        playerRepository: context.read<PlayerRepository>(),
+      )
+        ..add(const UnfinishedPuzzleSubscriptionRequested())
+        ..add(const PlayerSubscriptionRequested()),
       child: const HomeView(),
     );
   }
@@ -282,16 +284,6 @@ class HighlightedSection extends StatelessWidget {
       (HomeBloc bloc) => bloc.state.unfinishedPuzzle,
     );
 
-    final dailyChallengeWidget = HighlightedSectionItem(
-      key: const Key('daily_challenge_widget'),
-      elevatedButtonkey: const Key('daily_challenge_widget_elevated_button'),
-      iconAsset: Assets.dailyChallengeIcon,
-      title: l10n.dailyChallengeTitle,
-      subtitle: l10n.dailyChallengeSubtitle,
-      buttonText: 'Play',
-      onButtonPressed: () => log('daily_challenge'),
-    );
-
     final resumePuzzleWidget = HighlightedSectionItem(
       key: const Key('resume_puzzle_widget'),
       elevatedButtonkey: const Key('resume_puzzle_widget_elevated_button'),
@@ -313,7 +305,7 @@ class HighlightedSection extends StatelessWidget {
         ),
         child: Row(
           children: [
-            Expanded(child: dailyChallengeWidget),
+            const Expanded(child: PlayerInfoWidget()),
             const SizedBox(width: 16),
             Expanded(child: resumePuzzleWidget),
           ],
@@ -328,7 +320,7 @@ class HighlightedSection extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              dailyChallengeWidget,
+              const PlayerInfoWidget(),
               const SizedBox(height: 24),
               resumePuzzleWidget,
             ],
@@ -339,7 +331,7 @@ class HighlightedSection extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 32),
         child: Row(
           children: [
-            Expanded(child: dailyChallengeWidget),
+            const Expanded(child: PlayerInfoWidget()),
             const SizedBox(width: 32),
             Expanded(child: resumePuzzleWidget),
           ],
@@ -537,9 +529,11 @@ class CreateGameSection extends StatelessWidget {
         iconAsset: Assets.easyPuzzleIcon,
         title: l10n.createEasyGameTitle,
         caption: l10n.createEasyGameCaption,
-        onButtonPressed: () => context.read<HomeBloc>().add(
-              const SudokuCreationRequested(Difficulty.easy),
-            ),
+        onButtonPressed: () {
+          context.read<HomeBloc>()
+            ..add(const SudokuCreationRequested(Difficulty.easy))
+            ..add(const NewPuzzleAttempted(Difficulty.easy));
+        },
       ),
       CreateGameSectionItem(
         key: const Key('create_game_medium_mode'),
@@ -547,9 +541,11 @@ class CreateGameSection extends StatelessWidget {
         iconAsset: Assets.mediumPuzzleIcon,
         title: l10n.createMediumGameTitle,
         caption: l10n.createMediumGameCaption,
-        onButtonPressed: () => context.read<HomeBloc>().add(
-              const SudokuCreationRequested(Difficulty.medium),
-            ),
+        onButtonPressed: () {
+          context.read<HomeBloc>()
+            ..add(const SudokuCreationRequested(Difficulty.medium))
+            ..add(const NewPuzzleAttempted(Difficulty.medium));
+        },
       ),
       CreateGameSectionItem(
         key: const Key('create_game_difficult_mode'),
@@ -557,9 +553,11 @@ class CreateGameSection extends StatelessWidget {
         iconAsset: Assets.difficultPuzzleIcon,
         title: l10n.createDifficultGameTitle,
         caption: l10n.createDifficultGameCaption,
-        onButtonPressed: () => context.read<HomeBloc>().add(
-              const SudokuCreationRequested(Difficulty.difficult),
-            ),
+        onButtonPressed: () {
+          context.read<HomeBloc>()
+            ..add(const SudokuCreationRequested(Difficulty.difficult))
+            ..add(const NewPuzzleAttempted(Difficulty.difficult));
+        },
       ),
       CreateGameSectionItem(
         key: const Key('create_game_expert_mode'),
@@ -567,9 +565,11 @@ class CreateGameSection extends StatelessWidget {
         iconAsset: Assets.expertPuzzleIcon,
         title: l10n.createExpertGameTitle,
         caption: l10n.createExpertGameCaption,
-        onButtonPressed: () => context.read<HomeBloc>().add(
-              const SudokuCreationRequested(Difficulty.expert),
-            ),
+        onButtonPressed: () {
+          context.read<HomeBloc>()
+            ..add(const SudokuCreationRequested(Difficulty.expert))
+            ..add(const NewPuzzleAttempted(Difficulty.expert));
+        },
       ),
     ];
 

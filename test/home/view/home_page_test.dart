@@ -14,12 +14,8 @@ import '../../helpers/helpers.dart';
 
 void main() {
   group('HomePage', () {
-    const dailyChallengeKey = Key('daily_challenge_widget');
     const resumePuzzleKey = Key('resume_puzzle_widget');
 
-    const dailyChallengeElevatedButtonKey = Key(
-      'daily_challenge_widget_elevated_button',
-    );
     const resumePuzzleElevatedButtonKey = Key(
       'resume_puzzle_widget_elevated_button',
     );
@@ -32,13 +28,21 @@ void main() {
     late PuzzleBloc puzzleBloc;
     late PuzzleState puzzleState;
     late Puzzle puzzle;
+
+    late User user;
     late PuzzleRepository puzzleRepository;
+    late AuthenticationRepository authenticationRepository;
+    late PlayerRepository playerRepository;
 
     setUp(() {
       homeBloc = MockHomeBloc();
       puzzleRepository = MockPuzzleRepository();
       puzzle = MockPuzzle();
       homeState = MockHomeState();
+
+      user = MockUser();
+      authenticationRepository = MockAuthenticationRepository();
+      playerRepository = MockPlayerRepository();
 
       when(() => homeBloc.state).thenReturn(homeState);
       when(puzzleRepository.fetchPuzzleFromCache).thenReturn(puzzle);
@@ -52,25 +56,47 @@ void main() {
       when(() => puzzle.totalSecondsElapsed).thenReturn(12);
       when(() => puzzleState.puzzle).thenReturn(puzzle);
       when(() => puzzleBloc.state).thenReturn(puzzleState);
+
+      when(() => user.id).thenReturn('mock-user');
+      when(() => authenticationRepository.currentUser).thenReturn(user);
+
+      when(() => playerRepository.getPlayer(any())).thenAnswer(
+        (_) => Stream.value(Player.empty),
+      );
     });
 
     testWidgets('renders on a large layout', (tester) async {
       tester.setLargeDisplaySize();
-      await tester.pumpApp(HomePage(), puzzleRepository: puzzleRepository);
+      await tester.pumpApp(
+        HomePage(),
+        puzzleRepository: puzzleRepository,
+        authenticationRepository: authenticationRepository,
+        playerRepository: playerRepository,
+      );
 
       expect(find.byType(HomeView), findsOneWidget);
     });
 
     testWidgets('renders on a medium layout', (tester) async {
       tester.setMediumDisplaySize();
-      await tester.pumpApp(HomePage(), puzzleRepository: puzzleRepository);
+      await tester.pumpApp(
+        HomePage(),
+        puzzleRepository: puzzleRepository,
+        authenticationRepository: authenticationRepository,
+        playerRepository: playerRepository,
+      );
 
       expect(find.byType(HomeView), findsOneWidget);
     });
 
     testWidgets('renders on a small layout', (tester) async {
       tester.setSmallDisplaySize();
-      await tester.pumpApp(HomePage(), puzzleRepository: puzzleRepository);
+      await tester.pumpApp(
+        HomePage(),
+        puzzleRepository: puzzleRepository,
+        authenticationRepository: authenticationRepository,
+        playerRepository: playerRepository,
+      );
 
       expect(find.byType(HomeView), findsOneWidget);
     });
@@ -176,36 +202,6 @@ void main() {
       },
     );
 
-    group('Daily Challenge', () {
-      late HomeBloc homeBloc;
-
-      setUp(() {
-        homeBloc = MockHomeBloc();
-        when(() => homeBloc.state).thenReturn(const HomeState());
-      });
-
-      testWidgets('exists in the widget tree', (tester) async {
-        await tester.pumpApp(HomeView(), homeBloc: homeBloc);
-        expect(find.byKey(dailyChallengeKey), findsOneWidget);
-      });
-
-      testWidgets('onPressed is defined', (tester) async {
-        await tester.pumpApp(HomeView(), homeBloc: homeBloc);
-        final finder = find.byWidgetPredicate(
-          (widget) =>
-              widget is SudokuElevatedButton &&
-              widget.key == dailyChallengeElevatedButtonKey &&
-              widget.onPressed != null,
-        );
-        expect(
-          finder,
-          findsOneWidget,
-        );
-        await tester.tap(finder);
-        await tester.pumpAndSettle();
-      });
-    });
-
     group('Resume Puzzle', () {
       late HomeBloc homeBloc;
 
@@ -236,11 +232,16 @@ void main() {
       testWidgets(
         'adds [UnfinishedPuzzleResumed] when unfinishedPuzzle is not null',
         (tester) async {
+          tester.setLargeDisplaySize();
+
           when(() => homeState.unfinishedPuzzle).thenReturn(puzzle);
+          when(() => homeState.player).thenReturn(Player.empty);
           when(() => homeBloc.state).thenReturn(homeState);
 
-          await tester.pumpApp(HomeView(), homeBloc: homeBloc);
+          await tester.pumpApp(HomeViewLayout(), homeBloc: homeBloc);
           final finder = find.byKey(resumePuzzleElevatedButtonKey);
+
+          await tester.ensureVisible(finder);
 
           await tester.tap(finder);
           await tester.pumpAndSettle();

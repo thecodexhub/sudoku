@@ -64,3 +64,9 @@ class MockUserCredential extends Mock implements firebase_auth.UserCredential {}
 class MockFirebaseCore extends Mock
     with MockPlatformInterfaceMixin
     implements FirebasePlatform {}
+
+class MockPlayerRepository extends Mock implements PlayerRepository {}
+
+class MockUser extends Mock implements User {}
+
+class MockPlayer extends Mock implements Player {}

@@ -22,8 +22,10 @@ class PuzzlePage extends StatelessWidget {
       providers: [
         BlocProvider<PuzzleBloc>(
           create: (context) => PuzzleBloc(
-            puzzleRepository: context.read<PuzzleRepository>(),
             apiClient: context.read<SudokuAPI>(),
+            puzzleRepository: context.read<PuzzleRepository>(),
+            authenticationRepository: context.read<AuthenticationRepository>(),
+            playerRepository: context.read<PlayerRepository>(),
           )..add(const PuzzleInitialized()),
         ),
         BlocProvider<TimerBloc>(

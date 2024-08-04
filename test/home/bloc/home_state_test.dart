@@ -14,6 +14,7 @@ void main() {
       SudokuCreationStatus? sudokuCreationStatus,
       SudokuCreationErrorType? sudokuCreationError,
       Puzzle? unfinishedPuzzle,
+      Player? player,
     }) {
       return HomeState(
         difficulty: difficulty,
@@ -21,6 +22,7 @@ void main() {
             sudokuCreationStatus ?? SudokuCreationStatus.initial,
         sudokuCreationError: sudokuCreationError,
         unfinishedPuzzle: unfinishedPuzzle,
+        player: player ?? Player.empty,
       );
     }
 
@@ -37,6 +39,7 @@ void main() {
             SudokuCreationStatus.initial,
             null,
             null,
+            Player.empty,
           ],
         ),
       );
@@ -54,6 +57,7 @@ void main() {
             sudokuCreationStatus: null,
             sudokuCreationError: null,
             unfinishedPuzzle: null,
+            player: null,
           ),
           equals(createSubject()),
         );
@@ -67,6 +71,7 @@ void main() {
             sudokuCreationStatus: () => SudokuCreationStatus.inProgress,
             sudokuCreationError: () => SudokuCreationErrorType.unexpected,
             unfinishedPuzzle: () => puzzle,
+            player: () => Player(easyAttempted: 5),
           ),
           equals(
             createSubject(
@@ -74,6 +79,7 @@ void main() {
               sudokuCreationStatus: SudokuCreationStatus.inProgress,
               sudokuCreationError: SudokuCreationErrorType.unexpected,
               unfinishedPuzzle: puzzle,
+              player: Player(easyAttempted: 5),
             ),
           ),
         );

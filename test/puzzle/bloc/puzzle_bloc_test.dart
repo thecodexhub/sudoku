@@ -16,24 +16,32 @@ class _FakeSudoku extends Fake implements Sudoku {}
 
 class _FakePuzzle extends Fake implements Puzzle {}
 
+class _FakePlayer extends Fake implements Player {}
+
 void main() {
   group('PuzzleBloc', () {
     late Block block;
     late Sudoku sudoku;
     late Puzzle puzzle;
     late Hint hint;
+    late User user;
 
     late SudokuAPI apiClient;
     late PuzzleRepository repository;
+    late AuthenticationRepository authenticationRepository;
+    late PlayerRepository playerRepository;
 
     setUp(() {
       block = MockBlock();
       sudoku = MockSudoku();
       puzzle = MockPuzzle();
       hint = MockHint();
+      user = MockUser();
 
       apiClient = MockSudokuAPI();
       repository = MockPuzzleRepository();
+      authenticationRepository = MockAuthenticationRepository();
+      playerRepository = MockPlayerRepository();
 
       when(() => sudoku.blocksToHighlight(any())).thenReturn([block]);
       when(() => puzzle.sudoku).thenReturn(sudoku);
@@ -41,18 +49,27 @@ void main() {
       when(
         () => repository.storePuzzleInLocalMemory(puzzle: any(named: 'puzzle')),
       ).thenAnswer((_) async {});
+      when(() => user.id).thenReturn('mock-user');
+      when(() => authenticationRepository.currentUser).thenReturn(user);
+      when(() => playerRepository.currentPlayer).thenReturn(Player.empty);
+      when(() => playerRepository.updatePlayer(any(), any())).thenAnswer(
+        (_) async {},
+      );
     });
 
     setUpAll(() {
       registerFallbackValue(_FakeBlock());
       registerFallbackValue(_FakeSudoku());
       registerFallbackValue(_FakePuzzle());
+      registerFallbackValue(_FakePlayer());
     });
 
     PuzzleBloc buildBloc() {
       return PuzzleBloc(
         apiClient: apiClient,
         puzzleRepository: repository,
+        authenticationRepository: authenticationRepository,
+        playerRepository: playerRepository,
       );
     }
 

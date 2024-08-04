@@ -12,10 +12,14 @@ part 'puzzle_state.dart';
 
 class PuzzleBloc extends Bloc<PuzzleEvent, PuzzleState> {
   PuzzleBloc({
-    required PuzzleRepository puzzleRepository,
     required SudokuAPI apiClient,
-  })  : _puzzleRepository = puzzleRepository,
-        _apiClient = apiClient,
+    required PuzzleRepository puzzleRepository,
+    required AuthenticationRepository authenticationRepository,
+    required PlayerRepository playerRepository,
+  })  : _apiClient = apiClient,
+        _puzzleRepository = puzzleRepository,
+        _authenticationRepository = authenticationRepository,
+        _playerRepository = playerRepository,
         super(const PuzzleState()) {
     on<PuzzleInitialized>(_onPuzzleInitialized);
     on<SudokuBlockSelected>(_onSudokuBlockSelected);
@@ -26,9 +30,10 @@ class PuzzleBloc extends Bloc<PuzzleEvent, PuzzleState> {
     on<UnfinishedPuzzleSaveRequested>(_onUnfinishedPuzzleSaveRequested);
   }
 
-  final PuzzleRepository _puzzleRepository;
-
   final SudokuAPI _apiClient;
+  final PuzzleRepository _puzzleRepository;
+  final AuthenticationRepository _authenticationRepository;
+  final PlayerRepository _playerRepository;
 
   void _onPuzzleInitialized(
     PuzzleInitialized event,
@@ -51,10 +56,10 @@ class PuzzleBloc extends Bloc<PuzzleEvent, PuzzleState> {
     );
   }
 
-  void _onSudokuInputEntered(
+  Future<void> _onSudokuInputEntered(
     SudokuInputEntered event,
     Emitter<PuzzleState> emit,
-  ) {
+  ) async {
     final selectedBlock = state.selectedBlock;
     if (selectedBlock == null || selectedBlock.isGenerated == true) return;
 
@@ -102,6 +107,13 @@ class PuzzleBloc extends Bloc<PuzzleEvent, PuzzleState> {
           selectedBlock: () => null,
         ),
       );
+      final currentUser = _authenticationRepository.currentUser;
+      final currentPlayer = _playerRepository.currentPlayer;
+
+      final updatedPlayer = currentPlayer.updateSolvedCount(
+        state.puzzle.difficulty,
+      );
+      await _playerRepository.updatePlayer(currentUser.id, updatedPlayer);
     } else {
       emit(
         state.copyWith(

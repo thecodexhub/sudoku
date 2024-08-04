@@ -20,7 +20,7 @@ void main() async {
   );
 
   unawaited(
-    bootstrap((firebaseAuth) async {
+    bootstrap((firebaseAuth, firestore) async {
       final apiClient = SudokuDioClient(baseUrl: Env.apiBaseUrl);
       final cacheClient = CacheClient();
 
@@ -47,10 +47,16 @@ void main() async {
         storageClient: storageClient,
       );
 
+      final playerRepository = PlayerRepository(
+        firestore: firestore,
+        cacheClient: cacheClient,
+      );
+
       return App(
         apiClient: apiClient,
         puzzleRepository: puzzleRepository,
         authenticationRepository: authenticationRepository,
+        playerRepository: playerRepository,
       );
     }),
   );

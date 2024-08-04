@@ -23,3 +23,16 @@ final class UnfinishedPuzzleSubscriptionRequested extends HomeEvent {
 final class UnfinishedPuzzleResumed extends HomeEvent {
   const UnfinishedPuzzleResumed();
 }
+
+final class PlayerSubscriptionRequested extends HomeEvent {
+  const PlayerSubscriptionRequested();
+}
+
+final class NewPuzzleAttempted extends HomeEvent {
+  const NewPuzzleAttempted(this.difficulty);
+
+  final Difficulty difficulty;
+
+  @override
+  List<Object?> get props => [difficulty];
+}
