@@ -12,11 +12,7 @@ A Sudoku game made with Flutter, and integrated with Gemini.
 
 ## Getting Started 🚀
 
-This project contains 3 flavors:
-
-- development
-- staging
-- production
+This project contains 3 flavors: **development**, **staging**, **production**.
 
 To run the desired flavor either use the launch configuration in VSCode/Android Studio or use the following commands:
 
@@ -32,10 +28,6 @@ $ flutter run --flavor production --target lib/main_production.dart
 ```
 
 _\*Sudoku works on iOS, Android, and Web._
-
----
-
-## Setup 🧩
 
 The project is designed to be integrated with 3 different Firebase projects (depending upon flavor).
 
@@ -53,6 +45,15 @@ flutterfire config --out=lib/firebase_options_staging.dart --ios-bundle-id=dev.t
 # Production flavor
 flutterfire config --out=lib/firebase_options_production.dart --ios-bundle-id=dev.thecodexhub.sudoku --android-app-id=dev.thecodexhub.sudoku
 ```
+
+### Environment Variables 🚧
+
+The `API_BASE_URL` and `API_KEY` environment variables are used in this project. Checkout the [.env.example][env_example] file and copy the content to a `.env` file.
+
+- The `API_BASE_URL` represents the Base URL of the Backend Project which is responsible for creating sudoku and generating hints. Read more about it in the [dedicated repository][sudoku_backend].
+- The `API_KEY` represents a key used for authorization on the backend server. The frontend or the client is expected to send this key via **x-api-key** header.
+
+---
 
 ## Running Tests 🧪
 
@@ -94,6 +95,8 @@ For more details on how to add strings, supported locales, and translations into
 [very_good_analysis_badge]: https://img.shields.io/badge/style-very_good_analysis-B22C89.svg
 [very_good_analysis_link]: https://pub.dev/packages/very_good_analysis
 [very_good_cli_link]: https://github.com/VeryGoodOpenSource/very_good_cli
+[env_example]: ./.env.example
+[sudoku_backend]: https://github.com/thecodexhub/sudoku-backend
 [very_good_localizations]: https://cli.vgv.dev/docs/templates/core#working-with-translations-
 [flavours_flutterfire]: https://codewithandrea.com/articles/flutter-flavors-for-firebase-apps/
 [gradle_error_google_services]: https://stackoverflow.com/questions/33572465/gradle-errorexecution-failed-for-task-appprocessdebuggoogleservices

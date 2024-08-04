@@ -1,20 +1,21 @@
 name: sudoku
-description: A Sudoku game made with Flutter, and integrated with Gemini
+description: A Sudoku game made with Flutter, and integrated with Gemini.
+homepage: https://github.com/thecodexhub/sudoku
 version: 1.0.0+1
+
 publish_to: none
 
 environment:
-  sdk: ^3.4.0
+  sdk: ">=3.0.0 <4.0.0"
+  flutter: 3.22.1
 
 dependencies:
   bloc: ^8.1.3
   dio: ^5.5.0+1
   envied: ^0.5.4+1
   equatable: ^2.0.5
-  fake_async: ^1.3.1
   firebase_auth: ^5.1.3
   firebase_core: ^3.3.0
-  firebase_core_platform_interface: ^5.2.0
   flutter:
     sdk: flutter
   flutter_bloc: ^8.1.4
@@ -25,7 +26,6 @@ dependencies:
   intl: ^0.19.0
   json_annotation: ^4.9.0
   loading_indicator: ^3.1.1
-  plugin_platform_interface: ^2.1.8
   rxdart: ^0.28.0
   shared_preferences: ^2.2.3
 
@@ -33,11 +33,14 @@ dev_dependencies:
   bloc_test: ^9.1.6
   build_runner: ^2.4.11
   envied_generator: ^0.5.4+1
+  fake_async: ^1.3.1
+  firebase_core_platform_interface: ^5.2.0
   flutter_test:
     sdk: flutter
   json_serializable: ^6.8.0
   mockingjay: ^0.5.0
   mocktail: ^1.0.3
+  plugin_platform_interface: ^2.1.8
   very_good_analysis: ^6.0.0
 
 flutter:

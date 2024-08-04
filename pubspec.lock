@@ -250,7 +250,7 @@ packages:
     source: hosted
     version: "2.0.5"
   fake_async:
-    dependency: "direct main"
+    dependency: "direct dev"
     description:
       name: fake_async
       sha256: "511392330127add0b769b75a987850d136345d9227c6b94c96a04cf4a391bf78"
@@ -306,7 +306,7 @@ packages:
     source: hosted
     version: "3.3.0"
   firebase_core_platform_interface:
-    dependency: "direct main"
+    dependency: "direct dev"
     description:
       name: firebase_core_platform_interface
       sha256: "3c3a1e92d6f4916c32deea79c4a7587aa0e9dbbe5889c7a16afcf005a485ee02"
@@ -638,7 +638,7 @@ packages:
     source: hosted
     version: "3.1.5"
   plugin_platform_interface:
-    dependency: "direct main"
+    dependency: "direct dev"
     description:
       name: plugin_platform_interface
       sha256: "4820fbfdb9478b1ebae27888254d445073732dae3d6ea81f0b7e06d5dedc3f02"
@@ -988,4 +988,4 @@ packages:
     version: "3.1.2"
 sdks:
   dart: ">=3.4.0 <4.0.0"
-  flutter: ">=3.22.0"
+  flutter: ">=3.22.1"
