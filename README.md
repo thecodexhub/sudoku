@@ -86,6 +86,8 @@ For more details on how to add strings, supported locales, and translations into
 - Flutter Flavors Setup with multiple Firebase Environments using FlutterFire - [Article from Andrea Bizzotto][flavours_flutterfire]
 - Gradle Error:Execution failed for task ':app:processDebugGoogleServices' - [Stack Overflow Answer][gradle_error_google_services]
 - Execution failed for task ':app:checkDebugDuplicateClasses' - [Flutter GiHub Issue][debug_duplicate_classes]
+- Android app icons are generated from [Easy App Icon][easy_app_icon]
+- iOS app icons are generated from [App Icon][app_icon]
 
 [coverage_badge]: coverage_badge.svg
 [flutter_localizations_link]: https://api.flutter.dev/flutter/flutter_localizations/flutter_localizations-library.html
@@ -101,3 +103,5 @@ For more details on how to add strings, supported locales, and translations into
 [flavours_flutterfire]: https://codewithandrea.com/articles/flutter-flavors-for-firebase-apps/
 [gradle_error_google_services]: https://stackoverflow.com/questions/33572465/gradle-errorexecution-failed-for-task-appprocessdebuggoogleservices
 [debug_duplicate_classes]: https://github.com/flutter/flutter/issues/119247#issuecomment-1405825291
+[easy_app_icon]: https://easyappicon.com/
+[app_icon]: https://www.appicon.co/
