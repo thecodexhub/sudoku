@@ -4,7 +4,7 @@
   "@homeAppBarTitle": {
     "description": "Text shown in the AppBar of the Home Page"
   },
-  "sudokuGameSubtitle": "Conquer daily puzzles, continue your saved game, or start fresh on a new challenge with varying difficulty levels for all",
+  "sudokuGameSubtitle": "Check your stats, resume your saved game, or start a fresh challenge with varying difficulty levels.",
   "@sudokuGameSubtitle": {
     "description": "Text shown in Home Page for Medium and Large screen as the subtitle"
   },
@@ -40,7 +40,7 @@
   "@createEasyGameTitle": {
     "description": "Header text shown in the Easy Game section of the Home Page"
   },
-  "createEasyGameCaption": "40 clues revealed, fill in the rest and sharpen your skills.",
+  "createEasyGameCaption": "Many clues revealed, fill in the rest and sharpen your skills.",
   "@createEasyGameCaption": {
     "description": "Caption text shown in the Easy Game section of the Home Page"
   },
@@ -48,7 +48,7 @@
   "@createMediumGameTitle": {
     "description": "Header text shown in the Medium Game section of the Home Page"
   },
-  "createMediumGameCaption": "30 clues provided, test your logic with a moderate challenge.",
+  "createMediumGameCaption": "Some clues provided, test your logic with a moderate challenge.",
   "@createMediumGameCaption": {
     "description": "Caption text shown in the Medium Game section of the Home Page"
   },
@@ -56,7 +56,7 @@
   "@createDifficultGameTitle": {
     "description": "Header text shown in the Difficult Game section of the Home Page"
   },
-  "createDifficultGameCaption": "20 clues given, push your problem-solving abilities to the limit.",
+  "createDifficultGameCaption": "Few clues given, push your problem-solving abilities to the limit.",
   "@createDifficultGameCaption": {
     "description": "Caption text shown in the Difficult Game section of the Home Page"
   },
@@ -64,7 +64,7 @@
   "@createExpertGameTitle": {
     "description": "Header text shown in the Expert Game section of the Home Page"
   },
-  "createExpertGameCaption": "10 clues exposed, tackle the ultimate Sudoku challenge and master the grid.",
+  "createExpertGameCaption": "Minimal clues exposed, tackle the ultimate Sudoku challenge and master the grid.",
   "@createExpertGameCaption": {
     "description": "Caption text shown in the Expert Game section of the Home Page"
   },
