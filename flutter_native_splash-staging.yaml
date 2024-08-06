@@ -1,0 +1,23 @@
+# Generate using the below command
+# dart run flutter_native_splash:create --flavor staging
+flutter_native_splash:
+  background_image: "assets/splash/sudoku_splash_background.png"
+  image: assets/splash/sudoku_splash.png
+  branding: assets/splash/sudoku_splash_branding.png
+
+  background_image_dark: "assets/splash/sudoku_splash_background_dark.png"
+  image_dark: assets/splash/sudoku_splash_dark.png
+  branding_dark: assets/splash/sudoku_splash_branding_dark.png
+
+  android_12:
+    image: assets/splash/sudoku_splash_a12.png
+    color: "#F8F8F8"
+    branding: assets/splash/sudoku_splash_branding.png
+
+    image_dark: assets/splash/sudoku_splash_a12_dark.png
+    color_dark: "#212121"
+    branding_dark: assets/splash/sudoku_splash_branding_dark.png
+
+  android: true
+  ios: false
+  web: false
