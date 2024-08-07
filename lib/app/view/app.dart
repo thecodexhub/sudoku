@@ -54,7 +54,6 @@ class AppView extends StatelessWidget {
     return MaterialApp(
       theme: SudokuTheme.light,
       darkTheme: SudokuTheme.dark,
-      themeMode: ThemeMode.light,
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
       scrollBehavior: const MaterialScrollBehavior().copyWith(
