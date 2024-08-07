@@ -38,7 +38,7 @@ void main() {
     test('executes the onError callback when it cannot launch', () async {
       var wasCalled = false;
       when(() => urlLauncher.canLaunch(url)).thenAnswer((_) async => false);
-      await openLink(uri,onError: () => wasCalled = true);
+      await openLink(uri, onError: () => wasCalled = true);
 
       await expectLater(wasCalled, isTrue);
     });
