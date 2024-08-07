@@ -13,6 +13,7 @@ import 'package:sudoku/puzzle/puzzle.dart';
 import 'package:sudoku/repository/repository.dart';
 import 'package:sudoku/storage/storage.dart';
 import 'package:sudoku/timer/timer.dart';
+import 'package:url_launcher_platform_interface/url_launcher_platform_interface.dart';
 
 class MockSudoku extends Mock implements Sudoku {}
 
@@ -70,3 +71,7 @@ class MockPlayerRepository extends Mock implements PlayerRepository {}
 class MockUser extends Mock implements User {}
 
 class MockPlayer extends Mock implements Player {}
+
+class MockUrlLauncher extends Mock
+    with MockPlatformInterfaceMixin
+    implements UrlLauncherPlatform {}
