@@ -153,5 +153,13 @@
   "gameOverReason3": " in this puzzle.",
   "@gameOverReason3": {
     "description": "Third part of the game over reason for Puzzle Page"
+  },
+  "competitionBannerText": "Built for the Gemini API Competition. ",
+  "@competitionBannerText": {
+    "description": "Text show in Competition Banner in the Home Page"
+  },
+  "competitionBannerCta": "Read More -->",
+  "@competitionBannerCta": {
+    "description": "Text shown as the CTA for Competition Banner in the Home Page"
   }
 }

@@ -129,9 +129,15 @@ class HomeViewLayout extends StatelessWidget {
               ),
               HeaderSection(),
               ResponsiveGap(
-                small: 36,
+                small: 24,
                 medium: 48,
-                large: 96,
+                large: 40,
+              ),
+              CompetitionBanner(),
+              ResponsiveGap(
+                small: 24,
+                medium: 48,
+                large: 56,
               ),
               ResponsiveHomePageLayout(
                 highlightedSection: HighlightedSection(),
