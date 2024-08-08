@@ -21,11 +21,13 @@ class SudokuTextButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const gradient = LinearGradient(
+    final gradient = LinearGradient(
       colors: [
-        SudokuColors.darkPurple,
-        SudokuColors.darkPink,
+        SudokuColors.getPurple(context),
+        SudokuColors.getPink(context),
       ],
+      begin: Alignment.bottomLeft,
+      end: Alignment.topRight,
     );
 
     return SizedBox(

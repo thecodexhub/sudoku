@@ -89,7 +89,7 @@ class SudokuBlock extends StatelessWidget {
                       : block.isGenerated
                           ? null
                           : theme.brightness == Brightness.light
-                              ? SudokuColors.darkPurple
+                              ? SudokuColors.getPurple(context)
                               : SudokuColors.lightPurple.withGreen(224),
                 ),
               ),

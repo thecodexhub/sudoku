@@ -24,11 +24,13 @@ class SudokuLoadingDialog extends StatelessWidget {
     final l10n = context.l10n;
     final theme = Theme.of(context);
 
-    const gradient = LinearGradient(
+    final gradient = LinearGradient(
       colors: [
-        SudokuColors.darkPurple,
-        SudokuColors.darkPink,
+        SudokuColors.getPurple(context),
+        SudokuColors.getPink(context),
       ],
+      begin: Alignment.bottomLeft,
+      end: Alignment.topRight,
     );
 
     return Dialog(
@@ -111,14 +113,14 @@ class SudokuLoadingDialog extends StatelessWidget {
                   ],
                 ),
                 SizedBox(height: gap),
-                const SizedBox(
+                SizedBox(
                   height: 32,
                   width: 32,
                   child: LoadingIndicator(
                     indicatorType: Indicator.ballRotateChase,
                     colors: [
-                      SudokuColors.darkPink,
-                      SudokuColors.darkPurple,
+                      SudokuColors.getPurple(context),
+                      SudokuColors.getPink(context),
                     ],
                     strokeWidth: 2,
                   ),

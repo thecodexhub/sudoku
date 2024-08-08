@@ -35,10 +35,10 @@ class SudokuBoard extends StatelessWidget {
       (PuzzleBloc bloc) => bloc.state.puzzleStatus == PuzzleStatus.incomplete,
     );
 
-    const gradient = LinearGradient(
+    final gradient = LinearGradient(
       colors: [
-        SudokuColors.darkPurple,
-        SudokuColors.darkPink,
+        SudokuColors.getPurple(context),
+        SudokuColors.getPink(context),
       ],
       begin: Alignment.bottomLeft,
       end: Alignment.topRight,

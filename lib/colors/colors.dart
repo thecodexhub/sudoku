@@ -1,12 +1,12 @@
-import 'dart:ui';
+import 'package:flutter/material.dart';
 
 /// Defines the colors used in the Sudoku App UI.
 abstract class SudokuColors {
   /// dark Pink
-  static const lightPink = Color(0xFFFF80B5);
+  static const lightPink = Color(0xFFFF63A4);
 
   /// Light Purple
-  static const lightPurple = Color(0xFF9089FC);
+  static const lightPurple = Color(0xFF7067FA);
 
   /// Dark Pink
   static const darkPink = Color(0xFFFC1FA4);
@@ -25,4 +25,32 @@ abstract class SudokuColors {
 
   /// Teal
   static const teal = Color(0xFF008577);
+
+  /// Returns pink background color depending upon theme brightness.
+  static Color getPinkBackground(BuildContext context) {
+    final theme = Theme.of(context);
+    if (theme.brightness == Brightness.light) return lightPink;
+    return darkPink;
+  }
+
+  /// Returns purple background color depending upon theme brightness.
+  static Color getPurpleBackground(BuildContext context) {
+    final theme = Theme.of(context);
+    if (theme.brightness == Brightness.light) return lightPurple;
+    return darkPurple;
+  }
+
+  /// Returns pink color depending upon theme brightness.
+  static Color getPink(BuildContext context) {
+    final theme = Theme.of(context);
+    if (theme.brightness == Brightness.light) return darkPink;
+    return lightPink;
+  }
+
+  /// Returns purple color depending upon theme brightness.
+  static Color getPurple(BuildContext context) {
+    final theme = Theme.of(context);
+    if (theme.brightness == Brightness.light) return darkPurple;
+    return lightPurple;
+  }
 }
