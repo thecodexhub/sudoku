@@ -161,5 +161,22 @@
   "competitionBannerCta": "Read More -->",
   "@competitionBannerCta": {
     "description": "Text shown as the CTA for Competition Banner in the Home Page"
+  },
+  "playerStatsTitle": "Player Stats",
+  "@playerStatsTitle": {
+    "description": "Text shown in the Player Stats card in home page"
+  },
+  "solvedVsAttemptedText": "Solved / Attempted",
+  "@solvedVsAttemptedText": {
+    "description": "Text shown as a caption in Player Stats card in Home Page"
+  },
+  "statsPerDifficulty": "{difficulty, select, easy{Easy} medium{Medium} difficult{Difficult} expert{Expert} other{Others}}",
+  "@statsPerDifficulty": {
+    "description": "Text shown in the Player Stats card in home page",
+    "placeholders": {
+      "difficulty": {
+        "type": "String"
+      }
+    }
   }
 }
