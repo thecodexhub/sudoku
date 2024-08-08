@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sudoku/assets/assets.dart';
 import 'package:sudoku/colors/colors.dart';
 import 'package:sudoku/home/home.dart';
+import 'package:sudoku/l10n/l10n.dart';
 import 'package:sudoku/layout/layout.dart';
 import 'package:sudoku/typography/typography.dart';
 import 'package:sudoku/widgets/widgets.dart';
@@ -12,6 +13,7 @@ class PlayerInfoWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
     final player = context.select((HomeBloc bloc) => bloc.state.player);
 
     return ResponsiveLayoutBuilder(
@@ -47,7 +49,7 @@ class PlayerInfoWidget extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     Text(
-                      'Player Stats',
+                      l10n.playerStatsTitle,
                       style: SudokuTextStyle.bodyText1.copyWith(
                         fontWeight: SudokuFontWeight.bold,
                         color: Colors.white,
@@ -55,7 +57,7 @@ class PlayerInfoWidget extends StatelessWidget {
                       maxLines: 1,
                     ),
                     Text(
-                      'Solved / Attempted',
+                      l10n.solvedVsAttemptedText,
                       style: SudokuTextStyle.bodyText1.copyWith(
                         fontWeight: SudokuFontWeight.medium,
                         fontSize: 12,
@@ -68,7 +70,7 @@ class PlayerInfoWidget extends StatelessWidget {
                       children: [
                         Expanded(
                           child: AttemptedVsSolved(
-                            label: 'Easy',
+                            label: l10n.statsPerDifficulty('easy'),
                             attempted: player.easyAttempted,
                             solved: player.easySolved,
                           ),
@@ -76,7 +78,7 @@ class PlayerInfoWidget extends StatelessWidget {
                         const SizedBox(width: 32),
                         Expanded(
                           child: AttemptedVsSolved(
-                            label: 'Medium',
+                            label: l10n.statsPerDifficulty('medium'),
                             attempted: player.mediumAttempted,
                             solved: player.mediumSolved,
                           ),
@@ -88,7 +90,7 @@ class PlayerInfoWidget extends StatelessWidget {
                       children: [
                         Expanded(
                           child: AttemptedVsSolved(
-                            label: 'Difficult',
+                            label: l10n.statsPerDifficulty('difficult'),
                             attempted: player.difficultAttempted,
                             solved: player.difficultSolved,
                           ),
@@ -96,7 +98,7 @@ class PlayerInfoWidget extends StatelessWidget {
                         const SizedBox(width: 32),
                         Expanded(
                           child: AttemptedVsSolved(
-                            label: 'Expert',
+                            label: l10n.statsPerDifficulty('expert'),
                             attempted: player.expertAttempted,
                             solved: player.expertSolved,
                           ),
@@ -160,7 +162,7 @@ class PlayerInfoWidget extends StatelessWidget {
                   ),
                   const SizedBox(height: 16),
                   Text(
-                    'Player Stats',
+                    l10n.playerStatsTitle,
                     style: titleTextStyle.copyWith(
                       fontWeight: SudokuFontWeight.bold,
                       color: Colors.white,
@@ -168,7 +170,7 @@ class PlayerInfoWidget extends StatelessWidget {
                     maxLines: 1,
                   ),
                   Text(
-                    'Solved / Attempted',
+                    l10n.solvedVsAttemptedText,
                     style: titleTextStyle.copyWith(
                       fontWeight: SudokuFontWeight.medium,
                       fontSize: 12,
@@ -178,25 +180,25 @@ class PlayerInfoWidget extends StatelessWidget {
                   ),
                   const SizedBox(height: 8),
                   AttemptedVsSolved(
-                    label: 'Easy',
+                    label: l10n.statsPerDifficulty('easy'),
                     attempted: player.easyAttempted,
                     solved: player.easySolved,
                   ),
                   const SizedBox(height: 2),
                   AttemptedVsSolved(
-                    label: 'Medium',
+                    label: l10n.statsPerDifficulty('medium'),
                     attempted: player.mediumAttempted,
                     solved: player.mediumSolved,
                   ),
                   const SizedBox(height: 2),
                   AttemptedVsSolved(
-                    label: 'Difficult',
+                    label: l10n.statsPerDifficulty('difficult'),
                     attempted: player.difficultAttempted,
                     solved: player.difficultSolved,
                   ),
                   const SizedBox(height: 2),
                   AttemptedVsSolved(
-                    label: 'Expert',
+                    label: l10n.statsPerDifficulty('expert'),
                     attempted: player.expertAttempted,
                     solved: player.expertSolved,
                   ),
