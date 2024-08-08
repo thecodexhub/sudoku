@@ -15,15 +15,19 @@ class CompetitionBanner extends StatelessWidget {
   /// {@macro competition_banner}
   const CompetitionBanner({super.key});
 
-  static const gradient = LinearGradient(
-    colors: [SudokuColors.darkPurple, SudokuColors.darkPink],
-    begin: Alignment.bottomLeft,
-    end: Alignment.topRight,
-  );
-
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
+
+    final gradient = LinearGradient(
+      colors: [
+        SudokuColors.getPurple(context),
+        SudokuColors.getPink(context),
+      ],
+      begin: Alignment.bottomLeft,
+      end: Alignment.topRight,
+    );
+
     return OutlinedButton(
       onPressed: () => openLink(Uri.parse(_competitionUrl)),
       style: OutlinedButton.styleFrom(

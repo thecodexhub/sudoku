@@ -114,10 +114,10 @@ class _SudokuInputView extends StatelessWidget {
                     width: 1.4,
                   ),
                   gradient: showEraserInSameLine && i == elementsCount - 1
-                      ? const LinearGradient(
+                      ? LinearGradient(
                           colors: [
-                            SudokuColors.darkPurple,
-                            SudokuColors.darkPink,
+                            SudokuColors.getPurple(context),
+                            SudokuColors.getPink(context),
                           ],
                           begin: Alignment.bottomLeft,
                           end: Alignment.topRight,

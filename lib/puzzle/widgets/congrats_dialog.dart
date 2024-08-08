@@ -21,10 +21,10 @@ class CongratsDialog extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = context.l10n;
 
-    const gradient = LinearGradient(
+    final gradient = LinearGradient(
       colors: [
-        SudokuColors.darkPurple,
-        SudokuColors.darkPink,
+        SudokuColors.getPurple(context),
+        SudokuColors.getPink(context),
       ],
       begin: Alignment.bottomLeft,
       end: Alignment.topRight,

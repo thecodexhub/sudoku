@@ -71,11 +71,8 @@ class GradientBackground extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
     return CustomPaint(
-      painter: GradientBackgroundPainter(
-        brightness: theme.brightness,
-      ),
+      painter: GradientBackgroundPainter(context: context),
       child: child,
     );
   }
@@ -90,23 +87,17 @@ class GradientBackground extends StatelessWidget {
 class GradientBackgroundPainter extends CustomPainter {
   /// {@macro gradient_background_painter}
   GradientBackgroundPainter({
-    required this.brightness,
+    required this.context,
   });
 
-  final Brightness brightness;
-
+  final BuildContext context;
   final Paint _paint = Paint();
 
-  List<Color> colors() {
-    return brightness == Brightness.light
-        ? [
-            SudokuColors.lightPink,
-            SudokuColors.lightPurple,
-          ]
-        : [
-            SudokuColors.darkPink,
-            SudokuColors.darkPurple,
-          ];
+  List<Color> get colors {
+    return [
+      SudokuColors.getPurpleBackground(context),
+      SudokuColors.getPinkBackground(context),
+    ];
   }
 
   @override
@@ -131,9 +122,9 @@ class GradientBackgroundPainter extends CustomPainter {
       ..close();
 
     _paint.shader = LinearGradient(
-      begin: Alignment.topLeft,
-      end: Alignment.bottomRight,
-      colors: colors(),
+      begin: Alignment.bottomLeft,
+      end: Alignment.topRight,
+      colors: colors,
     ).createShader(Rect.fromLTWH(0, 0, size.width, size.height));
 
     canvas.drawPath(path1, _paint);
