@@ -53,6 +53,7 @@ flutter:
   generate: true
   assets:
     - assets/icons/
+    - assets/licenses/
   fonts:
     - family: Inter
       fonts:
