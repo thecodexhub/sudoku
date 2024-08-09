@@ -148,6 +148,12 @@ class HomeViewLayout extends StatelessWidget {
                 medium: 48,
                 large: 96,
               ),
+              SudokuFooter(),
+              ResponsiveGap(
+                small: 36,
+                medium: 48,
+                large: 96,
+              ),
             ],
           ),
         );

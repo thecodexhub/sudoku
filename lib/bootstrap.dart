@@ -20,7 +20,7 @@ typedef BootstrapBuilder = FutureOr<Widget> Function(
 Future<void> bootstrap(BootstrapBuilder builder) async {
   // Add Open Font License (OFL) for Inter google font
   LicenseRegistry.addLicense(() async* {
-    final license = await rootBundle.loadString('licenses/OFL.txt');
+    final license = await rootBundle.loadString('assets/licenses/OFL.txt');
     yield LicenseEntryWithLineBreaks(['google_fonts'], license);
   });
 

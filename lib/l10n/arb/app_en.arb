@@ -178,5 +178,13 @@
         "type": "String"
       }
     }
+  },
+  "copyrightText": " 2024 thecodexhub. All rights reserved. \n",
+  "@copyrightText": {
+    "description": "Text shown in the footer of the home page"
+  },
+  "readLicensesText": "Read Licenses",
+  "@readLicensesText": {
+    "description": "Text shown in the footer section of the home page"
   }
 }
