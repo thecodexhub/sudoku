@@ -14,6 +14,8 @@ You can also checkout the backend application built with Firebase Genkit in its 
 
 _** Try out the application [here][sudoku_web]._
 
+![Sudoku App][sudoku_app]
+
 <a href="https://www.flaticon.com/free-icons/sudoku" title="sudoku icons">
   Sudoku Icon created by vectorsmarket15 - Flaticon
 </a>
@@ -106,6 +108,7 @@ For more details on how to add strings, supported locales, and translations into
 - iOS app icons are generated from [App Icon][app_icon]
 
 [sudoku_banner]: ./art/sudoku_banner.jpg
+[sudoku_app]: ./art/sudoku_app.jpg
 [sudoku_web]: https://delicate-taffy-fc7c5a.netlify.app/
 [competition]: https://ai.google.dev/competition
 [flutter]: https://flutter.dev/
