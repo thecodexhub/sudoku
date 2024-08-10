@@ -36,16 +36,13 @@ Future<void> bootstrap(BootstrapBuilder builder) async {
     return true;
   };
 
-  await runZonedGuarded(
-    () async {
-      Bloc.observer = const AppBlocObserver();
-      runApp(
-        await builder(
-          FirebaseAuth.instance,
-          FirebaseFirestore.instance,
-        ),
-      );
-    },
-    (error, stackTrace) => log(error.toString(), stackTrace: stackTrace),
+  // Custom Bloc Observer
+  Bloc.observer = const AppBlocObserver();
+
+  runApp(
+    await builder(
+      FirebaseAuth.instance,
+      FirebaseFirestore.instance,
+    ),
   );
 }
