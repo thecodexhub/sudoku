@@ -28,7 +28,7 @@ dependencies:
   json_annotation: ^4.9.0
   loading_indicator: ^3.1.1
   rxdart: ^0.28.0
-  shared_preferences: ^2.3.2
+  shared_preferences: ^2.3.3
   url_launcher: ^6.3.1
 
 dev_dependencies:
